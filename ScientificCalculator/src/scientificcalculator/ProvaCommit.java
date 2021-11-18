@@ -11,5 +11,6 @@ package scientificcalculator;
  */
 public class ProvaCommit {
     private int benni=1;
+    private int se = 0;
     
 }
