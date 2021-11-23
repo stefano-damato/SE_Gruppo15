@@ -63,4 +63,12 @@ public class Calculator {
         
         complexStack.push(a.square());
     }
+    
+    public void invert(){
+        if(complexStack.size()<1)
+            throw new EmptyStackException();
+        Complex a = complexStack.pop();
+        
+        complexStack.push(a.invert());
+    }
 }
