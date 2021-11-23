@@ -71,8 +71,10 @@ public class Complex {
         return new Complex((ac+bd)/(areal+aimag),(bc-ad)/(areal+aimag));
     }
     
-    public double square(){
-        return StrictMath.sqrt(StrictMath.pow(real, 2) + StrictMath.pow(imaginary, 2));
+    public Complex square(){
+        double X = Math.abs(Math.sqrt((real + Math.sqrt(real * real + imaginary * imaginary)) / 2));
+        double Y = imaginary / (2 * X);
+        return new Complex(X, Y);
     }
     
     public Complex invert(){
