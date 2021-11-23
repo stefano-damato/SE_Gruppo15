@@ -72,6 +72,20 @@ public class ComplexTest {
         assertEquals(0.0, e.divide(f).getImaginary(), 0.001);
     }
     
+    @Test
+    public void testSquare() {
+        assertEquals(10.0, b.square().getReal(), 0.001);
+        assertEquals(0.0, b.square().getImaginary(), 0.001);
+        assertEquals(19.267, e.square().getReal(), 0.001);
+        assertEquals(23.381, e.square().getImaginary(), 0.001);
+    }
     
+    @Test
+    public void testInvert() {
+        assertEquals(0.0, a.invert().getReal(), 0.001);
+        assertEquals(0.0, a.invert().getImaginary(), 0.001);
+        assertEquals(175.45, e.invert().getReal(), 0.001);
+        assertEquals(-900.98, e.invert().getImaginary(), 0.001);
+    }
     
 }
