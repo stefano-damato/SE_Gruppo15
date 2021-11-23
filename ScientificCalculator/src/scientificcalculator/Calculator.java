@@ -19,6 +19,11 @@ public class Calculator {
     public Calculator(){
         complexStack = new Stack<>();
     }
+
+    public Stack<Complex> getComplexStack() {
+        return complexStack;
+    }
+    
     
     public void add() throws LessOf2ElementsException{
         if(complexStack.size()<2)

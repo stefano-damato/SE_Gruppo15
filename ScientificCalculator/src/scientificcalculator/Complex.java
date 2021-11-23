@@ -28,7 +28,10 @@ public class Complex {
     
     @Override
     public String toString() {
-        return real + " + j" + imaginary;
+        if(imaginary>=0)
+            return real + " + j" + imaginary;
+        else
+            return real + " - j" + -imaginary;
     }
     
     public Complex add(Complex a) {

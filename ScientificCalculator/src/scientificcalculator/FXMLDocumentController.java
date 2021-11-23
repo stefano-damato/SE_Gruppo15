@@ -7,6 +7,7 @@ package scientificcalculator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Stack;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -54,6 +55,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button restoreVarButton;
     
+    private Calculator memory = new Calculator();
+    
     private void handleButtonAction(ActionEvent event) {
         System.out.println("You clicked me!");
         label.setText("Hello World!");
@@ -66,30 +69,76 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void insetEvent(ActionEvent event) {
+        double real=0;
+        double imaginary=0;
+        int sign=1;
+        Complex c;
+        String insertText= text.getText().trim();
+        if(insertText.indexOf("-")==0 || insertText.indexOf("+")==0){
+            if(insertText.indexOf("-")==0)
+                sign=-1;
+            insertText=insertText.substring(1);
+        }
+        //The number has only the real part 
+        if(!insertText.contains("j")){
+                real=sign*Double.parseDouble(insertText);
+        }else{
+            insertText = insertText.trim();
+            int j=insertText.indexOf("j");
+            ////The number has only the imaginary part 
+            if(j==0){
+                imaginary=sign*Double.parseDouble(insertText.substring(j+1));
+            }else{
+                ////the number has both real and imaginary part
+                String[] parseText= insertText.split("[+-]");
+                real=sign*Double.parseDouble(parseText[0]);
+                imaginary=Double.parseDouble(parseText[1].substring(parseText[1].indexOf("j")+1));
+                if(insertText.contains("-"))
+                    imaginary=-imaginary;
+            }
+            
+        }
+        c = new Complex(real,imaginary);
+        memory.getComplexStack().push(c);
+        text.setText(memory.getComplexStack().lastElement().toString());
+                
     }
 
     @FXML
     private void addEvent(ActionEvent event) {
+        memory.add();
+        text.setText(memory.getComplexStack().lastElement().toString());
     }
 
     @FXML
     private void subEvent(ActionEvent event) {
+        memory.sub();
+        text.setText(memory.getComplexStack().lastElement().toString());
+        
     }
 
     @FXML
     private void multiplyEvent(ActionEvent event) {
+        memory.multiply();
+        text.setText(memory.getComplexStack().lastElement().toString());
     }
 
     @FXML
     private void divideEvent(ActionEvent event) {
+        memory.divide();
+        text.setText(memory.getComplexStack().lastElement().toString());
     }
 
     @FXML
     private void sqrtEvent(ActionEvent event) {
+        memory.square();
+        text.setText(memory.getComplexStack().lastElement().toString());
     }
 
     @FXML
     private void invertEvent(ActionEvent event) {
+        memory.invert();
+        text.setText(memory.getComplexStack().lastElement().toString());
     }
 
     @FXML
