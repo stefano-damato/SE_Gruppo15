@@ -22,7 +22,7 @@ public class Complex {
         return real;
     }
 
-    public double getimaginary() {
+    public double getImaginary() {
         return imaginary;
     }
     
@@ -33,21 +33,21 @@ public class Complex {
     
     public Complex add(Complex a) {
         double realSum = real + a.getReal();
-        double imaginarySum = imaginary + a.getimaginary();
+        double imaginarySum = imaginary + a.getImaginary();
         Complex sum = new Complex(realSum,imaginarySum);
         return sum;
     }
     
     public Complex sub(Complex a){
         double realSub = real - a.getReal();
-        double imaginarySub = imaginary - a.getimaginary();
+        double imaginarySub = imaginary - a.getImaginary();
         Complex sub = new Complex(realSub,imaginarySub);
         return sub;
     }
     
     public Complex multiply(Complex a) {
-        double realMultiply = real * a.getReal() + ((-1) * imaginary * a.getimaginary());
-        double imaginaryMultiply = real * a.getimaginary() + imaginary * a.getReal();
+        double realMultiply = real * a.getReal() + ((-1) * imaginary * a.getImaginary());
+        double imaginaryMultiply = real * a.getImaginary() + imaginary * a.getReal();
         Complex multiply = new Complex(realMultiply,imaginaryMultiply);
         return multiply;
     }
@@ -57,16 +57,16 @@ public class Complex {
     }
     
     public Complex divide(Complex a) throws DivisionException{
-        if(a.getReal()==0 || a.getimaginary()==0)
+        if(a.getReal()==0 || a.getImaginary()==0)
             throw new DivisionException("Division not possible");
         
         double areal = StrictMath.pow(a.getReal(), 2.); 
-        double aimag = StrictMath.pow(a.getimaginary(), 2.);
+        double aimag = StrictMath.pow(a.getImaginary(), 2.);
 
         double ac = this.real*a.getReal();
-        double bd = this.imaginary*a.getimaginary();
+        double bd = this.imaginary*a.getImaginary();
         double bc = this.imaginary*a.getReal();
-        double ad = this.real*a.getimaginary();
+        double ad = this.real*a.getImaginary();
 
         return new Complex((ac+bd)/(areal+aimag),(bc-ad)/(areal+aimag));
     }
