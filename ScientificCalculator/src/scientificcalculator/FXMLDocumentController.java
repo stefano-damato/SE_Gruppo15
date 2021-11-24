@@ -96,6 +96,8 @@ public class FXMLDocumentController implements Initializable {
         int sign=1;
         Complex c;
         String insertText= text.getText().trim();
+        
+        //check string
         if(insertText.indexOf("-")==0 || insertText.indexOf("+")==0){
             if(insertText.indexOf("-")==0)
                 sign=-1;
@@ -109,12 +111,18 @@ public class FXMLDocumentController implements Initializable {
             int j=insertText.indexOf("j");
             ////The number has only the imaginary part 
             if(j==0){
-                imaginary=sign*Double.parseDouble(insertText.substring(j+1));
+                if(insertText.length()==1)
+                    imaginary = sign*1;
+                else
+                    imaginary=sign*Double.parseDouble(insertText.substring(j+1));
             }else{
                 ////the number has both real and imaginary part
                 String[] parseText= insertText.split("[+-]");
                 real=sign*Double.parseDouble(parseText[0]);
-                imaginary=Double.parseDouble(parseText[1].substring(parseText[1].indexOf("j")+1));
+                if(parseText[1].substring(parseText[1].indexOf("j")).length()==1)
+                    imaginary=1;
+                else
+                    imaginary=Double.parseDouble(parseText[1].substring(parseText[1].indexOf("j")+1));
                 if(insertText.contains("-"))
                     imaginary=-imaginary;
             }
