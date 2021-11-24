@@ -26,12 +26,16 @@ public class Complex {
         return imaginary;
     }
     
+    public String getComplex(){
+        return this.toString();
+    }
+    
     @Override
     public String toString() {
         if(imaginary>=0)
-            return real + " + j" + imaginary;
+            return String.valueOf(real) + " + j" + String.valueOf(imaginary);
         else
-            return real + " - j" + -imaginary;
+            return String.valueOf(real) + " - j" + String.valueOf(-imaginary);
     }
     
     public Complex add(Complex a) {

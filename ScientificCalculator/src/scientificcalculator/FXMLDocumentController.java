@@ -8,12 +8,20 @@ package scientificcalculator;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Stack;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 
 /**
  *
@@ -56,15 +64,29 @@ public class FXMLDocumentController implements Initializable {
     private Button restoreVarButton;
     
     private Calculator memory = new Calculator();
+    @FXML
+    private TableView<Complex> historyTab;
+    @FXML
+    private TableColumn<Complex, String> clmHistory;
     
     private void handleButtonAction(ActionEvent event) {
         System.out.println("You clicked me!");
         label.setText("Hello World!");
     }
     
+    private ObservableList<Complex>  lista;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+        // If the textfield is empty it is not possible to press the button
+        SimpleBooleanProperty check  = new SimpleBooleanProperty();
+        check.bind(Bindings.when(text.textProperty().isEmpty()).then(true).otherwise(false));
+        insertButton.disableProperty().bind(check);
+        
+        lista = FXCollections.observableArrayList();
+        clmHistory.setCellValueFactory(new PropertyValueFactory<Complex,String>("complex"));
+        
+        historyTab.setItems(lista);
     }    
 
     @FXML
@@ -100,6 +122,7 @@ public class FXMLDocumentController implements Initializable {
         }
         c = new Complex(real,imaginary);
         memory.getComplexStack().push(c);
+        lista.add(c);
         text.setText(memory.getComplexStack().lastElement().toString());
                 
     }
