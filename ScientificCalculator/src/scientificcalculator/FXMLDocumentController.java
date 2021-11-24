@@ -155,8 +155,8 @@ public class FXMLDocumentController implements Initializable {
             
         }
         c = new Complex(real,imaginary);
-        memory.getComplexStack().push(c);
-        list.add(0, memory.getComplexStack().lastElement());
+        memory.insert(c);
+        list.add(0, memory.lastElement());
         text.setText("");
             
         }catch(WrongInputException ex){
@@ -171,8 +171,8 @@ public class FXMLDocumentController implements Initializable {
             memory.add();
             list.remove(0);
             list.remove(0);
-            list.add(0, memory.getComplexStack().lastElement());
-            text.setText(memory.getComplexStack().lastElement().toString());
+            list.add(0, memory.lastElement());
+            text.setText(memory.lastElement().toString());
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
         }
@@ -184,8 +184,8 @@ public class FXMLDocumentController implements Initializable {
             memory.sub();
             list.remove(0);
             list.remove(0);
-            list.add(0, memory.getComplexStack().lastElement());
-            text.setText(memory.getComplexStack().lastElement().toString());
+            list.add(0, memory.lastElement());
+            text.setText(memory.lastElement().toString());
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
         }
@@ -198,8 +198,8 @@ public class FXMLDocumentController implements Initializable {
             memory.multiply();
             list.remove(0);
             list.remove(0);
-            list.add(0, memory.getComplexStack().lastElement());
-            text.setText(memory.getComplexStack().lastElement().toString());
+            list.add(0, memory.lastElement());
+            text.setText(memory.lastElement().toString());
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
         }
@@ -207,14 +207,16 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void divideEvent(ActionEvent event) {
-        try{    
+        try{  
+            list.remove(0);
+            list.remove(0);  
             memory.divide();
-            list.remove(0);
-            list.remove(0);
-            list.add(0, memory.getComplexStack().lastElement());
-            text.setText(memory.getComplexStack().lastElement().toString());
+            list.add(0, memory.lastElement());
+            text.setText(memory.lastElement().toString());
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
+        } catch(DivisionException ex){
+            wrongOperation("Division not possible");
         }
     }
 
@@ -223,8 +225,8 @@ public class FXMLDocumentController implements Initializable {
         try{    
             memory.square();
             list.remove(0);
-            list.add(0, memory.getComplexStack().lastElement());
-            text.setText(memory.getComplexStack().lastElement().toString());
+            list.add(0, memory.lastElement());
+            text.setText(memory.lastElement().toString());
         } catch(EmptyStackException ex){
             wrongOperation("There must be at least one element!");
         }
@@ -235,8 +237,8 @@ public class FXMLDocumentController implements Initializable {
         try{    
             memory.invert();
             list.remove(0);
-            list.add(0, memory.getComplexStack().lastElement());
-            text.setText(memory.getComplexStack().lastElement().toString());
+            list.add(0, memory.lastElement());
+            text.setText(memory.lastElement().toString());
         } catch(EmptyStackException ex){
             wrongOperation("There must be at least one element!");
         }    
@@ -255,7 +257,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void dropEvent(ActionEvent event) {
         try{
-            text.setText(memory.getComplexStack().lastElement().toString());
+            text.setText(memory.lastElement().toString());
             list.remove(0);
             memory.drop();
         } catch (EmptyStackException ex){

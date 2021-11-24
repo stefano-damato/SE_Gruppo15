@@ -85,6 +85,6 @@ public class Complex {
     }
     
     public Complex invert(){
-        return new Complex(-real, -imaginary);
+        return new Complex((real==0)? 0: -real,(imaginary==0)? 0:  -imaginary);
     }
 }
