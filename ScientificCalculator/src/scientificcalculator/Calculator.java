@@ -61,7 +61,7 @@ public class Calculator {
         complexStack.push(a.divide(b));
     }
     
-    public void square(){
+    public void square() throws EmptyStackException{
         if(complexStack.size()<1)
             throw new EmptyStackException();
         Complex a = complexStack.pop();
@@ -69,11 +69,47 @@ public class Calculator {
         complexStack.push(a.square());
     }
     
-    public void invert(){
+    public void invert()throws EmptyStackException{
         if(complexStack.size()<1)
             throw new EmptyStackException();
         Complex a = complexStack.pop();
         
         complexStack.push(a.invert());
+    }
+    
+    public void clear(){
+        complexStack.clear();
+    }
+    
+    public void drop() throws EmptyStackException{
+        if (complexStack.size() < 1)
+            throw new EmptyStackException();
+        complexStack.pop();
+    }
+    
+    public void dup() throws EmptyStackException{
+        if (complexStack.size() < 1)
+            throw new EmptyStackException();
+        Complex a = complexStack.lastElement();
+        
+        complexStack.push(a);
+    }
+    
+    public void swap() throws LessOf2ElementsException{
+        if(complexStack.size()<2)
+            throw new LessOf2ElementsException();
+        Complex a = complexStack.pop();
+        Complex b = complexStack.pop();
+        
+        complexStack.push(a);
+        complexStack.push(b);
+    } 
+    
+    public void over()throws LessOf2ElementsException{
+        if(complexStack.size()<2)
+            throw new LessOf2ElementsException();
+        Complex a = complexStack.get(complexStack.size() - 2);
+        
+        complexStack.push(a);
     }
 }
