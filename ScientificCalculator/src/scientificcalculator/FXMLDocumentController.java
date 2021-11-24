@@ -74,7 +74,7 @@ public class FXMLDocumentController implements Initializable {
         label.setText("Hello World!");
     }
     
-    private ObservableList<Complex>  lista;
+    private ObservableList<Complex>  list;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -83,10 +83,10 @@ public class FXMLDocumentController implements Initializable {
         check.bind(Bindings.when(text.textProperty().isEmpty()).then(true).otherwise(false));
         insertButton.disableProperty().bind(check);
         
-        lista = FXCollections.observableArrayList();
+        list = FXCollections.observableArrayList();
         clmHistory.setCellValueFactory(new PropertyValueFactory<Complex,String>("complex"));
         
-        historyTab.setItems(lista);
+        historyTab.setItems(list);
     }    
 
     @FXML
@@ -130,7 +130,7 @@ public class FXMLDocumentController implements Initializable {
         }
         c = new Complex(real,imaginary);
         memory.getComplexStack().push(c);
-        lista.add(c);
+        list.add(0, memory.getComplexStack().lastElement());
         text.setText(memory.getComplexStack().lastElement().toString());
                 
     }
@@ -138,12 +138,18 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void addEvent(ActionEvent event) {
         memory.add();
+        list.remove(0);
+        list.remove(0);
+        list.add(0, memory.getComplexStack().lastElement());
         text.setText(memory.getComplexStack().lastElement().toString());
     }
 
     @FXML
     private void subEvent(ActionEvent event) {
         memory.sub();
+        list.remove(0);
+        list.remove(0);
+        list.add(0, memory.getComplexStack().lastElement());
         text.setText(memory.getComplexStack().lastElement().toString());
         
     }
@@ -151,29 +157,40 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void multiplyEvent(ActionEvent event) {
         memory.multiply();
+        list.remove(0);
+        list.remove(0);
+        list.add(0, memory.getComplexStack().lastElement());
         text.setText(memory.getComplexStack().lastElement().toString());
     }
 
     @FXML
     private void divideEvent(ActionEvent event) {
         memory.divide();
+        list.remove(0);
+        list.remove(0);
+        list.add(0, memory.getComplexStack().lastElement());
         text.setText(memory.getComplexStack().lastElement().toString());
     }
 
     @FXML
     private void sqrtEvent(ActionEvent event) {
         memory.square();
+        list.remove(0);
+        list.add(0, memory.getComplexStack().lastElement());
         text.setText(memory.getComplexStack().lastElement().toString());
     }
 
     @FXML
     private void invertEvent(ActionEvent event) {
         memory.invert();
+        list.remove(0);
+        list.add(0, memory.getComplexStack().lastElement());
         text.setText(memory.getComplexStack().lastElement().toString());
     }
 
     @FXML
     private void clearEvent(ActionEvent event) {
+        
     }
 
     @FXML
