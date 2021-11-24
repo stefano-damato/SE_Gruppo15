@@ -112,6 +112,8 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void insetEvent(ActionEvent event) {
+        try{
+         
         double real=0;
         double imaginary=0;
         int sign=1;
@@ -124,6 +126,9 @@ public class FXMLDocumentController implements Initializable {
                 sign=-1;
             insertText=insertText.substring(1);
         }
+        
+        checkValidInput(insertText);
+        
         //The number has only the real part 
         if(!insertText.contains("j")){
                 real=sign*Double.parseDouble(insertText);
@@ -153,6 +158,11 @@ public class FXMLDocumentController implements Initializable {
         memory.getComplexStack().push(c);
         list.add(0, memory.getComplexStack().lastElement());
         text.setText("");
+            
+        }catch(WrongInputException ex){
+            wrongOperation("Input is not in correct form:\n real +- j imaginary");
+        }
+        
     }
 
     @FXML
@@ -245,6 +255,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void dropEvent(ActionEvent event) {
         try{
+            text.setText(memory.getComplexStack().lastElement().toString());
             list.remove(0);
             memory.drop();
         } catch (EmptyStackException ex){
@@ -293,6 +304,40 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void restoreVarEvent(ActionEvent event) {
+    }
+    
+    private boolean checkValidInput(String s) throws WrongInputException{
+        if(!s.contains("j")){
+            if(!s.matches("^[0-9. ]+$"))
+            throw new WrongInputException();
+        }else{
+            if(!s.matches("^[0-9+-.j ]+$")){
+                throw new WrongInputException();
+            }else{
+                if(s.indexOf("j")==0){
+                    if(!s.substring(1).trim().matches("^[0-9.]+$") && s.length()>1)
+                        throw new WrongInputException();
+                    return true;
+                }else{
+                    String[] parseText= s.split("[+-]");
+                    String s1 = parseText[0].trim();
+                    String s2 = parseText[1].trim();
+                    if(!s1.matches("^[0-9.]+$"))
+                        throw new WrongInputException();
+                    if(s2.lastIndexOf("j")>0){
+                        throw new WrongInputException();
+                    }else{
+                        if(s2.length()==1)
+                            return true;
+                        s2=s2.substring(1).trim();
+                        if(!s2.matches("^[0-9.]+$"))
+                            throw new WrongInputException();
+                    }
+                } 
+            } 
+        }
+            
+        return true;
     }
     
 }
