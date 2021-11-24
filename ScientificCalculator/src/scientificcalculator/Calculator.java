@@ -77,7 +77,9 @@ public class Calculator {
         complexStack.push(a.invert());
     }
     
-    public void clear(){
+    public void clear() throws EmptyStackException{
+        if (complexStack.size() < 1)
+            throw new EmptyStackException();
         complexStack.clear();
     }
     
