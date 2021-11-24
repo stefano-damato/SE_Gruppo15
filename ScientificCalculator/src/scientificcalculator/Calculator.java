@@ -61,7 +61,7 @@ public class Calculator {
         complexStack.push(a.divide(b));
     }
     
-    public void square(){
+    public void square() throws EmptyStackException{
         if(complexStack.size()<1)
             throw new EmptyStackException();
         Complex a = complexStack.pop();
@@ -69,7 +69,7 @@ public class Calculator {
         complexStack.push(a.square());
     }
     
-    public void invert(){
+    public void invert()throws EmptyStackException{
         if(complexStack.size()<1)
             throw new EmptyStackException();
         Complex a = complexStack.pop();

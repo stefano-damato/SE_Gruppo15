@@ -132,7 +132,6 @@ public class FXMLDocumentController implements Initializable {
         memory.getComplexStack().push(c);
         lista.add(c);
         text.setText(memory.getComplexStack().lastElement().toString());
-                
     }
 
     @FXML
@@ -174,22 +173,27 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void clearEvent(ActionEvent event) {
+        memory.clear();
     }
 
     @FXML
     private void dropEvent(ActionEvent event) {
+        memory.drop();
     }
 
     @FXML
     private void dupEvent(ActionEvent event) {
+        memory.dup();
     }
 
     @FXML
     private void swapEvent(ActionEvent event) {
+        memory.swap();
     }
 
     @FXML
     private void overEvent(ActionEvent event) {
+        memory.over();
     }
 
     @FXML
