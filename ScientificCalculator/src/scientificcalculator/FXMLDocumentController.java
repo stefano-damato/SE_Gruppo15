@@ -6,6 +6,7 @@
 package scientificcalculator;
 
 import java.net.URL;
+import java.util.EmptyStackException;
 import java.util.ResourceBundle;
 import java.util.Stack;
 import javafx.beans.binding.Bindings;
@@ -15,6 +16,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -22,6 +25,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  *
@@ -90,6 +95,22 @@ public class FXMLDocumentController implements Initializable {
     }    
 
     @FXML
+    private void wrongOperation(String msg){
+        Stage primaryStage=new Stage();
+        Label lbl = new Label(msg);
+
+        VBox root = new VBox(20);
+        root.getChildren().addAll(lbl);
+        root.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(root, 220, 150);
+
+        primaryStage.setTitle("Error");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    
+    @FXML
     private void insetEvent(ActionEvent event) {
         double real=0;
         double imaginary=0;
@@ -131,85 +152,135 @@ public class FXMLDocumentController implements Initializable {
         c = new Complex(real,imaginary);
         memory.getComplexStack().push(c);
         list.add(0, memory.getComplexStack().lastElement());
-        text.setText(memory.getComplexStack().lastElement().toString());
+        text.setText("");
     }
 
     @FXML
     private void addEvent(ActionEvent event) {
-        memory.add();
-        list.remove(0);
-        list.remove(0);
-        list.add(0, memory.getComplexStack().lastElement());
-        text.setText(memory.getComplexStack().lastElement().toString());
+        try{
+            memory.add();
+            list.remove(0);
+            list.remove(0);
+            list.add(0, memory.getComplexStack().lastElement());
+            text.setText(memory.getComplexStack().lastElement().toString());
+        } catch(LessOf2ElementsException ex){
+            wrongOperation("There must be at least two elements!");
+        }
     }
 
     @FXML
     private void subEvent(ActionEvent event) {
-        memory.sub();
-        list.remove(0);
-        list.remove(0);
-        list.add(0, memory.getComplexStack().lastElement());
-        text.setText(memory.getComplexStack().lastElement().toString());
+        try{
+            memory.sub();
+            list.remove(0);
+            list.remove(0);
+            list.add(0, memory.getComplexStack().lastElement());
+            text.setText(memory.getComplexStack().lastElement().toString());
+        } catch(LessOf2ElementsException ex){
+            wrongOperation("There must be at least two elements!");
+        }
         
     }
 
     @FXML
     private void multiplyEvent(ActionEvent event) {
-        memory.multiply();
-        list.remove(0);
-        list.remove(0);
-        list.add(0, memory.getComplexStack().lastElement());
-        text.setText(memory.getComplexStack().lastElement().toString());
+        try{    
+            memory.multiply();
+            list.remove(0);
+            list.remove(0);
+            list.add(0, memory.getComplexStack().lastElement());
+            text.setText(memory.getComplexStack().lastElement().toString());
+        } catch(LessOf2ElementsException ex){
+            wrongOperation("There must be at least two elements!");
+        }
     }
 
     @FXML
     private void divideEvent(ActionEvent event) {
-        memory.divide();
-        list.remove(0);
-        list.remove(0);
-        list.add(0, memory.getComplexStack().lastElement());
-        text.setText(memory.getComplexStack().lastElement().toString());
+        try{    
+            memory.divide();
+            list.remove(0);
+            list.remove(0);
+            list.add(0, memory.getComplexStack().lastElement());
+            text.setText(memory.getComplexStack().lastElement().toString());
+        } catch(LessOf2ElementsException ex){
+            wrongOperation("There must be at least two elements!");
+        }
     }
 
     @FXML
     private void sqrtEvent(ActionEvent event) {
-        memory.square();
-        list.remove(0);
-        list.add(0, memory.getComplexStack().lastElement());
-        text.setText(memory.getComplexStack().lastElement().toString());
+        try{    
+            memory.square();
+            list.remove(0);
+            list.add(0, memory.getComplexStack().lastElement());
+            text.setText(memory.getComplexStack().lastElement().toString());
+        } catch(EmptyStackException ex){
+            wrongOperation("There must be at least one element!");
+        }
     }
 
     @FXML
     private void invertEvent(ActionEvent event) {
-        memory.invert();
-        list.remove(0);
-        list.add(0, memory.getComplexStack().lastElement());
-        text.setText(memory.getComplexStack().lastElement().toString());
+        try{    
+            memory.invert();
+            list.remove(0);
+            list.add(0, memory.getComplexStack().lastElement());
+            text.setText(memory.getComplexStack().lastElement().toString());
+        } catch(EmptyStackException ex){
+            wrongOperation("There must be at least one element!");
+        }    
     }
 
     @FXML
     private void clearEvent(ActionEvent event) {
-        memory.clear();
+        try{
+            memory.clear();
+            list.clear();
+        }catch (EmptyStackException ex){
+            wrongOperation("There must be at least one element!");
+        }
     }
 
     @FXML
     private void dropEvent(ActionEvent event) {
-        memory.drop();
+        try{
+            list.remove(0);
+            memory.drop();
+        } catch (EmptyStackException ex){
+            wrongOperation("There must be at least one element!");
+        }
     }
 
     @FXML
     private void dupEvent(ActionEvent event) {
-        memory.dup();
+        try{
+            list.add(0, list.get(0));
+            memory.dup();
+        } catch(EmptyStackException ex){
+            wrongOperation("There must be at least one element!");
+        }
     }
 
     @FXML
     private void swapEvent(ActionEvent event) {
-        memory.swap();
+        try{
+            list.add(0, list.get(1));
+            list.remove(2);
+            memory.swap();
+        } catch(LessOf2ElementsException ex){
+            wrongOperation("There must be at least two elements!");
+        }
     }
 
     @FXML
     private void overEvent(ActionEvent event) {
-        memory.over();
+        try{
+            list.add(0, list.get(1));
+            memory.over();
+        } catch (LessOf2ElementsException ex){
+            wrongOperation("There must be at least two elements!");
+        }
     }
 
     @FXML
