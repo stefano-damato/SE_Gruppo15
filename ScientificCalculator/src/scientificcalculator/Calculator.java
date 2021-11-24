@@ -24,6 +24,13 @@ public class Calculator {
         return complexStack;
     }
     
+    public void insert(Complex c){
+        complexStack.push(c);
+    }
+    
+    public Complex lastElement(){
+        return complexStack.lastElement();
+    }
     
     public void add() throws LessOf2ElementsException{
         if(complexStack.size()<2)
