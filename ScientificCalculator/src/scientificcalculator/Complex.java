@@ -89,7 +89,7 @@ public class Complex {
     }
     
     public Complex divide(Complex a) throws DivisionException{
-        if(a.getReal()==0 || a.getImaginary()==0)
+        if(a.getReal()==0 && a.getImaginary()==0)
             throw new DivisionException("Division not possible");
         
         double areal = StrictMath.pow(a.getReal(), 2.); 

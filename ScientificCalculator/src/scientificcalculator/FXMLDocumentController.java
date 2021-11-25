@@ -90,7 +90,7 @@ public class FXMLDocumentController implements Initializable {
         
         list = FXCollections.observableArrayList();
         clmHistory.setCellValueFactory(new PropertyValueFactory<Complex,String>("complex"));
-        
+
         historyTab.setItems(list);
     }    
 
