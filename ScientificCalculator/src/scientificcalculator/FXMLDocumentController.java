@@ -298,6 +298,21 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void variablesEvent(ActionEvent event) {
+        try{
+            checkValidInputForVariables(text.getText());
+            char key= text.getText().charAt(1);
+            if(text.getText().charAt(0)=='>'){
+                memory.getVariables().saveVariable(key, memory.lastElement());
+            }else if(text.getText().charAt(0)=='<'){
+                System.out.print(memory.getVariables().pushVariable(key));
+                memory.insert(memory.getVariables().pushVariable(key));
+                list.add(0, memory.lastElement());
+            }
+        } catch (KeyNotAlphabeticException ex){
+            wrongOperation("The calculator supports 26 variables:\n from \"a\" to \"z\"");
+        }catch (WrongInputException ex){
+            wrongOperation("Invalid Input");
+        }
     }
 
     @FXML
@@ -308,6 +323,10 @@ public class FXMLDocumentController implements Initializable {
     private void restoreVarEvent(ActionEvent event) {
     }
     
+    private void checkValidInputForVariables(String s) throws WrongInputException{
+        if(s.length()>2 || !s.substring(0, 0).matches("^[+-><]+$"))
+            throw new WrongInputException();
+    }
     private boolean checkValidInput(String s) throws WrongInputException{
         if(!s.contains("j")){
             if(!s.matches("^[0-9. ]+$"))

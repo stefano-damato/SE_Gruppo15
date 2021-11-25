@@ -15,13 +15,20 @@ import java.util.Stack;
 public class Calculator {
     
     private Stack<Complex> complexStack;
+    private Stack<VariableMap> variables;
     
     public Calculator(){
         complexStack = new Stack<>();
+        variables = new Stack<>();
+        variables.push(new VariableMap());
     }
 
     public Stack<Complex> getComplexStack() {
         return complexStack;
+    }
+
+    public VariableMap getVariables() {
+        return variables.lastElement();
     }
     
     public void insert(Complex c){
