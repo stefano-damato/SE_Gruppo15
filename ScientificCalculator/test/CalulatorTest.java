@@ -146,7 +146,7 @@ public class CalulatorTest extends Calculator{
 	calc.divide();
             assertEquals(hgfed, calc.lastElement());
     }
-    */
+    
     @Test (expected = DivisionException.class)
     public void testDivideZero(){
         calc.insert(g);
@@ -161,7 +161,7 @@ public class CalulatorTest extends Calculator{
     calc.insert(a);
     calc.divide();
     }
-    
+    */
     @Test 
     public void testSquare(){
         
@@ -193,4 +193,80 @@ public class CalulatorTest extends Calculator{
     calc.invert();
     }
     
+    @Test
+    public void testClear(){
+        calc.insert(d);
+        calc.insert(e);
+        calc.insert(f);
+        calc.clear();
+        assertEquals(0, calc.getComplexStack().size());
+    }
+    
+    @Test(expected = EmptyStackException.class)
+    public void testClearException(){
+        calc.clear();
+    }
+    
+    @Test
+    public void testDrop(){
+        calc.insert(d);
+        calc.insert(e);
+        calc.insert(f);
+        calc.drop();
+        assertEquals(e, calc.lastElement());
+    }
+    
+    @Test(expected = EmptyStackException.class)
+    public void testDropException(){
+        calc.drop();
+    }
+    
+    @Test
+    public void testDup(){
+        calc.insert(d);
+        calc.insert(e);
+        calc.insert(f);
+        calc.dup();
+        assertEquals(f, calc.lastElement());
+    }
+    
+    @Test(expected = EmptyStackException.class)
+    public void testDupException(){
+        calc.dup();
+    }   
+    
+    @Test
+    public void testSwap(){
+        calc.insert(d);
+        calc.insert(e);
+        calc.insert(f);
+        calc.insert(g);
+        calc.insert(h);
+        calc.swap();
+        assertEquals(g, calc.lastElement());
+        calc.drop();
+        assertEquals(h, calc.lastElement());
+    }
+    
+    @Test(expected = LessOf2ElementsException.class)
+    public void testSwapException(){
+        calc.insert(d);
+        calc.swap();
+        calc.drop();
+        calc.swap();
+    }
+    
+    @Test
+    public void testOver(){
+        calc.insert(d);
+        calc.insert(e);
+        calc.insert(f);
+        calc.over();
+        assertEquals(e, calc.lastElement());
+    }
+    
+    @Test(expected = LessOf2ElementsException.class)
+    public void testOverException(){
+        calc.over();
+    }
 }
