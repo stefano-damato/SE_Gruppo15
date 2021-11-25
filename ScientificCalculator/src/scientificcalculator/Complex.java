@@ -14,8 +14,8 @@ public class Complex {
     private double imaginary;
     
     public Complex(double real, double imaginary) {
-        this.real = real;
-        this.imaginary = imaginary;
+        this.real = Math.round(real*1000.0)/1000.0;
+        this.imaginary = Math.round(imaginary*1000.0)/1000.0;
     }
 
     public double getReal() {

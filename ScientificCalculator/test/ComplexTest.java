@@ -23,6 +23,7 @@ public class ComplexTest {
     private Complex f;
     private Complex g;
     private Complex h;
+    private Complex i;
     
     @Before
     public void setUp() {
@@ -34,58 +35,47 @@ public class ComplexTest {
         f = new Complex(0, -525.65);
         g = new Complex(-50.50, 0);
         h = new Complex(33.33, 33.33);
+        i = new Complex(0,0);
     }
     
     @Test
     public void testAdd(){
-        assertEquals(-175.45, e.add(f).getReal(), 0.001);
-        assertEquals(375.33, e.add(f).getImaginary(), 0.001);
-        assertEquals(-17.17, g.add(h).getReal(), 0.001);
-        assertEquals(33.33, g.add(h).getImaginary(), 0.001);
+        assertEquals(new Complex(-175.45, 375.33), e.add(f));
+        assertEquals(new Complex(-17.17, 33.33), g.add(h));
     }
     
     @Test
     public void testSub(){
-        assertEquals(-100, a.sub(b).getReal(), 0.001);
-        assertEquals(0, a.sub(b).getImaginary(), 0.001);
-        assertEquals(100, c.sub(d).getReal(), 0.001);
-        assertEquals(300, c.sub(d).getImaginary(), 0.001);
+        assertEquals(new Complex(-100, 0), a.sub(b));
+        assertEquals(new Complex(100, 300), c.sub(d));
     }
     
     @Test
     public void testMultiply(){
-        assertEquals(0, a.multiply(b).getReal(), 0.001);
-        assertEquals(0, a.multiply(b).getImaginary(), 0.001);
-        assertEquals(20000, c.multiply(d).getReal(), 0.001);
-        assertEquals(-10000, c.multiply(d).getImaginary(), 0.001);
+        assertEquals(new Complex(0, 0), a.multiply(b));
+        assertEquals(new Complex(20000, -10000), c.multiply(d));
     }
     
     @Test
     public void testDivide() {
-        assertEquals(-0.757, g.divide(h).getReal(), 0.001);
-        assertEquals(0.757, g.divide(h).getImaginary(), 0.001);
+        assertEquals(new Complex(-0.758, 0.758), g.divide(h));
     }
     
     @Test(expected = DivisionException.class)
     public void testDivideException(){
-        assertEquals(0.0, e.divide(f).getReal(), 0.001);
-        assertEquals(0.0, e.divide(f).getImaginary(), 0.001);
+        assertEquals(new Complex(0.0, 0.0), h.divide(i));
     }
     
     @Test
     public void testSquare() {
-        assertEquals(10.0, b.square().getReal(), 0.001);
-        assertEquals(0.0, b.square().getImaginary(), 0.001);
-        assertEquals(19.267, e.square().getReal(), 0.001);
-        assertEquals(23.381, e.square().getImaginary(), 0.001);
+        assertEquals(new Complex(10.0, 0.0), b.square());
+        assertEquals(new Complex(19.267, 23.381), e.square());
     }
     
     @Test
     public void testInvert() {
-        assertEquals(0.0, a.invert().getReal(), 0.001);
-        assertEquals(0.0, a.invert().getImaginary(), 0.001);
-        assertEquals(175.45, e.invert().getReal(), 0.001);
-        assertEquals(-900.98, e.invert().getImaginary(), 0.001);
+        assertEquals(new Complex(0.0, 0.0), a.invert());
+        assertEquals(new Complex(175.45, -900.98), e.invert());
     }
     
 }

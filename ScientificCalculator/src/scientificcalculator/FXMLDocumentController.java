@@ -154,7 +154,7 @@ public class FXMLDocumentController implements Initializable {
             }
             
         }
-        c = new Complex(real,imaginary);
+        c = new Complex(real, imaginary);
         memory.insert(c);
         list.add(0, memory.lastElement());
         text.setText("");

@@ -38,7 +38,7 @@ public class Calculator {
         Complex a = complexStack.pop();
         Complex b = complexStack.pop();
         
-        complexStack.push(a.add(b));
+        insert(a.add(b));
     }
     
     public void sub() throws LessOf2ElementsException{
@@ -47,7 +47,7 @@ public class Calculator {
         Complex a = complexStack.pop();
         Complex b = complexStack.pop();
         
-        complexStack.push(a.sub(b));
+        insert(a.sub(b));
     }
     
     public void multiply() throws LessOf2ElementsException{
@@ -56,7 +56,7 @@ public class Calculator {
         Complex a = complexStack.pop();
         Complex b = complexStack.pop();
         
-        complexStack.push(a.multiply(b));
+        insert(a.multiply(b));
     }
     
     public void divide() throws LessOf2ElementsException{
@@ -65,7 +65,7 @@ public class Calculator {
         Complex a = complexStack.pop();
         Complex b = complexStack.pop();
         
-        complexStack.push(a.divide(b));
+        insert(a.divide(b));
     }
     
     public void square() throws EmptyStackException{
@@ -73,7 +73,7 @@ public class Calculator {
             throw new EmptyStackException();
         Complex a = complexStack.pop();
         
-        complexStack.push(a.square());
+        insert(a.square());
     }
     
     public void invert()throws EmptyStackException{
@@ -81,7 +81,7 @@ public class Calculator {
             throw new EmptyStackException();
         Complex a = complexStack.pop();
         
-        complexStack.push(a.invert());
+        insert(a.invert());
     }
     
     public void clear() throws EmptyStackException{
@@ -101,7 +101,7 @@ public class Calculator {
             throw new EmptyStackException();
         Complex a = complexStack.lastElement();
         
-        complexStack.push(a);
+        insert(a);
     }
     
     public void swap() throws LessOf2ElementsException{
@@ -110,8 +110,8 @@ public class Calculator {
         Complex a = complexStack.pop();
         Complex b = complexStack.pop();
         
-        complexStack.push(a);
-        complexStack.push(b);
+        insert(a);
+        insert(b);
     } 
     
     public void over()throws LessOf2ElementsException{
@@ -119,6 +119,6 @@ public class Calculator {
             throw new LessOf2ElementsException();
         Complex a = complexStack.get(complexStack.size() - 2);
         
-        complexStack.push(a);
+        insert(a);
     }
 }
