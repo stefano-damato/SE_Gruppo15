@@ -138,7 +138,7 @@ public class CalulatorTest extends Calculator{
     calc.multiply();
     }
     
-    /*@Test 
+    @Test 
     public void testDivide(){
         calc.insert(d);
         calc.insert(e);
@@ -147,10 +147,10 @@ public class CalulatorTest extends Calculator{
         calc.insert(h);
         
         
-        Complex hg = h.divide(f);
+        Complex hg = h.divide(g);
 	calc.divide();
-            assertEquals(hf, calc.lastElement());
-	Complex hgf = h.divide(f);
+        assertEquals(hg, calc.lastElement());
+	Complex hgf = hg.divide(f);
 	calc.divide();
         assertEquals(hgf, calc.lastElement());
         Complex hgfe = hgf.divide(e);
@@ -163,19 +163,18 @@ public class CalulatorTest extends Calculator{
     
     @Test (expected = DivisionException.class)
     public void testDivideZero(){
+        calc.insert(a);
         calc.insert(g);
-        calc.insert(h);
         
-        Complex hg = h.divide(g);
 	calc.divide();
-            assertEquals(hg, calc.lastElement());
     }
+    
     @Test(expected = LessOf2ElementsException.class)
     public void testDivideException(){
     calc.insert(a);
     calc.divide();
     }
-    */
+
     @Test 
     public void testSquare(){
         
