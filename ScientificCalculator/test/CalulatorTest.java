@@ -41,6 +41,20 @@ public class CalulatorTest extends Calculator{
         h = new Complex(33.33, 33.33); 
     }
     
+    @Test
+    public void testLastElement(){
+        calc.insert(a);
+        calc.insert(b);
+        assertEquals(b, calc.lastElement());
+        calc.insert(c);
+        assertEquals(c, calc.lastElement());
+    }
+    
+    @Test
+    public void testInsert(){
+        calc.insert(a);
+        assertEquals(a, calc.lastElement());
+    }
     
     @Test   
     public void testAdd(){
@@ -267,6 +281,9 @@ public class CalulatorTest extends Calculator{
     
     @Test(expected = LessOf2ElementsException.class)
     public void testOverException(){
+        calc.insert(c);
+        calc.over();
+        calc.drop();
         calc.over();
     }
 }
