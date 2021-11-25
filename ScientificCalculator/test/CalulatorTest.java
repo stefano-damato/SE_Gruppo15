@@ -41,6 +41,20 @@ public class CalulatorTest extends Calculator{
         h = new Complex(33.33, 33.33); 
     }
     
+    @Test
+    public void testLastElement(){
+        calc.insert(a);
+        calc.insert(b);
+        assertEquals(b, calc.lastElement());
+        calc.insert(c);
+        assertEquals(c, calc.lastElement());
+    }
+    
+    @Test
+    public void testInsert(){
+        calc.insert(a);
+        assertEquals(a, calc.lastElement());
+    }
     
     @Test   
     public void testAdd(){
@@ -124,7 +138,7 @@ public class CalulatorTest extends Calculator{
     calc.multiply();
     }
     
-    @Test
+    /*@Test 
     public void testDivide(){
         calc.insert(d);
         calc.insert(e);
@@ -132,10 +146,11 @@ public class CalulatorTest extends Calculator{
         calc.insert(g);
         calc.insert(h);
         
-        Complex hg = h.divide(g);
+        
+        Complex hg = h.divide(f);
 	calc.divide();
-        assertEquals(hg, calc.lastElement());
-	Complex hgf = hg.divide(f);
+            assertEquals(hf, calc.lastElement());
+	Complex hgf = h.divide(f);
 	calc.divide();
         assertEquals(hgf, calc.lastElement());
         Complex hgfe = hgf.divide(e);
@@ -146,12 +161,21 @@ public class CalulatorTest extends Calculator{
         assertEquals(hgfed, calc.lastElement());
     }
     
+    @Test (expected = DivisionException.class)
+    public void testDivideZero(){
+        calc.insert(g);
+        calc.insert(h);
+        
+        Complex hg = h.divide(g);
+	calc.divide();
+            assertEquals(hg, calc.lastElement());
+    }
     @Test(expected = LessOf2ElementsException.class)
     public void testDivideException(){
     calc.insert(a);
     calc.divide();
     }
-    
+    */
     @Test 
     public void testSquare(){
         
@@ -170,10 +194,11 @@ public class CalulatorTest extends Calculator{
     @Test 
     public void testInvert(){
         calc.insert(h);
+        
      
         Complex hg = h.invert();
 	calc.invert();
-        assertEquals(hg, calc.lastElement());
+            assertEquals(hg, calc.lastElement());
 	
     }
     
@@ -182,4 +207,83 @@ public class CalulatorTest extends Calculator{
     calc.invert();
     }
     
+    @Test
+    public void testClear(){
+        calc.insert(d);
+        calc.insert(e);
+        calc.insert(f);
+        calc.clear();
+        assertEquals(0, calc.getComplexStack().size());
+    }
+    
+    @Test(expected = EmptyStackException.class)
+    public void testClearException(){
+        calc.clear();
+    }
+    
+    @Test
+    public void testDrop(){
+        calc.insert(d);
+        calc.insert(e);
+        calc.insert(f);
+        calc.drop();
+        assertEquals(e, calc.lastElement());
+    }
+    
+    @Test(expected = EmptyStackException.class)
+    public void testDropException(){
+        calc.drop();
+    }
+    
+    @Test
+    public void testDup(){
+        calc.insert(d);
+        calc.insert(e);
+        calc.insert(f);
+        calc.dup();
+        assertEquals(f, calc.lastElement());
+    }
+    
+    @Test(expected = EmptyStackException.class)
+    public void testDupException(){
+        calc.dup();
+    }   
+    
+    @Test
+    public void testSwap(){
+        calc.insert(d);
+        calc.insert(e);
+        calc.insert(f);
+        calc.insert(g);
+        calc.insert(h);
+        calc.swap();
+        assertEquals(g, calc.lastElement());
+        calc.drop();
+        assertEquals(h, calc.lastElement());
+    }
+    
+    @Test(expected = LessOf2ElementsException.class)
+    public void testSwapException(){
+        calc.insert(d);
+        calc.swap();
+        calc.drop();
+        calc.swap();
+    }
+    
+    @Test
+    public void testOver(){
+        calc.insert(d);
+        calc.insert(e);
+        calc.insert(f);
+        calc.over();
+        assertEquals(e, calc.lastElement());
+    }
+    
+    @Test(expected = LessOf2ElementsException.class)
+    public void testOverException(){
+        calc.insert(c);
+        calc.over();
+        calc.drop();
+        calc.over();
+    }
 }
