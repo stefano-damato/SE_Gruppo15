@@ -28,7 +28,7 @@ public class Complex {
     }
     
     /**
-     * The method returns the real part
+     * Returns the real part
      * @return real {@code double}
      */
     public double getReal() {
@@ -36,7 +36,7 @@ public class Complex {
     }
     
     /**
-     * The method returns the imaginary part
+     * Returns the imaginary part
      * @return imaginary {@code double}
      */
     public double getImaginary() {
@@ -95,7 +95,7 @@ public class Complex {
     /**
      * This method adds respectively the real part and the imaginary part of the current Complex with the real and imaginary part of the Complex passed as a parameter.
      * @param a {@code Complex}
-     * @return new object {@code Complex}
+     * @return new object {@code Complex} that represents <code>a</code> added to <code>this</code>
      */
     public Complex add(Complex a) {
         double realSum = real + a.getReal();
@@ -107,7 +107,7 @@ public class Complex {
     /**
      * This method subtracts respectively the real part and the imaginary part of the current Complex with the real and imaginary part of the Complex passed as a parameter.
      * @param a {@code Complex}
-     * @return new object {@code Complex}
+     * @return new object {@code Complex} that represents <code>a</code>  subtracted from <code>this</code>
      */
     public Complex sub(Complex a){
         double realSub = real - a.getReal();
@@ -119,7 +119,7 @@ public class Complex {
     /**
      * This method multiplies the current Complex with Complex passed as a parameter.
      * @param a {@code Complex}
-     * @return new object {@code Complex} 
+     * @return new object {@code Complex} that represents <code>a</code> multiplied to <code>this</code>
      */
     public Complex multiply(Complex a) {
         double realMultiply = real * a.getReal() + ((-1) * imaginary * a.getImaginary());
@@ -131,8 +131,8 @@ public class Complex {
     /**
      * This method divides the current Complex with Complex passed as a parameter.
      * @param a {@code Complex}
-     * @return new object {@code Complex}
-     * @throws DivisionException if the real part and the imaginary part of parameter a are both 0
+     * @return new object {@code Complex} that represents <code>this</code> divided by <code>a</code>
+     * @throws DivisionException if the real part oand the imaginary part of parameter are both 0
      */
     public Complex divide(Complex a) throws DivisionException{
         if(a.getReal()==0 && a.getImaginary()==0)
@@ -151,7 +151,7 @@ public class Complex {
     
     /**
      * This method takes the square root of the current Complex.
-     * @return new object {@code Complex} 
+     * @return new object {@code Complex} that represents the square root of <code>this</code>
      */
     public Complex square(){
         double X = Math.abs(Math.sqrt((real + Math.sqrt(real * real + imaginary * imaginary)) / 2));
@@ -161,7 +161,7 @@ public class Complex {
     
     /**
      * This method inverts the sign of the real part and the imaginary part of the current Complex.
-     * @return new object {@code Complex}
+     * @return new object {@code Complex} that represents <code>this</code> with inverted sign
      */
     public Complex invert(){
         return new Complex((real==0)? 0: -real,(imaginary==0)? 0:  -imaginary);

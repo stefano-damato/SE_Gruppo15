@@ -121,9 +121,9 @@ public class FXMLDocumentController implements Initializable {
     }
     
     /**
-     * This method execute the <code>insert</code> method of the Object <code>memory</code>
-     * and insert the element in <code>list</code>
-     * after pressing the button addBotton
+     * This method execute the <code>insert</code> method of <code>memory</code>
+     * and inserts the element in the head of <code>list</code>
+     * after pressing the button addButton
      * @param event {@code ActionEvent}
      */
     @FXML
@@ -181,10 +181,9 @@ public class FXMLDocumentController implements Initializable {
     }
     
     /**
-     * This method execute the <code>add</code> method of the Object <code>memory</code>
-     * and executes the sum of the last two elements in <code>list</code>
-     * by inserting the result in place of the first two elements
-     * after pressing the button addBotton
+     * This method execute the <code>add</code> method of <code>memory</code>
+     * and inserts the result in the head of <code>list</code> in place of the first two elements
+     * after pressing the button addButton
      * @param event {@code ActionEvent}
      */
     @FXML
@@ -201,10 +200,9 @@ public class FXMLDocumentController implements Initializable {
     }
     
     /**
-     * This method execute the <code>sub</code> method of the Object <code>memory</code>
-     * and executes the difference of the last two elements in <code>list</code>
-     * by inserting the result in place of the first two elements
-     * after pressing the button subBotton
+     * This method execute the <code>sub</code> method of <code>memory</code>
+     * and inserts the result in the head of <code>list</code> in place of the first two elements
+     * after pressing the button subButton
      * @param event {@code ActionEvent}
      */
     @FXML
@@ -222,10 +220,9 @@ public class FXMLDocumentController implements Initializable {
     }
     
     /**
-     * This method execute the <code>multiply</code> method of the Object <code>memory</code>
-     * and executes the multiplication of the last two elements in <code>list</code>
-     * by inserting the result in place of the first two elements
-     * after pressing the button multiplyBotton
+     * This method execute the <code>multiply</code> method of <code>memory</code>
+     * and inserts the result in the head of <code>list</code> in place of the first two elements
+     * after pressing the button multiplyButton
      * @param event {@code ActionEvent}
      */
     @FXML
@@ -242,10 +239,9 @@ public class FXMLDocumentController implements Initializable {
     }
     
     /**
-     * This method execute the <code>divde</code> method of the Object <code>memory</code>
-     * and executes the division of the last two elements in <code>list</code>
-     * by inserting the result in place of the first two elements
-     * after pressing the button divideBotton 
+     * This method execute the <code>divde</code> method of <code>memory</code>
+     * and inserts the result in the head of <code>list</code> in place of the first two elements
+     * after pressing the button divideButton 
      * @param event {@code ActionEvent}
      */
     @FXML
@@ -264,9 +260,9 @@ public class FXMLDocumentController implements Initializable {
     }
     
     /**
-     * This method execute the <code>square</code> method of the Object <code>memory</code>
-     * and executes the square of the last element in <code>list</code>
-     * after pressing the button sqrtBotton 
+     * This method execute the <code>square</code> method of <code>memory</code>
+     * and inserts the result in the head of <code>list</code> in place of the first element
+     * after pressing the button sqrtButton 
      * @param event {@code ActionEvent}
      */
     @FXML
@@ -283,9 +279,9 @@ public class FXMLDocumentController implements Initializable {
     
     
     /**
-     * This method execute the <code>invert</code> method of the Object <code>memory</code>
-     * and executes the sign inversion of the last element in <code>list</code>
-     * after pressing the button invertBotton  
+     * This method execute the <code>invert</code> method of <code>memory</code>
+     * and inserts the result in the head of <code>list</code> in place of the first element
+     * after pressing the button invertButton  
      * @param event {@code ActionEvent}
      */
     @FXML
@@ -302,9 +298,9 @@ public class FXMLDocumentController implements Initializable {
     
     
     /**
-     * This method execute the <code>clear</code> method of the Object <code>memory</code>
+     * This method execute the <code>clear</code> method of <code>memory</code>
      * and delete all the elements in <code>list</code>
-     * after pressing the button clearBotton  
+     * after pressing the button clearButton
      * @param event {@code ActionEvent}
      */
     @FXML
@@ -317,9 +313,9 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     /**
-     * This method execute the <code>drop</code> method of the Object <code>memory</code>
+     * This method execute the <code>drop</code> method of <code>memory</code>
      * and delete the last element in <code>list</code> 
-     * and write it in the text field after pressing the button dropBotton 
+     * and write it in the text field after pressing the button dropButton 
      * @param event {@code ActionEvent}
      */
     @FXML
@@ -333,9 +329,9 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     /**
-     * This method execute the <code>dup</code> method of the Object <code>memory</code>
+     * This method execute the <code>dup</code> method <code>memory</code>
      * and duplicate the last element in <code>list</code>
-     * after pressing the button dupBotton  
+     * after pressing the button dupButton  
      * @param event {@code ActionEvent}
      */
     @FXML
@@ -348,9 +344,9 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     /**
-     * This method execute the <code>swap</code> method of the Object <code>memory</code>
+     * This method execute the <code>swap</code> method <code>memory</code>
      * and swap the last two elements in <code>list</code>
-     * after pressing the button swapBotton 
+     * after pressing the button swapButton 
      * @param event {@code ActionEvent}
      */
     @FXML
@@ -364,9 +360,9 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     /**
-     * This method execute the <code>over</code> method of the Object <code>memory</code> 
-     * and inserts a copy of the second to last element as last of the <code>list</code> 
-     * after pressing the button overBotton  
+     * This method execute the <code>over</code> method <code>memory</code> 
+     * and inserts a copy of the second last element in the head of the <code>list</code> 
+     * after pressing the button overButton  
      * @param event {@code ActionEvent}
      */
     @FXML
@@ -413,7 +409,6 @@ public class FXMLDocumentController implements Initializable {
     /**
      * The method checks if the string <code>s</code> is in 
      * the correct form to do operations with variables
-     * if the string is not in the desired form throws WrongInputException.
      * @param s {@code String}
      * @throws WrongInputException 
      */
@@ -425,7 +420,6 @@ public class FXMLDocumentController implements Initializable {
     
     /**
      * The method checks if the string <code>s</code>  is in the form a + j b. a and b must be real numbers.
-     * if the string is not in the desired form throws WrongInputException.
      * @param s {@code String}
      * @return <code>true</code>  if the string is correct
      * @throws WrongInputException 
