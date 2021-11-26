@@ -78,11 +78,6 @@ public class FXMLDocumentController implements Initializable {
     /** Observable list that will contain all the elements in <code>memory</code> making them observable*/
     private ObservableList<Complex>  list;
     
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
-    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
