@@ -25,7 +25,6 @@ public class VariableMap {
     }
     
     public void saveVariable(char key, Complex value) throws KeyNotAlphabeticException{
-        //decide if lowerCase==UpperCase for the key
         if(!Character.isAlphabetic(key))
             throw new KeyNotAlphabeticException();
         if(variables.containsKey(key))
@@ -37,7 +36,7 @@ public class VariableMap {
         //return null in case of there are no matches for the key 
         return variables.get(key);
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

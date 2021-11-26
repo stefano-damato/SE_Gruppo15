@@ -87,6 +87,7 @@ public class FXMLDocumentController implements Initializable {
         SimpleBooleanProperty check  = new SimpleBooleanProperty();
         check.bind(Bindings.when(text.textProperty().isEmpty()).then(true).otherwise(false));
         insertButton.disableProperty().bind(check);
+        variablesButton.disableProperty().bind(check);
         
         list = FXCollections.observableArrayList();
         clmHistory.setCellValueFactory(new PropertyValueFactory<Complex,String>("complex"));
@@ -299,8 +300,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void variablesEvent(ActionEvent event) {
         try{
-            checkValidInputForVariables(text.getText());
-            char key= text.getText().charAt(1);
+            checkValidInputForVariables(text.getText().toLowerCase());
+            char key= text.getText().toLowerCase().charAt(1);
             if(text.getText().charAt(0)=='>'){
                 memory.getVariables().saveVariable(key, memory.lastElement());
             }else if(text.getText().charAt(0)=='<'){
@@ -324,7 +325,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     private void checkValidInputForVariables(String s) throws WrongInputException{
-        if(s.length()>2 || !s.substring(0, 0).matches("^[+-><]+$"))
+        if(s.length()>2 || !s.matches("^[a-z+-><]+$"))
             throw new WrongInputException();
     }
     private boolean checkValidInput(String s) throws WrongInputException{
