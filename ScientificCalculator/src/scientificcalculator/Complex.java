@@ -6,30 +6,55 @@
 package scientificcalculator;
 
 /**
- *
- * @author nicol
+ * The <em>Complex</em> class represents a complex number characterized by a real part and an imaginary part.
+ * 
+ * @author group15
  */
+
 public class Complex {
+    /**Contains the real part of the complex number*/
     private double real;
+    /**Contains the imaginary part of the complex number*/
     private double imaginary;
     
+    /**
+     * Initializes an object of class <em>Complex</em> rounded to the third decimal place.
+     * @param real {@code double}
+     * @param imaginary {@code double}
+     */
     public Complex(double real, double imaginary) {
         this.real = Math.round(real*1000.0)/1000.0;
         this.imaginary = Math.round(imaginary*1000.0)/1000.0;
     }
-
+    
+    /**
+     * The method returns the real part
+     * @return real {@code double}
+     */
     public double getReal() {
         return real;
     }
-
+    
+    /**
+     * The method returns the imaginary part
+     * @return imaginary {@code double}
+     */
     public double getImaginary() {
         return imaginary;
     }
     
+    /**
+     * Returns a string representation of the Complex object in Cartesian coordinate format.
+     * @return a string representation of the Complex object {@code String}
+     */
     public String getComplex(){
         return this.toString();
     }
     
+    /**
+     * Returns a string representation of the Complex object in Cartesian coordinate format.
+     * @return a string representation of the Complex object {@code String}
+     */
     @Override
     public String toString() {
         if(imaginary>=0)
@@ -37,9 +62,15 @@ public class Complex {
         else
             return String.valueOf(real) + " - j" + String.valueOf(-imaginary);
     }
-
- 
-
+    
+    /**
+     * This method overrides the method {@link #equals(java.lang.Object)}.
+     * <p>
+     * Check if two complex numbers are equal. 
+     * They are equal if their real part is the same and their imaginary part is the same, otherwise they are different.
+     * @param obj
+     * @return boolean value, true if the two objects are equal, false otherwise.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -60,9 +91,12 @@ public class Complex {
         }
         return true;
     }
-    
-    
-    
+     
+    /**
+     * This method adds respectively the real part and the imaginary part of the current Complex with the real and imaginary part of the Complex passed as a parameter.
+     * @param a {@code Complex}
+     * @return new object {@code Complex}
+     */
     public Complex add(Complex a) {
         double realSum = real + a.getReal();
         double imaginarySum = imaginary + a.getImaginary();
@@ -70,6 +104,11 @@ public class Complex {
         return sum;
     }
     
+    /**
+     * This method subtracts respectively the real part and the imaginary part of the current Complex with the real and imaginary part of the Complex passed as a parameter.
+     * @param a {@code Complex}
+     * @return new object {@code Complex}
+     */
     public Complex sub(Complex a){
         double realSub = real - a.getReal();
         double imaginarySub = imaginary - a.getImaginary();
@@ -77,6 +116,11 @@ public class Complex {
         return sub;
     }
     
+    /**
+     * This method multiplies the current Complex with Complex passed as a parameter.
+     * @param a {@code Complex}
+     * @return new object {@code Complex} 
+     */
     public Complex multiply(Complex a) {
         double realMultiply = real * a.getReal() + ((-1) * imaginary * a.getImaginary());
         double imaginaryMultiply = real * a.getImaginary() + imaginary * a.getReal();
@@ -84,10 +128,12 @@ public class Complex {
         return multiply;
     }
     
-    public Complex conjugate(){
-        return new Complex(real, -imaginary);
-    }
-    
+    /**
+     * This method divides the current Complex with Complex passed as a parameter.
+     * @param a {@code Complex}
+     * @return new object {@code Complex}
+     * @throws DivisionException if the real part and the imaginary part of parameter a are both 0
+     */
     public Complex divide(Complex a) throws DivisionException{
         if(a.getReal()==0 && a.getImaginary()==0)
             throw new DivisionException("Division not possible");
@@ -99,16 +145,24 @@ public class Complex {
         double bd = this.imaginary*a.getImaginary();
         double bc = this.imaginary*a.getReal();
         double ad = this.real*a.getImaginary();
-
+        
         return new Complex((ac+bd)/(areal+aimag),(bc-ad)/(areal+aimag));
     }
     
+    /**
+     * This method takes the square root of the current Complex.
+     * @return new object {@code Complex} 
+     */
     public Complex square(){
         double X = Math.abs(Math.sqrt((real + Math.sqrt(real * real + imaginary * imaginary)) / 2));
         double Y = imaginary / (2 * X);
         return new Complex(X, Y);
     }
     
+    /**
+     * This method inverts the sign of the real part and the imaginary part of the current Complex.
+     * @return new object {@code Complex}
+     */
     public Complex invert(){
         return new Complex((real==0)? 0: -real,(imaginary==0)? 0:  -imaginary);
     }
