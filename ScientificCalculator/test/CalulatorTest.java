@@ -58,6 +58,9 @@ public class CalulatorTest extends Calculator{
     
     @Test   
     public void testAdd(){
+        calc.insert(a);
+        calc.insert(b);
+        calc.insert(c);
         calc.insert(d);
         calc.insert(e);
         calc.insert(f);
@@ -66,16 +69,25 @@ public class CalulatorTest extends Calculator{
         
         Complex hg = h.add(g);
 	calc.add();
-        assertEquals(hg, calc.lastElement());
+            assertEquals(hg, calc.lastElement());
 	Complex hgf = hg.add(f);
 	calc.add();
-        assertEquals(hgf, calc.lastElement());
+            assertEquals(hgf, calc.lastElement());
         Complex hgfe = hgf.add(e);
 	calc.add();
-        assertEquals(hgfe, calc.lastElement());
+            assertEquals(hgfe, calc.lastElement());
         Complex hgfed = hgfe.add(d);
 	calc.add();
-        assertEquals(hgfed, calc.lastElement());
+            assertEquals(hgfed, calc.lastElement());
+        Complex hgfedc = hgfed.add(c);
+        calc.add();
+            assertEquals(hgfedc, calc.lastElement());
+        Complex hgfedcb = hgfedc.add(b);
+        calc.add();
+            assertEquals(hgfedcb, calc.lastElement());
+        Complex hgfedcba = hgfedcb.add(a);
+        calc.add();
+            assertEquals(hgfedcba, calc.lastElement());
     }
     
     @Test(expected = LessOf2ElementsException.class)
@@ -85,6 +97,9 @@ public class CalulatorTest extends Calculator{
 }
     @Test 
     public void testSub(){
+        calc.insert(a);
+        calc.insert(b);
+        calc.insert(c);
         calc.insert(d);
         calc.insert(e);
         calc.insert(f);
@@ -93,16 +108,25 @@ public class CalulatorTest extends Calculator{
         
         Complex hg = h.sub(g);
 	calc.sub();
-        assertEquals(hg, calc.lastElement());
+            assertEquals(hg, calc.lastElement());
 	Complex hgf = hg.sub(f);
 	calc.sub();
-        assertEquals(hgf, calc.lastElement());
+            assertEquals(hgf, calc.lastElement());
         Complex hgfe = hgf.sub(e);
 	calc.sub();
-        assertEquals(hgfe, calc.lastElement());
+            assertEquals(hgfe, calc.lastElement());
         Complex hgfed = hgfe.sub(d);
 	calc.sub();
-        assertEquals(hgfed, calc.lastElement());
+            assertEquals(hgfed, calc.lastElement());
+        Complex hgfedc = hgfed.sub(c);
+        calc.sub();
+            assertEquals(hgfedc, calc.lastElement());
+        Complex hgfedcb = hgfedc.sub(b);
+        calc.sub();
+            assertEquals(hgfedcb, calc.lastElement());
+        Complex hgfedcba = hgfedcb.sub(a);
+        calc.sub();
+            assertEquals(hgfedcba, calc.lastElement());
     }
     @Test(expected = LessOf2ElementsException.class)
     public void testSubException(){
@@ -112,6 +136,9 @@ public class CalulatorTest extends Calculator{
     
     @Test
     public void testMultiply(){
+        calc.insert(a);
+        calc.insert(b);
+        calc.insert(c);
         calc.insert(d);
         calc.insert(e);
         calc.insert(f);
@@ -120,16 +147,25 @@ public class CalulatorTest extends Calculator{
         
         Complex hg = h.multiply(g);
 	calc.multiply();
-        assertEquals(hg, calc.lastElement());
+            assertEquals(hg, calc.lastElement());
 	Complex hgf = hg.multiply(f);
 	calc.multiply();
-        assertEquals(hgf, calc.lastElement());
+            assertEquals(hgf, calc.lastElement());
         Complex hgfe = hgf.multiply(e);
 	calc.multiply();
-        assertEquals(hgfe, calc.lastElement());
+            assertEquals(hgfe, calc.lastElement());
         Complex hgfed = hgfe.multiply(d);
 	calc.multiply();
-        assertEquals(hgfed, calc.lastElement());
+            assertEquals(hgfed, calc.lastElement());
+        Complex hgfedc = hgfed.multiply(c);
+        calc.multiply();
+            assertEquals(hgfedc, calc.lastElement());
+        Complex hgfedcb = hgfedc.multiply(b);
+        calc.multiply();
+            assertEquals(hgfedcb, calc.lastElement());
+        Complex hgfedcba = hgfedcb.multiply(a);
+        calc.multiply();
+            assertEquals(hgfedcba, calc.lastElement());
     }
     
     @Test(expected = LessOf2ElementsException.class)
@@ -140,6 +176,8 @@ public class CalulatorTest extends Calculator{
     
     @Test 
     public void testDivide(){
+        calc.insert(b);
+        calc.insert(c);
         calc.insert(d);
         calc.insert(e);
         calc.insert(f);
@@ -149,16 +187,23 @@ public class CalulatorTest extends Calculator{
         
         Complex hg = h.divide(g);
 	calc.divide();
-        assertEquals(hg, calc.lastElement());
+            assertEquals(hg, calc.lastElement());
 	Complex hgf = hg.divide(f);
 	calc.divide();
-        assertEquals(hgf, calc.lastElement());
+            assertEquals(hgf, calc.lastElement());
         Complex hgfe = hgf.divide(e);
 	calc.divide();
-        assertEquals(hgfe, calc.lastElement());
+            assertEquals(hgfe, calc.lastElement());
         Complex hgfed = hgfe.divide(d);
 	calc.divide();
-        assertEquals(hgfed, calc.lastElement());
+            assertEquals(hgfed, calc.lastElement());
+        Complex hgfedc = hgfed.divide(c);
+        calc.divide();
+            assertEquals(hgfedc, calc.lastElement());
+        Complex hgfedcb = hgfedc.divide(b);
+        calc.divide();
+            assertEquals(hgfedcb, calc.lastElement());
+       
     }
     
     @Test (expected = DivisionException.class)
