@@ -9,21 +9,40 @@ import java.util.HashMap;
 import java.util.Objects;
 
 /**
- *
- * @author benedettocirillo
+ *  The <em>VariableMap</em> class represents the set of all variables that the user can use
+ * @author group15
  */
 public class VariableMap {
     
+    /**
+     * Keeps the key,value correspondence:
+     * Character is the Key
+     * Complex is the Value
+     */
     private HashMap<Character,Complex> variables;
 
+    /**
+     * Initialize object of the class <em>VariableMap</em> 
+     */
     public VariableMap() {
         variables = new HashMap<>();
     }
-
+    
+    /**
+     * The method returns the reference to the map
+     * @return variables {@code HashMap<Character,Complex>}
+     */
     public HashMap<Character, Complex> getVariables() {
         return variables;
     }
-    
+    /**
+     * The method save the value in variables by specifying the key.
+     * If the key is already present, it overwrites the value.
+     * If the key is not alphabetic throw an exception.
+     * @param key {@code Character}
+     * @param value {@code Complex}
+     * @throws KeyNotAlphabeticException 
+     */
     public void saveVariable(char key, Complex value) throws KeyNotAlphabeticException{
         if(!Character.isAlphabetic(key))
             throw new KeyNotAlphabeticException();
@@ -32,11 +51,22 @@ public class VariableMap {
         else variables.put(key, value);
     }
     
+    /**
+     * The method returns the value contained in the indicated key.
+     * @param key {@code Character}
+     * @return value {@code Complex}
+     */
     public Complex pushVariable(char key){
         //return null in case of there are no matches for the key 
-        return variables.get(key);
+        Complex value= variables.get(key);
+        return value;
     }
-
+    
+    /**
+     * The method overrides the {@link #equals(java.lang.Object) } of the Object {@link java.lang.Object}
+     * @param obj
+     * @return true if this object is the same as the obj argument; false otherwise.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

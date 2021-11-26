@@ -68,7 +68,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button restoreVarButton;
     
-    private Calculator memory = new Calculator();
     @FXML
     private TableView<Complex> historyTab;
     @FXML
@@ -79,7 +78,13 @@ public class FXMLDocumentController implements Initializable {
         label.setText("Hello World!");
     }
     
+    /** Reference to the <code>Calculator</code> class that represents the memory of the calculator*/
+    private Calculator memory = new Calculator();
+    
+    /** Observable list that will contain all the elements in <code>memory</code> making them observable*/
     private ObservableList<Complex>  list;
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -94,7 +99,11 @@ public class FXMLDocumentController implements Initializable {
 
         historyTab.setItems(list);
     }    
-
+    
+    /**
+     * This method creates a second window showing the string <code>msg</code> as text
+     * @param msg {@code String}
+     */
     @FXML
     private void wrongOperation(String msg){
         Stage primaryStage=new Stage();
@@ -111,6 +120,12 @@ public class FXMLDocumentController implements Initializable {
         primaryStage.show();
     }
     
+    /**
+     * This method execute the <code>insert</code> method of the Object <code>memory</code>
+     * and insert the element in <code>list</code>
+     * after pressing the button addBotton
+     * @param event {@code ActionEvent}
+     */
     @FXML
     private void insetEvent(ActionEvent event) {
         try{
@@ -153,7 +168,6 @@ public class FXMLDocumentController implements Initializable {
                 if(insertText.contains("-"))
                     imaginary=-imaginary;
             }
-            
         }
         c = new Complex(real, imaginary);
         memory.insert(c);
@@ -161,11 +175,18 @@ public class FXMLDocumentController implements Initializable {
         text.setText("");
             
         }catch(WrongInputException ex){
-            wrongOperation("Input is not in correct form:\n real +- j imaginary");
+            wrongOperation("Input is not in correct form:\n a + j b");
         }
         
     }
-
+    
+    /**
+     * This method execute the <code>add</code> method of the Object <code>memory</code>
+     * and executes the sum of the last two elements in <code>list</code>
+     * by inserting the result in place of the first two elements
+     * after pressing the button addBotton
+     * @param event {@code ActionEvent}
+     */
     @FXML
     private void addEvent(ActionEvent event) {
         try{
@@ -178,7 +199,14 @@ public class FXMLDocumentController implements Initializable {
             wrongOperation("There must be at least two elements!");
         }
     }
-
+    
+    /**
+     * This method execute the <code>sub</code> method of the Object <code>memory</code>
+     * and executes the difference of the last two elements in <code>list</code>
+     * by inserting the result in place of the first two elements
+     * after pressing the button subBotton
+     * @param event {@code ActionEvent}
+     */
     @FXML
     private void subEvent(ActionEvent event) {
         try{
@@ -192,7 +220,14 @@ public class FXMLDocumentController implements Initializable {
         }
         
     }
-
+    
+    /**
+     * This method execute the <code>multiply</code> method of the Object <code>memory</code>
+     * and executes the multiplication of the last two elements in <code>list</code>
+     * by inserting the result in place of the first two elements
+     * after pressing the button multiplyBotton
+     * @param event {@code ActionEvent}
+     */
     @FXML
     private void multiplyEvent(ActionEvent event) {
         try{    
@@ -205,7 +240,14 @@ public class FXMLDocumentController implements Initializable {
             wrongOperation("There must be at least two elements!");
         }
     }
-
+    
+    /**
+     * This method execute the <code>divde</code> method of the Object <code>memory</code>
+     * and executes the division of the last two elements in <code>list</code>
+     * by inserting the result in place of the first two elements
+     * after pressing the button divideBotton 
+     * @param event {@code ActionEvent}
+     */
     @FXML
     private void divideEvent(ActionEvent event) {
         try{  
@@ -220,7 +262,13 @@ public class FXMLDocumentController implements Initializable {
             wrongOperation("Division not possible");
         }
     }
-
+    
+    /**
+     * This method execute the <code>square</code> method of the Object <code>memory</code>
+     * and executes the square of the last element in <code>list</code>
+     * after pressing the button sqrtBotton 
+     * @param event {@code ActionEvent}
+     */
     @FXML
     private void sqrtEvent(ActionEvent event) {
         try{    
@@ -232,7 +280,14 @@ public class FXMLDocumentController implements Initializable {
             wrongOperation("There must be at least one element!");
         }
     }
-
+    
+    
+    /**
+     * This method execute the <code>invert</code> method of the Object <code>memory</code>
+     * and executes the sign inversion of the last element in <code>list</code>
+     * after pressing the button invertBotton  
+     * @param event {@code ActionEvent}
+     */
     @FXML
     private void invertEvent(ActionEvent event) {
         try{    
@@ -244,7 +299,14 @@ public class FXMLDocumentController implements Initializable {
             wrongOperation("There must be at least one element!");
         }    
     }
-
+    
+    
+    /**
+     * This method execute the <code>clear</code> method of the Object <code>memory</code>
+     * and delete all the elements in <code>list</code>
+     * after pressing the button clearBotton  
+     * @param event {@code ActionEvent}
+     */
     @FXML
     private void clearEvent(ActionEvent event) {
         try{
@@ -254,58 +316,82 @@ public class FXMLDocumentController implements Initializable {
             wrongOperation("There must be at least one element!");
         }
     }
-
+    /**
+     * This method execute the <code>drop</code> method of the Object <code>memory</code>
+     * and delete the last element in <code>list</code> 
+     * and write it in the text field after pressing the button dropBotton 
+     * @param event {@code ActionEvent}
+     */
     @FXML
     private void dropEvent(ActionEvent event) {
         try{
             text.setText(memory.lastElement().toString());
-            list.remove(0);
             memory.drop();
+            list.remove(0);
         } catch (EmptyStackException ex){
             wrongOperation("There must be at least one element!");
         }
     }
-
+    /**
+     * This method execute the <code>dup</code> method of the Object <code>memory</code>
+     * and duplicate the last element in <code>list</code>
+     * after pressing the button dupBotton  
+     * @param event {@code ActionEvent}
+     */
     @FXML
     private void dupEvent(ActionEvent event) {
         try{
-            list.add(0, list.get(0));
             memory.dup();
+            list.add(0, list.get(0));
         } catch(EmptyStackException ex){
             wrongOperation("There must be at least one element!");
         }
     }
-
+    /**
+     * This method execute the <code>swap</code> method of the Object <code>memory</code>
+     * and swap the last two elements in <code>list</code>
+     * after pressing the button swapBotton 
+     * @param event {@code ActionEvent}
+     */
     @FXML
     private void swapEvent(ActionEvent event) {
         try{
+            memory.swap();
             list.add(0, list.get(1));
             list.remove(2);
-            memory.swap();
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
         }
     }
-
+    /**
+     * This method execute the <code>over</code> method of the Object <code>memory</code> 
+     * and inserts a copy of the second to last element as last of the <code>list</code> 
+     * after pressing the button overBotton  
+     * @param event {@code ActionEvent}
+     */
     @FXML
     private void overEvent(ActionEvent event) {
         try{
-            list.add(0, list.get(1));
             memory.over();
+            list.add(0, list.get(1));
         } catch (LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
         }
     }
-
+    /**
+     * This method executes the operation on the variables according to what is 
+     * written in the text field after pressing the button 
+     * @param event {@code ActionEvent}
+     */
     @FXML
     private void variablesEvent(ActionEvent event) {
         try{
+            this.
             checkValidInputForVariables(text.getText().toLowerCase());
             char key= text.getText().toLowerCase().charAt(1);
             if(text.getText().charAt(0)=='>'){
                 memory.getVariables().saveVariable(key, memory.lastElement());
             }else if(text.getText().charAt(0)=='<'){
-                System.out.print(memory.getVariables().pushVariable(key));
                 memory.insert(memory.getVariables().pushVariable(key));
                 list.add(0, memory.lastElement());
             }
@@ -319,15 +405,31 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void saveVarEvent(ActionEvent event) {
     }
-
+    
+    
     @FXML
     private void restoreVarEvent(ActionEvent event) {
     }
-    
+    /**
+     * The method checks if the string <code>s</code> is in 
+     * the correct form to do operations with variables
+     * if the string is not in the desired form throws WrongInputException.
+     * @param s {@code String}
+     * @throws WrongInputException 
+     */
     private void checkValidInputForVariables(String s) throws WrongInputException{
         if(s.length()>2 || !s.matches("^[a-z+-><]+$"))
             throw new WrongInputException();
     }
+    
+    
+    /**
+     * The method checks if the string <code>s</code>  is in the form a + j b. a and b must be real numbers.
+     * if the string is not in the desired form throws WrongInputException.
+     * @param s {@code String}
+     * @return <code>true</code>  if the string is correct
+     * @throws WrongInputException 
+     */
     private boolean checkValidInput(String s) throws WrongInputException{
         if(!s.contains("j")){
             if(!s.matches("^[0-9. ]+$"))
