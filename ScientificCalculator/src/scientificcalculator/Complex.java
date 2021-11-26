@@ -57,10 +57,16 @@ public class Complex {
      */
     @Override
     public String toString() {
-        if(imaginary>=0)
-            return String.valueOf(real) + " + j" + String.valueOf(imaginary);
-        else
-            return String.valueOf(real) + " - j" + String.valueOf(-imaginary);
+        if(real==0){
+            if(imaginary!=0)
+                return (imaginary>0)? "+ j " + String.valueOf(imaginary): "- j " + String.valueOf(-imaginary);
+            else return "0";
+        }else{
+            if(imaginary==0)
+                return String.valueOf(real);
+            else
+                return (imaginary>0)? String.valueOf(real) + " + j " + String.valueOf(imaginary): String.valueOf(real) + "- j" + String.valueOf(-imaginary);
+        }
     }
     
     /**

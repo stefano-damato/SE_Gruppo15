@@ -137,7 +137,7 @@ public class FXMLDocumentController implements Initializable {
             insertText=insertText.substring(1);
         }
         
-        checkValidInput(insertText);
+        checkValidInput(insertText.trim());
         
         //The number has only the real part 
         if(!insertText.contains("j")){
