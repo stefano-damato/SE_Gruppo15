@@ -29,7 +29,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
- *
+ *The <em>FXMLDocumentController</em> class represents controller class in the Model-View-Controller architecture
  * @author stefa
  */
 public class FXMLDocumentController implements Initializable {
@@ -73,16 +73,15 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TableColumn<Complex, String> clmHistory;
     
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
-    
-    /** Reference to the <code>Calculator</code> class that represents the memory of the calculator*/
     private Calculator memory = new Calculator();
     
     /** Observable list that will contain all the elements in <code>memory</code> making them observable*/
     private ObservableList<Complex>  list;
+    
+    private void handleButtonAction(ActionEvent event) {
+        System.out.println("You clicked me!");
+        label.setText("Hello World!");
+    }
     
     
     @Override

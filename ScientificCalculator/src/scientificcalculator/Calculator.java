@@ -21,7 +21,7 @@ public class Calculator {
     private Stack<VariableMap> variables;
     
     /**
-     * Initialize new objects from the class Stack
+     * Initialize complexStack and variables to empty stacks
      */
     public Calculator(){
         complexStack = new Stack<>();
