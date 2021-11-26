@@ -61,8 +61,9 @@ public class Calculator {
         return complexStack.lastElement();
     }
     /**
-     * The method removes the last two elements from the stack, adds them up
-     * and adds the sum to the stack
+     * The method removes the last two elements from the stack, 
+     * execute the <code>add</code> method on the first one
+     * and puts the sum on the stack
      * @throws LessOf2ElementsException if there are less of two elements in the stack
      */
     public void add() throws LessOf2ElementsException{
@@ -75,8 +76,9 @@ public class Calculator {
     }
     
     /**
-     * The method removes the last two elements from the stack, subs them up
-     * and adds the sub to the stack
+     * The method removes the last two elements from the stack, 
+     * execute the <code>sub</code> method on the first one
+     * and puts the sub on the stack
      * @throws LessOf2ElementsException if there are less of two elements in the stack
      */
     public void sub() throws LessOf2ElementsException{
@@ -89,8 +91,9 @@ public class Calculator {
     }
     
     /**
-     * The method removes the last two elements from the stack, multiplies them 
-     * and adds the multiplication to the stack
+     * The method removes the last two elements from the stack,
+     * execute the <code>multiply</code> method on the first one
+     * and puts the multiplication on the stack
      * @throws LessOf2ElementsException if there are less of two elements in the stack
      */
     public void multiply() throws LessOf2ElementsException{
@@ -103,8 +106,9 @@ public class Calculator {
     }
     
     /**
-     * The method removes the last two elements from the stack, divides them 
-     * and adds the division to the stack
+     * The method removes the last two elements from the stack,
+     * execute the <code>divide</code> method on the first one
+     * and puts the division on the stack
      * @throws LessOf2ElementsException if there are less of two elements in the stack
      */
     public void divide() throws LessOf2ElementsException{
@@ -117,9 +121,9 @@ public class Calculator {
     }
     
     /**
-     * The method checks if there is at least one element in the stack,
-     * if so it removes the element from the stack, executes the square root and
-     * puts the result on the stack
+     * The method removes the last element from the stack, 
+     * execute the <code>square</code> method
+     * and puts the result on the stack
      * @throws EmptyStackException if the stack is empty
      */
     public void square() throws EmptyStackException{
@@ -131,8 +135,8 @@ public class Calculator {
     }
     
     /**
-     * The method checks if there is at least one element in the stack,
-     * if so it removes the element from the stack, reverses its sign and
+     * The method removes the last element from the stack,
+     * execute the <code>invert</code> method
      * puts the result on the stack
      * @throws EmptyStackException if the stack is empty
      */
@@ -145,8 +149,7 @@ public class Calculator {
     }
     
     /**
-     * The method checks if there's at least one element in the stack, 
-     * if so it empties the stack
+     * The method empties the stack
      * @throws EmptyStackException if the stack is empty
      */
     public void clear() throws EmptyStackException{
@@ -156,8 +159,7 @@ public class Calculator {
     }
     
     /**
-     * The method checks if there's at least one element in the stack, 
-     * if so it removes the stack
+     * The method removes the last element from the stack
      * @throws EmptyStackException if the stack is empty
      */
     public void drop() throws EmptyStackException{
@@ -167,9 +169,7 @@ public class Calculator {
     }
    
     /**
-     * The method checks if there's at least one element in the stack, if so
-     * it initialize the current object like the last element and insert it 
-     * 
+     * The method duplicates the last element in the stack 
      * @throws EmptyStackException if the stack is empty
      */
     public void dup() throws EmptyStackException{
@@ -181,8 +181,7 @@ public class Calculator {
     }
     
     /**
-     * The method checks if there are at least two elements in the stack, if so
-     * it removes them from the stack and insert them
+     * The method swap the last two elements in the stack
      * @throws LessOf2ElementsException if there are less of two elements in the stack
      */
     public void swap() throws LessOf2ElementsException{
@@ -195,7 +194,7 @@ public class Calculator {
         insert(b);
     } 
     /**
-     * 
+     * The method inserts a copy of the second last element in the stack
      * @throws LessOf2ElementsException if there are less of two elements in the stack
      */
     public void over()throws LessOf2ElementsException{

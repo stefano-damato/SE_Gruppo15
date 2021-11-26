@@ -330,7 +330,7 @@ public class FXMLDocumentController implements Initializable {
     }
     /**
      * This method execute the <code>dup</code> method <code>memory</code>
-     * and duplicate the last element in <code>list</code>
+     * and duplicates the last element in <code>list</code>
      * after pressing the button dupButton  
      * @param event {@code ActionEvent}
      */
