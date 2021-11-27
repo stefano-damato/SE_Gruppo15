@@ -373,7 +373,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void variablesEvent(ActionEvent event) {
         try{
-            this.
             checkValidInputForVariables(text.getText().toLowerCase());
             char key= text.getText().toLowerCase().charAt(1);
             if(text.getText().charAt(0)=='>'){
