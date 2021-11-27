@@ -187,7 +187,6 @@ public class FXMLDocumentController implements Initializable {
             list.remove(0);
             list.remove(0);
             list.add(0, memory.lastElement());
-            text.setText(memory.lastElement().toString());
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
         }
@@ -206,7 +205,6 @@ public class FXMLDocumentController implements Initializable {
             list.remove(0);
             list.remove(0);
             list.add(0, memory.lastElement());
-            text.setText(memory.lastElement().toString());
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
         }
@@ -226,7 +224,6 @@ public class FXMLDocumentController implements Initializable {
             list.remove(0);
             list.remove(0);
             list.add(0, memory.lastElement());
-            text.setText(memory.lastElement().toString());
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
         }
@@ -245,7 +242,6 @@ public class FXMLDocumentController implements Initializable {
             list.remove(0);  
             memory.divide();
             list.add(0, memory.lastElement());
-            text.setText(memory.lastElement().toString());
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
         } catch(DivisionException ex){
@@ -265,12 +261,10 @@ public class FXMLDocumentController implements Initializable {
             memory.square();
             list.remove(0);
             list.add(0, memory.lastElement());
-            text.setText(memory.lastElement().toString());
         } catch(EmptyStackException ex){
             wrongOperation("There must be at least one element!");
         }
     }
-    
     
     /**
      * This method execute the <code>invert</code> method of <code>memory</code>
@@ -284,12 +278,10 @@ public class FXMLDocumentController implements Initializable {
             memory.invert();
             list.remove(0);
             list.add(0, memory.lastElement());
-            text.setText(memory.lastElement().toString());
         } catch(EmptyStackException ex){
             wrongOperation("There must be at least one element!");
         }    
     }
-    
     
     /**
      * This method execute the <code>clear</code> method of <code>memory</code>
@@ -306,6 +298,7 @@ public class FXMLDocumentController implements Initializable {
             wrongOperation("There must be at least one element!");
         }
     }
+    
     /**
      * This method execute the <code>drop</code> method of <code>memory</code>
      * and delete the last element in <code>list</code> 
@@ -322,6 +315,7 @@ public class FXMLDocumentController implements Initializable {
             wrongOperation("There must be at least one element!");
         }
     }
+    
     /**
      * This method execute the <code>dup</code> method <code>memory</code>
      * and duplicates the last element in <code>list</code>
@@ -337,6 +331,7 @@ public class FXMLDocumentController implements Initializable {
             wrongOperation("There must be at least one element!");
         }
     }
+    
     /**
      * This method execute the <code>swap</code> method <code>memory</code>
      * and swap the last two elements in <code>list</code>
@@ -353,6 +348,7 @@ public class FXMLDocumentController implements Initializable {
             wrongOperation("There must be at least two elements!");
         }
     }
+    
     /**
      * This method execute the <code>over</code> method <code>memory</code> 
      * and inserts a copy of the second last element in the head of the <code>list</code> 
@@ -368,6 +364,7 @@ public class FXMLDocumentController implements Initializable {
             wrongOperation("There must be at least two elements!");
         }
     }
+    
     /**
      * This method executes the operation on the variables according to what is 
      * written in the text field after pressing the button 
@@ -400,6 +397,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void restoreVarEvent(ActionEvent event) {
     }
+    
     /**
      * The method checks if the string <code>s</code> is in 
      * the correct form to do operations with variables

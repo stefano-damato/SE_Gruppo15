@@ -24,6 +24,7 @@ public class ComplexTest {
     private Complex g;
     private Complex h;
     private Complex i;
+    private Complex l;
     
     @Before
     public void setUp() {
@@ -36,6 +37,7 @@ public class ComplexTest {
         g = new Complex(-50.50, 0);
         h = new Complex(33.33, 33.33);
         i = new Complex(0,0);
+        l = new Complex(-2, 0);
     }
     
     @Test
@@ -70,6 +72,7 @@ public class ComplexTest {
     public void testSquare() {
         assertEquals(new Complex(10.0, 0.0), b.square());
         assertEquals(new Complex(19.267, 23.381), e.square());
+        assertEquals(new Complex(0.0, 1.414), l.square());
     }
     
     @Test

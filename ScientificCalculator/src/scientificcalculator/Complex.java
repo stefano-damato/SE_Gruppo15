@@ -157,12 +157,14 @@ public class Complex {
     
     /**
      * This method takes the square root of the current Complex.
+     * Computes the principal branch of the square root, which 
+     * is the value with 0 <= this < pi.
      * @return new object {@code Complex} that represents the square root of <code>this</code>
      */
     public Complex square(){
-        double X = Math.abs(Math.sqrt((real + Math.sqrt(real * real + imaginary * imaginary)) / 2));
-        double Y = imaginary / (2 * X);
-        return new Complex(X, Y);
+        double r = Math.sqrt(this.mod());
+        double theta=Math.atan2(imaginary,real)/2;
+        return new Complex(r*Math.cos(theta),r*Math.sin(theta));
     }
     
     /**
@@ -172,4 +174,18 @@ public class Complex {
     public Complex invert(){
         return new Complex((real==0)? 0: -real,(imaginary==0)? 0:  -imaginary);
     }
+
+    /**
+        Modulus of this Complex number
+        (the distance from the origin in polar coordinates).
+        @return |z| where z is this Complex number.
+    */
+    public double mod() {
+        if (real!=0 || imaginary!=0) {
+            return Math.sqrt(real*real+imaginary*imaginary);
+        } else {
+            return 0;
+        }
+    }
+    
 }
