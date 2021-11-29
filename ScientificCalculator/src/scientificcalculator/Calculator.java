@@ -161,11 +161,12 @@ public class Calculator {
     /**
      * The method removes the last element from the stack
      * @throws EmptyStackException if the stack is empty
+     * @return complexStack.pop() {@code Complex}
      */
-    public void drop() throws EmptyStackException{
+    public Complex drop() throws EmptyStackException{
         if (complexStack.size() < 1)
             throw new EmptyStackException();
-        complexStack.pop();
+        return complexStack.pop();
     }
    
     /**

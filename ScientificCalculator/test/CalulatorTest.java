@@ -270,7 +270,7 @@ public class CalulatorTest extends Calculator{
         calc.insert(d);
         calc.insert(e);
         calc.insert(f);
-        calc.drop();
+        assertEquals(f,calc.drop());
         assertEquals(e, calc.lastElement());
     }
     

@@ -23,8 +23,8 @@ public class Complex {
      * @param imaginary {@code double}
      */
     public Complex(double real, double imaginary) {
-        this.real = Math.round(real*1000.0)/1000.0;
-        this.imaginary = Math.round(imaginary*1000.0)/1000.0;
+        this.real = real;
+        this.imaginary = imaginary;
     }
     
     /**
