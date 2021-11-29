@@ -24,7 +24,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                            <children>
-                              <Button fx:id="insertButton" mnemonicParsing="false" onAction="#insetEvent" text="Insert">
+                              <Button fx:id="insertButton" defaultButton="true" mnemonicParsing="false" onAction="#insetEvent" text="Insert">
                                  <HBox.margin>
                                     <Insets left="30.0" />
                                  </HBox.margin>

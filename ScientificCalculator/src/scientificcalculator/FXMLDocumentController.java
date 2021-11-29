@@ -14,6 +14,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -25,6 +26,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -98,7 +101,6 @@ public class FXMLDocumentController implements Initializable {
      * This method creates a second window showing the string <code>msg</code> as text
      * @param msg {@code String}
      */
-    @FXML
     private void wrongOperation(String msg){
         Stage primaryStage=new Stage();
         Label lbl = new Label(msg);
@@ -451,5 +453,4 @@ public class FXMLDocumentController implements Initializable {
             
         return true;
     }
-    
 }
