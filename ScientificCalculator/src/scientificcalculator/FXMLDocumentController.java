@@ -395,28 +395,62 @@ public class FXMLDocumentController implements Initializable {
             String input=text.getText().toLowerCase().trim();
             checkValidInputForVariables(input);
             char key=input.charAt(1);
-            if(input.charAt(0)=='>'){
-                Complex c= memory.drop();
-                Variable var = new Variable(key,c);
-                
-                memory.getVariables().saveVariable(key, c);
-                list.remove(0);
-                
-                if(listVariables.contains(var))
-                    listVariables.set(listVariables.indexOf(var), var);
-                else listVariables.add(var);
-                Collections.sort(listVariables);
-                
-                text.setText("");
-            }else if(input.charAt(0)=='<'){
-                memory.insert(memory.getVariables().pushVariable(key));
-                list.add(0, memory.lastElement());
-                text.setText("");
+            switch(input.charAt(0)){
+                case '>':{
+                    Complex c= memory.drop();
+                    Variable var = new Variable(key,c);
+
+                    memory.getVariables().saveVariable(key, c);
+                    list.remove(0);
+
+                    if(listVariables.contains(var))
+                        listVariables.set(listVariables.indexOf(var), var);
+                    else listVariables.add(var);
+                    Collections.sort(listVariables);
+                    
+                    text.setText("");
+                    break;
+                }
+                case '<':{
+                    memory.insert(memory.getVariables().pushVariable(key));
+                    list.add(0, memory.lastElement());
+                    
+                    text.setText("");
+                    break;
+                }
+                case '+':{
+                    Complex c= memory.drop();
+                    Variable var = new Variable(key,c);
+                    
+                    memory.getVariables().addVariable(key, c);
+                    list.remove(0);
+                    
+                    Complex oldVar= listVariables.get(listVariables.indexOf(var)).getValue();
+                    listVariables.set(listVariables.indexOf(var), new Variable(key,oldVar.add(c)));
+                    
+                    text.setText("");
+                    break;
+                }
+                case '-':{
+                    Complex c= memory.drop();
+                    Variable var = new Variable(key,c);
+                    
+                    memory.getVariables().subVariable(key, c);
+                    list.remove(0);
+                    
+                    Complex oldVar= listVariables.get(listVariables.indexOf(var)).getValue();
+                    listVariables.set(listVariables.indexOf(var), new Variable(key,oldVar.sub(c)));
+                    
+                    text.setText("");
+                    break;
+                }
             }
         } catch (KeyNotAlphabeticException ex){
             wrongOperation("The calculator supports 26 variables:\n from \"a\" to \"z\"");
         }catch (WrongInputException ex){
             wrongOperation("Invalid Input");
+        }catch (EmptyStackException ex){
+            wrongOperation("Errore");
         }
     }
 

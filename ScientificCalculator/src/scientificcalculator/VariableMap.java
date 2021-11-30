@@ -68,7 +68,7 @@ public class VariableMap {
      * @param value {@code Complex}
      * @throws KeyNotAlphabeticException
      */
-    public void AddVariable(char key, Complex value) throws KeyNotAlphabeticException{
+    public void addVariable(char key, Complex value) throws KeyNotAlphabeticException{
        if(!Character.isAlphabetic(key))
             throw new KeyNotAlphabeticException();
         if(variables.containsKey(key))
@@ -83,7 +83,7 @@ public class VariableMap {
      * @param value {@code Complex}
      * @throws KeyNotAlphabeticException
      */
-    public void SubVariable(char key, Complex value) throws KeyNotAlphabeticException{
+    public void subVariable(char key, Complex value) throws KeyNotAlphabeticException{
        if(!Character.isAlphabetic(key))
             throw new KeyNotAlphabeticException();
         if(variables.containsKey(key))
