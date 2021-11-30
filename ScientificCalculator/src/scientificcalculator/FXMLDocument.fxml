@@ -32,7 +32,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Button>
-                              <TextField fx:id="text" alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
+                              <TextField fx:id="text" alignment="TOP_RIGHT" promptText="a +bj" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets right="20.0" />
                                  </HBox.margin>
