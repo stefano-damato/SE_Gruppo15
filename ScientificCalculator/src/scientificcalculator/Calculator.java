@@ -31,14 +31,6 @@ public class Calculator {
     }
     
     /**
-     * The method returns the stack
-     * @return complexStack
-     */
-    public Stack<Complex> getComplexStack() {
-        return complexStack;
-    }
-
-    /**
      * The method returns the last element of the variables whitin the VariableMap
      * @return variables
      */

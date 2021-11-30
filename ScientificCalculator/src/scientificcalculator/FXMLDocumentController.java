@@ -381,14 +381,27 @@ public class FXMLDocumentController implements Initializable {
         try{
             checkValidInputForVariables(text.getText().toLowerCase());
             char key= text.getText().toLowerCase().charAt(1);
-            if(text.getText().charAt(0)=='>'){
-                memory.getVariables().saveVariable(key, memory.drop());
-                list.remove(0);
-                text.setText("");
-            }else if(text.getText().charAt(0)=='<'){
-                memory.insert(memory.getVariables().pushVariable(key));
-                list.add(0, memory.lastElement());
-                text.setText("");
+            switch(text.getText().charAt(0)){
+                case '>':{
+                    memory.getVariables().saveVariable(key, memory.drop());
+                    list.remove(0);
+                    text.setText("");
+                }
+                case '<':{
+                    memory.insert(memory.getVariables().pushVariable(key));
+                    list.add(0, memory.lastElement());
+                    text.setText("");
+                }
+                case '+':{
+                    memory.getVariables().addVariable(key, memory.drop());
+                    list.remove(0);
+                    text.setText("");
+                }
+                case '-':{
+                    memory.getVariables().subVariable(key, memory.drop());
+                    list.remove(0);
+                    text.setText("");
+                }
             }
         } catch (KeyNotAlphabeticException ex){
             wrongOperation("The calculator supports 26 variables:\n from \"a\" to \"z\"");
