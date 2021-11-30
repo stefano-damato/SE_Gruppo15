@@ -6,6 +6,7 @@
 package scientificcalculator;
 
 import java.net.URL;
+import java.util.Collections;
 import java.util.EmptyStackException;
 import java.util.ResourceBundle;
 import java.util.Stack;
@@ -70,16 +71,25 @@ public class FXMLDocumentController implements Initializable {
     private Button saveVarButton;
     @FXML
     private Button restoreVarButton;
-    
     @FXML
     private TableView<Complex> historyTab;
     @FXML
     private TableColumn<Complex, String> clmHistory;
+    @FXML
+    private TableView<Variable> variablesTab;
+    @FXML
+    private TableColumn<Variable, String> clmVariables;
     
     private Calculator memory = new Calculator();
     
     /** Observable list that will contain all the elements in <code>memory</code> making them observable*/
     private ObservableList<Complex>  list;
+    
+    /** Observable list that will contain all the variables in <code>memory</code> making them observable*/
+    private ObservableList<Variable>  listVariables;
+    
+    
+    
     
     
     @Override
@@ -93,8 +103,11 @@ public class FXMLDocumentController implements Initializable {
         
         list = FXCollections.observableArrayList();
         clmHistory.setCellValueFactory(new PropertyValueFactory<Complex,String>("complex"));
-
         historyTab.setItems(list);
+        
+        listVariables = FXCollections.observableArrayList();
+        clmVariables.setCellValueFactory(new PropertyValueFactory<Variable,String>("variable"));
+        variablesTab.setItems(listVariables);
     }    
     
     /**
@@ -379,29 +392,26 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void variablesEvent(ActionEvent event) {
         try{
-            checkValidInputForVariables(text.getText().toLowerCase());
-            char key= text.getText().toLowerCase().charAt(1);
-            switch(text.getText().charAt(0)){
-                case '>':{
-                    memory.getVariables().saveVariable(key, memory.drop());
-                    list.remove(0);
-                    text.setText("");
-                }
-                case '<':{
-                    memory.insert(memory.getVariables().pushVariable(key));
-                    list.add(0, memory.lastElement());
-                    text.setText("");
-                }
-                case '+':{
-                    memory.getVariables().addVariable(key, memory.drop());
-                    list.remove(0);
-                    text.setText("");
-                }
-                case '-':{
-                    memory.getVariables().subVariable(key, memory.drop());
-                    list.remove(0);
-                    text.setText("");
-                }
+            String input=text.getText().toLowerCase().trim();
+            checkValidInputForVariables(input);
+            char key=input.charAt(1);
+            if(input.charAt(0)=='>'){
+                Complex c= memory.drop();
+                Variable var = new Variable(key,c);
+                
+                memory.getVariables().saveVariable(key, c);
+                list.remove(0);
+                
+                if(listVariables.contains(var))
+                    listVariables.set(listVariables.indexOf(var), var);
+                else listVariables.add(var);
+                Collections.sort(listVariables);
+                
+                text.setText("");
+            }else if(input.charAt(0)=='<'){
+                memory.insert(memory.getVariables().pushVariable(key));
+                list.add(0, memory.lastElement());
+                text.setText("");
             }
         } catch (KeyNotAlphabeticException ex){
             wrongOperation("The calculator supports 26 variables:\n from \"a\" to \"z\"");
@@ -426,7 +436,7 @@ public class FXMLDocumentController implements Initializable {
      * @throws WrongInputException 
      */
     private void checkValidInputForVariables(String s) throws WrongInputException{
-        if(s.length()>2 || !s.matches("^[a-z+-><]+$"))
+        if(s.length()!=2 || !s.matches("^[a-z+-><]+$"))
             throw new WrongInputException();
     }
     
