@@ -23,7 +23,6 @@ public class ComplexTest {
     private Complex f;
     private Complex g;
     private Complex h;
-    private Complex i;
     private Complex l;
     
     @Before
@@ -36,7 +35,6 @@ public class ComplexTest {
         f = new Complex(0, -525.65);
         g = new Complex(-50.50, 0);
         h = new Complex(33.33, 33.33);
-        i = new Complex(0,0);
         l = new Complex(-2, 0);
     }
     
@@ -44,41 +42,53 @@ public class ComplexTest {
     public void testAdd(){
         assertEquals(new Complex(-175.45, 375.33), e.add(f));
         assertEquals(new Complex(-17.17, 33.33), g.add(h));
+        assertEquals(new Complex(-142.12, 934.31), e.add(h));
+        assertEquals(new Complex(-2, 0), a.add(l));
     }
     
     @Test
     public void testSub(){
         assertEquals(new Complex(-100, 0), a.sub(b));
         assertEquals(new Complex(100, 300), c.sub(d));
+        assertEquals(new Complex(75.45, -1100.98), d.sub(e));
+        assertEquals(new Complex(-33.33, -558.98), f.sub(h));
     }
     
     @Test
     public void testMultiply(){
         assertEquals(new Complex(0, 0), a.multiply(b));
         assertEquals(new Complex(20000, -10000), c.multiply(d));
+        assertEquals(new Complex(473600.137, 92225.2925), e.multiply(f));
+        assertEquals(new Complex(-1683.165, -1683.165), g.multiply(h));
     }
     
     @Test
     public void testDivide() {
         assertEquals(new Complex(-0.75757575, 0.75757575), g.divide(h));
+        assertEquals(new Complex(0, 0), a.divide(b));
+        assertEquals(new Complex(-0.4, -0.2), c.divide(d));
+        assertEquals(new Complex(10.88403840, 16.14806480), e.divide(h));
     }
     
     @Test(expected = DivisionException.class)
     public void testDivideException(){
-        assertEquals(new Complex(0.0, 0.0), h.divide(i));
+        assertEquals(new Complex(0, 0), h.divide(a));
     }
     
     @Test
     public void testSquare() {
-        assertEquals(new Complex(10.0, 0.0), b.square());
+        assertEquals(new Complex(10, 0), b.square());
         assertEquals(new Complex(19.267, 23.381), e.square());
-        assertEquals(new Complex(0.0, 1.414), l.square());
+        assertEquals(new Complex(0, 1.414), l.square());
+        assertEquals(new Complex(0, 0), a.square());
     }
     
     @Test
     public void testInvert() {
-        assertEquals(new Complex(0.0, 0.0), a.invert());
+        assertEquals(new Complex(0, 0), a.invert());
         assertEquals(new Complex(175.45, -900.98), e.invert());
+        assertEquals(new Complex(-33.33, -33.33), h.invert());
+        assertEquals(new Complex(50.50, 0), g.invert());
     }
     
 }
