@@ -89,10 +89,10 @@ public class Complex {
             return false;
         }
         final Complex other = (Complex) obj;
-        if (Double.doubleToLongBits(this.real) != Double.doubleToLongBits(other.real)) {
+        if (this.real - other.real > 0.00000001) {
             return false;
         }
-        if (Double.doubleToLongBits(this.imaginary) != Double.doubleToLongBits(other.imaginary)) {
+        if (this.imaginary - other.imaginary > 0.00000001) {
             return false;
         }
         return true;

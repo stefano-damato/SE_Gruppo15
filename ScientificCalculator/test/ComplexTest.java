@@ -60,7 +60,7 @@ public class ComplexTest {
     
     @Test
     public void testDivide() {
-        assertEquals(new Complex(-0.758, 0.758), g.divide(h));
+        assertEquals(new Complex(-0.75757575, 0.75757575), g.divide(h));
     }
     
     @Test(expected = DivisionException.class)
