@@ -40,10 +40,12 @@ public class VariableMapTest extends VariableMap{
     public void testSaveVarible(){
        
         assertEquals(a,var.getVariables().get(key1));
+        
         //case when you add an element with the same key
         var.saveVariable(key1, b);
         assertEquals(b,var.getVariables().get(key1));
     }
+    
     @Test(expected=KeyNotAlphabeticException.class)   
     public void testSaveVaribleException(){
         var.saveVariable('2', b);

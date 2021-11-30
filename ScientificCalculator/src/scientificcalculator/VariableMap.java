@@ -36,7 +36,7 @@ public class VariableMap {
         return variables;
     }
     /**
-     * The method save the value in variables by specifying the key.
+     * The method saves the value in variables by specifying the key.
      * If the key is already present, it overwrites the value.
      * If the key is not alphabetic throw an exception.
      * @param key {@code Character}
@@ -53,13 +53,43 @@ public class VariableMap {
     
     /**
      * The method returns the value contained in the indicated key.
-     * @param key {@code Character}
+     * @param key {@code char}
      * @return value {@code Complex}
      */
     public Complex pushVariable(char key){
         //return null in case of there are no matches for the key 
         Complex value= variables.get(key);
         return value;
+    }
+    /**
+     * The method saves the sum of value and current value of variable 
+     * specified by the key in the variable.
+     * @param key {@code char}
+     * @param value {@code Complex}
+     * @throws KeyNotAlphabeticException
+     */
+    public void AddVariable(char key, Complex value) throws KeyNotAlphabeticException{
+       if(!Character.isAlphabetic(key))
+            throw new KeyNotAlphabeticException();
+        if(variables.containsKey(key))
+            variables.replace(key, variables.get(key).add(value));
+        else variables.put(key, value);
+       
+    }
+    /**
+     * The method saves the subtraction of value and current value of variable 
+     * specified by the key in the variable.
+     * @param key {@code char}
+     * @param value {@code Complex}
+     * @throws KeyNotAlphabeticException
+     */
+    public void SubVariable(char key, Complex value) throws KeyNotAlphabeticException{
+       if(!Character.isAlphabetic(key))
+            throw new KeyNotAlphabeticException();
+        if(variables.containsKey(key))
+            variables.replace(key, variables.get(key).sub(value));
+        else variables.put(key, value);
+       
     }
     
     /**
@@ -85,7 +115,5 @@ public class VariableMap {
         return true;
     }
     
-    
-   
-    
+     
 }
