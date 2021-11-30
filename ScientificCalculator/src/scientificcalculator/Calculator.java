@@ -20,6 +20,8 @@ public class Calculator {
     /*** */
     private Stack<VariableMap> variables;
     
+    private Operations operations;
+    
     /**
      * Initialize complexStack and variables to empty stacks
      */
@@ -28,6 +30,7 @@ public class Calculator {
         variables = new Stack<>();
         /**Push the new object {@code variables} into a VariableMap*/
         variables.push(new VariableMap());
+        operations = new Operations();
     }
     
     /**
@@ -196,5 +199,65 @@ public class Calculator {
         Complex a = complexStack.get(complexStack.size() - 2);
         
         insert(a);
+    }
+    
+    public void invokeOperation(String name) throws KeyNotPresentInOperations, OperationFailedException{
+        if(!operations.containName(name)) throw new KeyNotPresentInOperations();
+        String operationName = operations.getOperation(name);
+        String[] allOperation = operationName.split(" ");
+        try {
+            for (String singleOperation : allOperation) {
+                if (singleOperation.equalsIgnoreCase("+")) {
+                    this.add();
+                }
+                if (singleOperation.equalsIgnoreCase("-")) {
+                    this.sub();
+                }
+                if (singleOperation.equalsIgnoreCase("*")) {
+                    this.multiply();
+                }
+                if (singleOperation.equalsIgnoreCase("/")) {
+                    this.divide();
+                }
+                if (singleOperation.equalsIgnoreCase("sqrt")) {
+                    this.square();
+                }
+                if (singleOperation.equalsIgnoreCase("+-")) {
+                    this.invert();
+                }
+                if (singleOperation.equalsIgnoreCase("dup")) {
+                    this.dup();
+                }
+                if (singleOperation.equalsIgnoreCase("swap")) {
+                    this.swap();
+                }
+                if (singleOperation.charAt(0) == '<') {
+                    char x = singleOperation.charAt(1);            
+                    this.insert(this.getVariables().pushVariable(x));
+                }
+                if (singleOperation.charAt(0) == '>') {
+                    char x = singleOperation.charAt(1);
+                    this.getVariables().saveVariable(x, this.drop());              
+                }
+                /**
+                if (singleOperation.equalsIgnoreCase("save")){
+
+                } 
+                if (singleOperation.equalsIgnoreCase("restore")) {
+
+                } **/
+                if (singleOperation.equalsIgnoreCase("clear")) {
+                    this.clear();
+                }
+                if (singleOperation.equalsIgnoreCase("over")) {
+                    this.over();
+                }
+                if (singleOperation.equalsIgnoreCase("drop")) {
+                    this.drop();
+                }
+            }
+        }catch (Exception ex) {
+            throw new OperationFailedException();
+        }
     }
 }
