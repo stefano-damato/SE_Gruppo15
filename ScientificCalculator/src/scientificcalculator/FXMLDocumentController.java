@@ -92,6 +92,10 @@ public class FXMLDocumentController implements Initializable {
     
     /** Observable list that will contain all the variables in <code>memory</code> making them observable*/
     private ObservableList<Variable>  listVariables;
+    @FXML
+    private TableView<?> operationsTab;
+    @FXML
+    private TableColumn<?, ?> clmOperation;
     
     
     
@@ -175,7 +179,7 @@ public class FXMLDocumentController implements Initializable {
                 ////the number has both real and imaginary part
                 String[] parseText= insertText.split("[+-]");
                 real=sign*Double.parseDouble(parseText[0]);
-                if(parseText[1].substring(parseText[1].indexOf("j")).length()==0)
+                if(parseText[1].trim().length()==1)
                     imaginary=1;
                 else
                     imaginary=Double.parseDouble(parseText[1].substring(0,parseText[1].length()-1));
@@ -518,5 +522,14 @@ public class FXMLDocumentController implements Initializable {
             }
         }
         return true;
+    }
+
+    /*@FXML
+    private void editNameOperationEvent(TableColumn.CellEditEvent<S, T> event) {
+    }
+*/
+
+    @FXML
+    private void editNameOperationEvent(TableColumn.CellEditEvent<String, String> event) {
     }
 }
