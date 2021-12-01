@@ -73,4 +73,11 @@ public class VariableMapTest extends VariableMap{
         assertEquals(var.pushVariable('x'), b);
     }
     
+    @Test
+    public void testSubVariable(){
+        var.subVariable(key1, c);
+        assertEquals(var.pushVariable(key1), a.sub(c));
+        var.subVariable('x', b);
+        assertEquals(var.pushVariable('x'), b);
+    }
 }
