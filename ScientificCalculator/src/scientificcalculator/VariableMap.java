@@ -6,6 +6,7 @@
 package scientificcalculator;
 
 import exceptions.KeyNotAlphabeticException;
+import exceptions.VariableNotFoundException;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -44,7 +45,9 @@ public class VariableMap {
      * @param value {@code Complex}
      * @throws KeyNotAlphabeticException 
      */
-    public void saveVariable(char key, Complex value) throws KeyNotAlphabeticException{
+    public void saveVariable(Variable var) throws KeyNotAlphabeticException{
+        char key = var.getName();
+        Complex value = var.getValue();
         if(!Character.isAlphabetic(key))
             throw new KeyNotAlphabeticException();
         if(variables.containsKey(key))
@@ -57,8 +60,10 @@ public class VariableMap {
      * @param key {@code char}
      * @return value {@code Complex}
      */
-    public Complex pushVariable(char key){
+    public Complex pushVariable(char key) throws VariableNotFoundException{
         //return null in case of there are no matches for the key 
+        if(!variables.containsKey(key))
+            throw new VariableNotFoundException();
         Complex value= variables.get(key);
         return value;
     }
@@ -69,7 +74,9 @@ public class VariableMap {
      * @param value {@code Complex}
      * @throws KeyNotAlphabeticException
      */
-    public void addVariable(char key, Complex value) throws KeyNotAlphabeticException{
+    public void addVariable(Variable var) throws KeyNotAlphabeticException{
+        char key = var.getName();
+        Complex value = var.getValue();
        if(!Character.isAlphabetic(key))
             throw new KeyNotAlphabeticException();
         if(variables.containsKey(key))
@@ -84,7 +91,9 @@ public class VariableMap {
      * @param value {@code Complex}
      * @throws KeyNotAlphabeticException
      */
-    public void subVariable(char key, Complex value) throws KeyNotAlphabeticException{
+    public void subVariable(Variable var) throws KeyNotAlphabeticException{
+        char key = var.getName();
+        Complex value = var.getValue();
        if(!Character.isAlphabetic(key))
             throw new KeyNotAlphabeticException();
         if(variables.containsKey(key))

@@ -24,7 +24,7 @@ public class Complex {
     private static final int decimals = 10^8;
     
     /**
-     * Initializes an object of class <em>Complex</em> rounded to the third decimal place.
+     * Initializes an object of class <em>Complex</em>.
      * @param real {@code double}
      * @param imaginary {@code double}
      */

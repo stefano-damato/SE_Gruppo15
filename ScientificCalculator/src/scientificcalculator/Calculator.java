@@ -245,7 +245,8 @@ public class Calculator {
                 }
                 if (singleOperation.charAt(0) == '>') {
                     char x = singleOperation.charAt(1);
-                    getVariables().saveVariable(x, drop());              
+                    Variable var = new Variable(x,drop());
+                    getVariables().saveVariable(var);              
                 }
                 /**
                 if (singleOperation.equalsIgnoreCase("save")){

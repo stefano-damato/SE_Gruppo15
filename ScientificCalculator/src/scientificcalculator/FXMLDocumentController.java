@@ -9,6 +9,7 @@ import exceptions.WrongInputException;
 import exceptions.LessOf2ElementsException;
 import exceptions.KeyNotAlphabeticException;
 import exceptions.DivisionException;
+import exceptions.VariableNotFoundException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.EmptyStackException;
@@ -403,8 +404,7 @@ public class FXMLDocumentController implements Initializable {
                 case '>':{
                     Complex c= memory.drop();
                     Variable var = new Variable(key,c);
-
-                    memory.getVariables().saveVariable(key, c);
+                    memory.getVariables().saveVariable(var);
                     list.remove(0);
 
                     if(listVariables.contains(var))
@@ -426,7 +426,7 @@ public class FXMLDocumentController implements Initializable {
                     Complex c= memory.drop();
                     Variable var = new Variable(key,c);
                     
-                    memory.getVariables().addVariable(key, c);
+                    memory.getVariables().addVariable(var);
                     list.remove(0);
                     
                     Complex oldVar= listVariables.get(listVariables.indexOf(var)).getValue();
@@ -439,7 +439,7 @@ public class FXMLDocumentController implements Initializable {
                     Complex c= memory.drop();
                     Variable var = new Variable(key,c);
                     
-                    memory.getVariables().subVariable(key, c);
+                    memory.getVariables().subVariable(var);
                     list.remove(0);
                     
                     Complex oldVar= listVariables.get(listVariables.indexOf(var)).getValue();
@@ -454,7 +454,9 @@ public class FXMLDocumentController implements Initializable {
         }catch (WrongInputException ex){
             wrongOperation("Invalid Input");
         }catch (EmptyStackException ex){
-            wrongOperation("Errore");
+            wrongOperation("No numbers in memory");
+        }catch (VariableNotFoundException ex){
+            wrongOperation("Variable not available");
         }
     }
 
