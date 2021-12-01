@@ -5,6 +5,8 @@
  */
 package scientificcalculator;
 
+import exceptions.KeyNotPresentInOperations;
+import exceptions.KeyAlreadyPresentInOperations;
 import java.util.HashMap;
 
 /**

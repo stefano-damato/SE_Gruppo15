@@ -5,6 +5,10 @@
  */
 package scientificcalculator;
 
+import exceptions.DivisionException;
+
+
+
 /**
  * The <em>Complex</em> class represents a complex number characterized by a real part and an imaginary part.
  * 
@@ -16,6 +20,8 @@ public class Complex {
     private double real;
     /**Contains the imaginary part of the complex number*/
     private double imaginary;
+    
+    private static final int decimals = 10^8;
     
     /**
      * Initializes an object of class <em>Complex</em> rounded to the third decimal place.
@@ -89,10 +95,10 @@ public class Complex {
             return false;
         }
         final Complex other = (Complex) obj;
-        if (this.real - other.real > 0.00000001) {
+        if ((Math.round(this.real*decimals)/decimals) != Math.round(other.real*decimals)/decimals) {
             return false;
         }
-        if (this.imaginary - other.imaginary > 0.00000001) {
+        if ((Math.round(this.imaginary*decimals)/decimals) != Math.round(other.imaginary*decimals)/decimals) {
             return false;
         }
         return true;

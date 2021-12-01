@@ -5,6 +5,9 @@
  */
 package scientificcalculator;
 
+import exceptions.OperationFailedException;
+import exceptions.LessOf2ElementsException;
+import exceptions.KeyNotPresentInOperations;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
@@ -48,12 +51,17 @@ public class Calculator {
     public void insert(Complex c){
         complexStack.push(c);
     }
+    
     /**
      * The method returns the last element within the stack
      * @return complexStack.lastElement
      */
     public Complex lastElement(){
         return complexStack.lastElement();
+    }
+    
+    public int complexStackSize(){
+        return complexStack.size();
     }
     /**
      * The method removes the last two elements from the stack, 
@@ -208,36 +216,36 @@ public class Calculator {
         try {
             for (String singleOperation : allOperation) {
                 if (singleOperation.equalsIgnoreCase("+")) {
-                    this.add();
+                    add();
                 }
                 if (singleOperation.equalsIgnoreCase("-")) {
-                    this.sub();
+                    sub();
                 }
                 if (singleOperation.equalsIgnoreCase("*")) {
-                    this.multiply();
+                    multiply();
                 }
                 if (singleOperation.equalsIgnoreCase("/")) {
-                    this.divide();
+                    divide();
                 }
                 if (singleOperation.equalsIgnoreCase("sqrt")) {
-                    this.square();
+                    square();
                 }
                 if (singleOperation.equalsIgnoreCase("+-")) {
-                    this.invert();
+                    invert();
                 }
                 if (singleOperation.equalsIgnoreCase("dup")) {
-                    this.dup();
+                    dup();
                 }
                 if (singleOperation.equalsIgnoreCase("swap")) {
-                    this.swap();
+                    swap();
                 }
                 if (singleOperation.charAt(0) == '<') {
                     char x = singleOperation.charAt(1);            
-                    this.insert(this.getVariables().pushVariable(x));
+                    insert(getVariables().pushVariable(x));
                 }
                 if (singleOperation.charAt(0) == '>') {
                     char x = singleOperation.charAt(1);
-                    this.getVariables().saveVariable(x, this.drop());              
+                    getVariables().saveVariable(x, drop());              
                 }
                 /**
                 if (singleOperation.equalsIgnoreCase("save")){
@@ -247,13 +255,13 @@ public class Calculator {
 
                 } **/
                 if (singleOperation.equalsIgnoreCase("clear")) {
-                    this.clear();
+                    clear();
                 }
                 if (singleOperation.equalsIgnoreCase("over")) {
-                    this.over();
+                    over();
                 }
                 if (singleOperation.equalsIgnoreCase("drop")) {
-                    this.drop();
+                    drop();
                 }
             }
         }catch (Exception ex) {

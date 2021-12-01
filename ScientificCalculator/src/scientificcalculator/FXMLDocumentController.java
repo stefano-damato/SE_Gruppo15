@@ -5,6 +5,10 @@
  */
 package scientificcalculator;
 
+import exceptions.WrongInputException;
+import exceptions.LessOf2ElementsException;
+import exceptions.KeyNotAlphabeticException;
+import exceptions.DivisionException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.EmptyStackException;

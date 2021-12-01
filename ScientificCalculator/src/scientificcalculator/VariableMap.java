@@ -5,6 +5,7 @@
  */
 package scientificcalculator;
 
+import exceptions.KeyNotAlphabeticException;
 import java.util.HashMap;
 import java.util.Objects;
 

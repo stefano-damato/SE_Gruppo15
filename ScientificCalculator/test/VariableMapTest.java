@@ -2,7 +2,7 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 import scientificcalculator.Complex;
-import scientificcalculator.KeyNotAlphabeticException;
+import exceptions.KeyNotAlphabeticException;
 import scientificcalculator.VariableMap;
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,6 +18,7 @@ public class VariableMapTest extends VariableMap{
     private VariableMap var;
     private Complex a;
     private Complex b;
+    private Complex c;
     private char key1;
     private char key2;
     private char key3;
@@ -28,6 +29,7 @@ public class VariableMapTest extends VariableMap{
         var = new VariableMap();
         a = new Complex(5,6);
         b = new Complex(100,0);
+        c = new Complex(-50.2, 15.65);
         key1 = 'a';
         key2 = 'b';
         key3 = 'c';
@@ -63,5 +65,12 @@ public class VariableMapTest extends VariableMap{
         assertEquals(b,c1);
     }
     
+    @Test
+    public void testAddVariable(){
+        var.addVariable(key1, c);
+        assertEquals(var.pushVariable(key1), a.add(c));
+        var.addVariable('x', b);
+        assertEquals(var.pushVariable('x'), b);
+    }
     
 }

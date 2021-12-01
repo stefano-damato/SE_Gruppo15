@@ -7,7 +7,7 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 import scientificcalculator.Complex;
-import scientificcalculator.DivisionException;
+import exceptions.DivisionException;
 
 /**
  *

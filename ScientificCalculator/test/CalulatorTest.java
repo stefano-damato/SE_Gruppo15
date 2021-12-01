@@ -6,10 +6,10 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import scientificcalculator.Calculator;
 import scientificcalculator.Complex;
-import scientificcalculator.DivisionException;
+import exceptions.DivisionException;
 import java.util.EmptyStackException;
 import java.util.*;
-import scientificcalculator.LessOf2ElementsException;
+import exceptions.LessOf2ElementsException;
 /**
 /**
  *
@@ -257,7 +257,7 @@ public class CalulatorTest extends Calculator{
         calc.insert(e);
         calc.insert(f);
         calc.clear();
-        assertEquals(0, calc.getComplexStack().size());
+        assertEquals(0, calc.complexStackSize());
     }
     
     @Test(expected = EmptyStackException.class)
