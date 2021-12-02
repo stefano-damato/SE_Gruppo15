@@ -149,7 +149,6 @@ public class FXMLDocumentController implements Initializable {
      */
     @FXML
     private void insetEvent(ActionEvent event) {
-        try{
          
         double real=0;
         double imaginary=0;
@@ -157,52 +156,59 @@ public class FXMLDocumentController implements Initializable {
         Complex c;
         String insertText= text.getText().trim();
         
-        //check string
-        if(insertText.indexOf("-")==0 || insertText.indexOf("+")==0){
-            if(insertText.indexOf("-")==0)
-                sign=-1;
-            insertText=insertText.substring(1);
+        if(insertText.length() == 2 && !Character.isDigit(insertText.charAt(0)) 
+                && Character.isAlphabetic(insertText.charAt(1))){
+            variablesEvent(event);
+            text.setText("");
         }
         
-        checkValidInput(insertText.trim());
-        
-        //The number has only the real part 
-        if(!insertText.contains("j")){
-                real=sign*Double.parseDouble(insertText);
-        }else{
-            insertText = insertText.trim();
-            int j=insertText.indexOf("j");
-            ////The number has only the imaginary part 
-            if(!(insertText.contains("+") || insertText.contains("-"))){
-                if(insertText.length()==1)
-                    imaginary = sign*1;
-                else
-                    imaginary=sign*Double.parseDouble(insertText.substring(0,insertText.length()-1));
+        else{
+            try{
+            //check string
+            if(insertText.indexOf("-")==0 || insertText.indexOf("+")==0){
+                if(insertText.indexOf("-")==0)
+                    sign=-1;
+                insertText=insertText.substring(1);
+            }
+
+            checkValidInput(insertText.trim());
+
+            //The number has only the real part 
+            if(!insertText.contains("j")){
+                    real=sign*Double.parseDouble(insertText);
             }else{
-                ////the number has both real and imaginary part
-                String[] parseText= insertText.split("[+-]");
-                real=sign*Double.parseDouble(parseText[0]);
-                if(parseText[1].trim().length()==1)
-                    imaginary=1;
-                else
-                    imaginary=Double.parseDouble(parseText[1].substring(0,parseText[1].length()-1));
-                if(insertText.contains("-"))
-                    imaginary=-imaginary;
+                insertText = insertText.trim();
+                int j=insertText.indexOf("j");
+                ////The number has only the imaginary part 
+                if(!(insertText.contains("+") || insertText.contains("-"))){
+                    if(insertText.length()==1)
+                        imaginary = sign*1;
+                    else
+                        imaginary=sign*Double.parseDouble(insertText.substring(0,insertText.length()-1));
+                }else{
+                    ////the number has both real and imaginary part
+                    String[] parseText= insertText.split("[+-]");
+                    real=sign*Double.parseDouble(parseText[0]);
+                    if(parseText[1].trim().length()==1)
+                        imaginary=1;
+                    else
+                        imaginary=Double.parseDouble(parseText[1].substring(0,parseText[1].length()-1));
+                    if(insertText.contains("-"))
+                        imaginary=-imaginary;
+                }
+            }
+            c = new Complex(real, imaginary);
+            memory.insert(c);
+            list.add(0, memory.lastElement());
+
+            }catch(WrongInputException ex){
+                wrongOperation("Input is not in correct form:\n a + bj");
+            }catch(IndexOutOfBoundsException ex){
+                wrongOperation("Input is not in correct form:\n a + bj");
+            }finally{
+                text.setText("");
             }
         }
-        c = new Complex(real, imaginary);
-        memory.insert(c);
-        list.add(0, memory.lastElement());
-        text.setText("");
-            
-        }catch(WrongInputException ex){
-            text.setText("");
-            wrongOperation("Input is not in correct form:\n a + bj");
-        }catch(IndexOutOfBoundsException ex){
-            text.setText("");
-            wrongOperation("Input is not in correct form:\n a + bj");
-        }
-        
     }
     
     /**
@@ -419,14 +425,12 @@ public class FXMLDocumentController implements Initializable {
                     else listVariables.add(var);
                     Collections.sort(listVariables);
                     
-                    text.setText("");
                     break;
                 }
                 case '<':{
                     memory.insert(memory.getVariables().pushVariable(key));
                     list.add(0, memory.lastElement());
                     
-                    text.setText("");
                     break;
                 }
                 case '+':{
@@ -436,10 +440,14 @@ public class FXMLDocumentController implements Initializable {
                     memory.getVariables().addVariable(var);
                     list.remove(0);
                     
-                    Complex oldVar= listVariables.get(listVariables.indexOf(var)).getValue();
-                    listVariables.set(listVariables.indexOf(var), new Variable(key,oldVar.add(c)));
+                    if(listVariables.contains(var)){
+                        Complex oldVar= listVariables.get(listVariables.indexOf(var)).getValue();
+                        listVariables.set(listVariables.indexOf(var), new Variable(key,oldVar.add(c)));
+                    }
+                    else{
+                        listVariables.add(var);
+                    }
                     
-                    text.setText("");
                     break;
                 }
                 case '-':{
@@ -449,11 +457,18 @@ public class FXMLDocumentController implements Initializable {
                     memory.getVariables().subVariable(var);
                     list.remove(0);
                     
-                    Complex oldVar= listVariables.get(listVariables.indexOf(var)).getValue();
-                    listVariables.set(listVariables.indexOf(var), new Variable(key,oldVar.sub(c)));
+                    if(listVariables.contains(var)){
+                        Complex oldVar= listVariables.get(listVariables.indexOf(var)).getValue();
+                        listVariables.set(listVariables.indexOf(var), new Variable(key,oldVar.sub(c)));
+                    }
+                    else{
+                        listVariables.add(var);
+                    }
                     
-                    text.setText("");
                     break;
+                }
+                default:{
+                    wrongOperation("Invalid Input");
                 }
             }
         } catch (KeyNotAlphabeticException ex){

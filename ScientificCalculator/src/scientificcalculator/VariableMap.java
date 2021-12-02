@@ -81,7 +81,7 @@ public class VariableMap {
             throw new KeyNotAlphabeticException();
         if(variables.containsKey(key))
             variables.replace(key, variables.get(key).add(value));
-        else variables.put(key, value);
+        else saveVariable(var);
        
     }
     /**
@@ -98,7 +98,7 @@ public class VariableMap {
             throw new KeyNotAlphabeticException();
         if(variables.containsKey(key))
             variables.replace(key, variables.get(key).sub(value));
-        else variables.put(key, value);
+        else saveVariable(var);
        
     }
     
