@@ -5,6 +5,7 @@
  */
 package scientificcalculator;
 
+import exceptions.KeyAlreadyPresentInOperations;
 import exceptions.OperationFailedException;
 import exceptions.LessOf2ElementsException;
 import exceptions.KeyNotPresentInOperations;
@@ -218,55 +219,64 @@ public class Calculator {
                 if (singleOperation.equalsIgnoreCase("+")) {
                     add();
                 }
-                if (singleOperation.equalsIgnoreCase("-")) {
+                else if (singleOperation.equalsIgnoreCase("-")) {
                     sub();
                 }
-                if (singleOperation.equalsIgnoreCase("*")) {
+                else if (singleOperation.equalsIgnoreCase("*")) {
                     multiply();
                 }
-                if (singleOperation.equalsIgnoreCase("/")) {
+                else if (singleOperation.equalsIgnoreCase("/")) {
                     divide();
                 }
-                if (singleOperation.equalsIgnoreCase("sqrt")) {
+                else if (singleOperation.equalsIgnoreCase("sqrt")) {
                     square();
                 }
-                if (singleOperation.equalsIgnoreCase("+-")) {
+                else if (singleOperation.equalsIgnoreCase("+-")) {
                     invert();
                 }
-                if (singleOperation.equalsIgnoreCase("dup")) {
+                else if (singleOperation.equalsIgnoreCase("dup")) {
                     dup();
                 }
-                if (singleOperation.equalsIgnoreCase("swap")) {
+                else if (singleOperation.equalsIgnoreCase("swap")) {
                     swap();
                 }
-                if (singleOperation.charAt(0) == '<') {
+                else if (singleOperation.charAt(0) == '<') {
                     char x = singleOperation.charAt(1);            
                     insert(getVariables().pushVariable(x));
                 }
-                if (singleOperation.charAt(0) == '>') {
+                else if (singleOperation.charAt(0) == '>') {
                     char x = singleOperation.charAt(1);
                     Variable var = new Variable(x,drop());
                     getVariables().saveVariable(var);              
                 }
                 /**
-                if (singleOperation.equalsIgnoreCase("save")){
+                else if (singleOperation.equalsIgnoreCase("save")){
 
                 } 
-                if (singleOperation.equalsIgnoreCase("restore")) {
+                else if (singleOperation.equalsIgnoreCase("restore")) {
 
                 } **/
-                if (singleOperation.equalsIgnoreCase("clear")) {
+                else if (singleOperation.equalsIgnoreCase("clear")) {
                     clear();
                 }
-                if (singleOperation.equalsIgnoreCase("over")) {
+                else if (singleOperation.equalsIgnoreCase("over")) {
                     over();
                 }
-                if (singleOperation.equalsIgnoreCase("drop")) {
+                else if (singleOperation.equalsIgnoreCase("drop")) {
                     drop();
                 }
+                /**
+                else {
+                    
+                }**/
             }
         }catch (Exception ex) {
             throw new OperationFailedException();
         }
     }
+
+    public Operations getOperations() {
+        return operations;
+    }
+    
 }
