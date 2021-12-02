@@ -83,7 +83,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TableView<Variable> variablesTab;
     @FXML
-    private TableColumn<Variable, String> clmVariables;
+    private TableColumn<Variable, String> clmNameVariables;
     
     private Calculator memory = new Calculator();
     
@@ -96,6 +96,8 @@ public class FXMLDocumentController implements Initializable {
     private TableView<?> operationsTab;
     @FXML
     private TableColumn<?, ?> clmOperation;
+    @FXML
+    private TableColumn<Variable, String> clmValuesVariables;
     
     
     
@@ -115,7 +117,8 @@ public class FXMLDocumentController implements Initializable {
         historyTab.setItems(list);
         
         listVariables = FXCollections.observableArrayList();
-        clmVariables.setCellValueFactory(new PropertyValueFactory<Variable,String>("variable"));
+        clmNameVariables.setCellValueFactory(new PropertyValueFactory<Variable,String>("name"));
+        clmValuesVariables.setCellValueFactory(new PropertyValueFactory<Variable,String>("value"));
         variablesTab.setItems(listVariables);
     }    
     
