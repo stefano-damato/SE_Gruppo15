@@ -344,8 +344,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void dropEvent(ActionEvent event) {
         try{
-            text.setText(memory.lastElement().toString());
             memory.drop();
+            text.setText(memory.lastElement().toString());
             list.remove(0);
         } catch (EmptyStackException ex){
             wrongOperation("There must be at least one element!");

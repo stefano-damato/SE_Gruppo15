@@ -65,13 +65,13 @@ public class Complex {
     public String toString() {
         if(real==0){
             if(imaginary!=0)
-                return (imaginary>0)? " + " + String.valueOf(imaginary)+"j": " - " + String.valueOf(-imaginary+"j");
+                return (imaginary>0)? "+" + String.valueOf(imaginary)+"j": "-" + String.valueOf(-imaginary+"j");
             else return "0";
         }else{
             if(imaginary==0)
                 return String.valueOf(real);
             else
-                return (imaginary>0)? String.valueOf(real) + " + " + String.valueOf(imaginary)+"j": String.valueOf(real) + " - " + String.valueOf(-imaginary)+"j";
+                return (imaginary>0)? String.valueOf(real) + "+" + String.valueOf(imaginary)+"j": String.valueOf(real) + "-" + String.valueOf(-imaginary)+"j";
         }
     }
     
