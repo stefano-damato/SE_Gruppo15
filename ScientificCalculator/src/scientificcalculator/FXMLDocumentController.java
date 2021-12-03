@@ -9,6 +9,7 @@ import exceptions.WrongInputException;
 import exceptions.LessOf2ElementsException;
 import exceptions.KeyNotAlphabeticException;
 import exceptions.DivisionException;
+import exceptions.KeyAlreadyPresentInOperations;
 import exceptions.VariableNotFoundException;
 import java.net.URL;
 import java.util.Collections;
@@ -18,7 +19,9 @@ import java.util.Stack;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -93,14 +96,25 @@ public class FXMLDocumentController implements Initializable {
     /** Observable list that will contain all the variables in <code>memory</code> making them observable*/
     private ObservableList<Variable>  listVariables;
     @FXML
-    private TableView<?> operationsTab;
+    private TableView<String> operationsTab;
     @FXML
-    private TableColumn<?, ?> clmOperation;
+    private TableColumn<String, String> clmOperation;
     @FXML
     private TableColumn<Variable, String> clmValuesVariables;
+    @FXML
+    private TableColumn<String, String> clmNameOperation;
     
+    private Operations operation = memory.getOperations();
     
-    
+    private ObservableList<String> keys;
+    @FXML
+    private Button saveOperationButton;
+    @FXML
+    private TextField operationName;
+    @FXML
+    private TextField operationSequence;
+
+        
     
     
     @Override
@@ -112,6 +126,10 @@ public class FXMLDocumentController implements Initializable {
         insertButton.disableProperty().bind(check);
         variablesButton.disableProperty().bind(check);
         
+        SimpleBooleanProperty checkOperation  = new SimpleBooleanProperty();
+        checkOperation.bind(Bindings.when(operationName.textProperty().isEmpty().and(operationSequence.textProperty().isEmpty())).then(true).otherwise(false));
+        saveOperationButton.disableProperty().bind(checkOperation);
+        
         list = FXCollections.observableArrayList();
         clmHistory.setCellValueFactory(new PropertyValueFactory<Complex,String>("complex"));
         historyTab.setItems(list);
@@ -120,6 +138,25 @@ public class FXMLDocumentController implements Initializable {
         clmNameVariables.setCellValueFactory(new PropertyValueFactory<Variable,String>("name"));
         clmValuesVariables.setCellValueFactory(new PropertyValueFactory<Variable,String>("value"));
         variablesTab.setItems(listVariables);
+        
+        keys = FXCollections.observableArrayList();
+        operation.getOperations().addListener((MapChangeListener.Change<? extends String, ? extends String> change) -> {
+            boolean removed = change.wasRemoved();
+            if (removed != change.wasAdded()) {
+                // no put for existing key
+                if (removed) {
+                    keys.remove(change.getKey());
+                } else {
+                    keys.add(change.getKey());
+                }
+            }
+        });
+        
+        clmNameOperation.setCellValueFactory(cd -> Bindings.createStringBinding(() -> cd.getValue()));
+        clmOperation.setCellValueFactory(cd -> Bindings.valueAt ( operation.getOperations(), cd.getValue()));
+        clmOperation.setCellFactory(TextFieldTableCell.forTableColumn());
+        operationsTab.setItems(keys);
+        operationsTab.getColumns().setAll(clmNameOperation, clmOperation);
     }    
     
     /**
@@ -548,6 +585,50 @@ public class FXMLDocumentController implements Initializable {
 */
 
     @FXML
-    private void editNameOperationEvent(TableColumn.CellEditEvent<String, String> event) {
+    private void saveOperationEvent(ActionEvent event) {
+        try{
+           if(operationName.isDisabled()){
+                operation.modify(operationName.getText().trim(), operationSequence.getText().trim());
+                operationName.setDisable(false);
+            }else{
+                operation.addOperation(operationName.getText().trim(), operationSequence.getText().trim());
+            }
+            operationName.setText("");
+            operationSequence.setText(""); 
+        }catch(KeyAlreadyPresentInOperations ex){
+            wrongOperation("Operation name already present");
+        }
+        
     }
+
+    @FXML
+    private void invokeEvent(ActionEvent event) {
+        memory.invokeOperation(operationsTab.getSelectionModel().getSelectedItem());
+        list.clear();
+        for(Complex c: memory.getComplexStack()){
+            list.add(0,c);
+        }
+    }
+
+    @FXML
+    private void deleteOperationEvent(ActionEvent event) {
+        String operationSequence = operationsTab.getSelectionModel().getSelectedItem();
+        operation.delete(operationSequence);
+    }
+
+    @FXML
+    private void modifyOperationEvent(ActionEvent event) {
+        operationName.setText(operationsTab.getSelectionModel().getSelectedItem());
+        operationName.setDisable(true);
+        operationSequence.setText(operation.getOperations().get(operationsTab.getSelectionModel().getSelectedItem()));
+        
+        
+    }
+
+    @FXML
+    private void editOperationEvent(TableColumn.CellEditEvent<String, String> event) {
+        String operationSequence = operationsTab.getSelectionModel().getSelectedItem();
+        operation.modify(operationSequence, event.getNewValue());
+    }
+
 }

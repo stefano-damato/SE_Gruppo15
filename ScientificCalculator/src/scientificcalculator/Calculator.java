@@ -11,6 +11,7 @@ import exceptions.LessOf2ElementsException;
 import exceptions.KeyNotPresentInOperations;
 import java.util.EmptyStackException;
 import java.util.Stack;
+import javafx.collections.ObservableMap;
 
 /**
  * The <em>Calculator</em> class contains all useful methods implemented for the correct 
@@ -44,6 +45,11 @@ public class Calculator {
     public VariableMap getVariables() {
         return variables.lastElement();
     }
+
+    public Stack<Complex> getComplexStack() {
+        return complexStack;
+    }
+    
     
     /**
      * The method insert a complex number into the stack
@@ -278,5 +284,7 @@ public class Calculator {
     public Operations getOperations() {
         return operations;
     }
+    
+    
     
 }

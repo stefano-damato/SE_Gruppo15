@@ -8,16 +8,18 @@ package scientificcalculator;
 import exceptions.KeyNotPresentInOperations;
 import exceptions.KeyAlreadyPresentInOperations;
 import java.util.HashMap;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 
 /**
  *
  * @author nicol
  */
 public class Operations {
-    private HashMap<String,String> operations;
+    private ObservableMap<String,String> operations;
 
     public Operations() {
-        operations = new HashMap<>();
+        operations = FXCollections.observableHashMap();
     }
     
     public void addOperation(String name, String sequence) throws KeyAlreadyPresentInOperations{
@@ -45,5 +47,11 @@ public class Operations {
     public String getOperation(String name) {
         return operations.get(name);
     }
+
+    public ObservableMap<String, String> getOperations() {
+        return operations;
+    }
+    
+    
 }
 
