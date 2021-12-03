@@ -67,8 +67,8 @@ public class VariableMapTest extends VariableMap{
     @Test   
     public void testpushVarible(){
         
-        Complex c = var.pushVariable(key1);
-        Complex c1 = var.pushVariable(key2);
+        Complex c = var.pushVariable(new Variable(key1, null));
+        Complex c1 = var.pushVariable(new Variable(key2,null));
         
         assertEquals(a,c);
         assertEquals(b,c1);
@@ -77,22 +77,22 @@ public class VariableMapTest extends VariableMap{
     @Test(expected=VariableNotFoundException.class)   
     public void testPushVaribleException(){
         
-        assertNull(var.pushVariable(key3));
+        assertNull(var.pushVariable(new Variable(key3, null)));
     }
     
     @Test
     public void testAddVariable(){
         var.addVariable(new Variable(key1, c));
-        assertEquals(var.pushVariable(key1), a.add(c));
+        assertEquals(var.pushVariable(new Variable(key1, null)), a.add(c));
         var.addVariable(new Variable('x', b));
-        assertEquals(var.pushVariable('x'), b);
+        assertEquals(var.pushVariable(new Variable('x', null)), b);
     }
     
     @Test
     public void testSubVariable(){
         var.subVariable(new Variable(key1, c));
-        assertEquals(var.pushVariable(key1), a.sub(c));
+        assertEquals(var.pushVariable(new Variable(key1, null)), a.sub(c));
         var.subVariable(new Variable('x', b));
-        assertEquals(var.pushVariable('x'), b);
+        assertEquals(var.pushVariable(new Variable('x',null)), b);
     }
 }

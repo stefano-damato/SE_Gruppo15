@@ -9,8 +9,13 @@ import exceptions.KeyAlreadyPresentInOperations;
 import exceptions.OperationFailedException;
 import exceptions.LessOf2ElementsException;
 import exceptions.KeyNotPresentInOperations;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.EmptyStackException;
+import java.util.HashMap;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableMap;
 
 /**
@@ -27,6 +32,11 @@ public class Calculator {
     
     private Operations operations;
     
+    private HashMap<String, String> invokeOperations;
+    
+    private HashMap<String, String> variableOperation;
+    
+    
     /**
      * Initialize complexStack and variables to empty stacks
      */
@@ -36,6 +46,24 @@ public class Calculator {
         /**Push the new object {@code variables} into a VariableMap*/
         variables.push(new VariableMap());
         operations = new Operations();
+        invokeOperations = new HashMap<>();
+        invokeOperations.put("+", "add");
+        invokeOperations.put("-", "sub");
+        invokeOperations.put("*", "multiply");
+        invokeOperations.put("/", "divide");
+        invokeOperations.put("+-", "invert");
+        invokeOperations.put("sqrt", "square");
+        invokeOperations.put("drop", "drop");
+        invokeOperations.put("dup", "dup");
+        invokeOperations.put("over", "over");
+        invokeOperations.put("swap", "swap");
+        invokeOperations.put("clear", "clear");
+        
+        variableOperation = new HashMap<>();
+        variableOperation.put("<", "pushVariable");
+        variableOperation.put(">", "saveVariable");
+        variableOperation.put("+", "addVariable");
+        variableOperation.put("-", "subVariable");
     }
     
     /**
@@ -216,75 +244,54 @@ public class Calculator {
         insert(a);
     }
     
-    public void invokeOperation(String name) throws KeyNotPresentInOperations, OperationFailedException{
-        if(!operations.containName(name)) throw new KeyNotPresentInOperations();
-        String operationName = operations.getOperation(name);
-        String[] allOperation = operationName.split(" ");
-        try {
-            for (String singleOperation : allOperation) {
-                if (singleOperation.equalsIgnoreCase("+")) {
-                    add();
-                }
-                else if (singleOperation.equalsIgnoreCase("-")) {
-                    sub();
-                }
-                else if (singleOperation.equalsIgnoreCase("*")) {
-                    multiply();
-                }
-                else if (singleOperation.equalsIgnoreCase("/")) {
-                    divide();
-                }
-                else if (singleOperation.equalsIgnoreCase("sqrt")) {
-                    square();
-                }
-                else if (singleOperation.equalsIgnoreCase("+-")) {
-                    invert();
-                }
-                else if (singleOperation.equalsIgnoreCase("dup")) {
-                    dup();
-                }
-                else if (singleOperation.equalsIgnoreCase("swap")) {
-                    swap();
-                }
-                else if (singleOperation.charAt(0) == '<') {
-                    char x = singleOperation.charAt(1);            
-                    insert(getVariables().pushVariable(x));
-                }
-                else if (singleOperation.charAt(0) == '>') {
-                    char x = singleOperation.charAt(1);
-                    Variable var = new Variable(x,drop());
-                    getVariables().saveVariable(var);              
-                }
-                /**
-                else if (singleOperation.equalsIgnoreCase("save")){
-
-                } 
-                else if (singleOperation.equalsIgnoreCase("restore")) {
-
-                } **/
-                else if (singleOperation.equalsIgnoreCase("clear")) {
-                    clear();
-                }
-                else if (singleOperation.equalsIgnoreCase("over")) {
-                    over();
-                }
-                else if (singleOperation.equalsIgnoreCase("drop")) {
-                    drop();
-                }
-                /**
-                else {
-                    
-                }**/
+    public void invokeOperation(String name){
+        String seq = operations.getOperation(name);
+        String[] userOperations = seq.split(" ");
+        for (String operation : userOperations) {
+            if (operation.length() == 2) {
+                selectOperationVariableToInvoke(operation);   
+                System.out.println(operation);
             }
-        }catch (Exception ex) {
-            throw new OperationFailedException();
+            else selectOperationToInvoke(operation);
         }
     }
-
+    
+    public void selectOperationToInvoke(String op) throws OperationFailedException{
+        Method m;
+        if (invokeOperations.containsKey(op)){
+            try {
+                m = Calculator.class.getDeclaredMethod(invokeOperations.get(op));
+                m.invoke(this);
+            } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                throw new OperationFailedException();
+            } 
+        }
+    }
+    
+    public void selectOperationVariableToInvoke(String op) throws OperationFailedException{
+        Method m;
+        String key = op.substring(0, 1);
+        if (variableOperation.containsKey(key)){
+            System.out.println("asadsasdasda");
+            try {
+                m = VariableMap.class.getDeclaredMethod(variableOperation.get(key), Variable.class);
+                Variable var;
+                if (op.charAt(0) == '<') {
+                    var = new Variable(op.charAt(1), null);
+                }
+                else {
+                    var = new Variable(op.charAt(1), drop());
+                     System.out.println(key);
+                }
+                m.invoke(getVariables(), var);
+            } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+        }
+    }
+    
     public Operations getOperations() {
         return operations;
     }
-    
-    
-    
+       
 }

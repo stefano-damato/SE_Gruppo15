@@ -60,11 +60,11 @@ public class VariableMap {
      * @param key {@code char}
      * @return value {@code Complex}
      */
-    public Complex pushVariable(char key) throws VariableNotFoundException{
+    public Complex pushVariable(Variable var) throws VariableNotFoundException{
         //return null in case of there are no matches for the key 
-        if(!variables.containsKey(key))
+        if(!variables.containsKey(var.getName()))
             throw new VariableNotFoundException();
-        Complex value= variables.get(key);
+        Complex value= variables.get(var.getName());
         return value;
     }
     /**

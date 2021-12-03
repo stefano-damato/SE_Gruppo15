@@ -10,6 +10,7 @@ import exceptions.LessOf2ElementsException;
 import exceptions.KeyNotAlphabeticException;
 import exceptions.DivisionException;
 import exceptions.KeyAlreadyPresentInOperations;
+import exceptions.OperationFailedException;
 import exceptions.VariableNotFoundException;
 import java.net.URL;
 import java.util.Collections;
@@ -465,7 +466,7 @@ public class FXMLDocumentController implements Initializable {
                     break;
                 }
                 case '<':{
-                    memory.insert(memory.getVariables().pushVariable(key));
+                    memory.insert(memory.getVariables().pushVariable(new Variable(key, null)));
                     list.add(0, memory.lastElement());
                     
                     break;
@@ -603,10 +604,14 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void invokeEvent(ActionEvent event) {
-        memory.invokeOperation(operationsTab.getSelectionModel().getSelectedItem());
-        list.clear();
-        for(Complex c: memory.getComplexStack()){
-            list.add(0,c);
+        try {
+            memory.invokeOperation(operationsTab.getSelectionModel().getSelectedItem());
+            list.clear();
+            for(Complex c: memory.getComplexStack()){
+                list.add(0,c);
+            }
+        }catch (OperationFailedException ex) {
+            wrongOperation("Operation failed");
         }
     }
 
@@ -624,7 +629,7 @@ public class FXMLDocumentController implements Initializable {
         
         
     }
-
+    
     @FXML
     private void editOperationEvent(TableColumn.CellEditEvent<String, String> event) {
         String operationSequence = operationsTab.getSelectionModel().getSelectedItem();
