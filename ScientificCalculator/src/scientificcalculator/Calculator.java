@@ -9,6 +9,7 @@ import exceptions.KeyAlreadyPresentInOperations;
 import exceptions.OperationFailedException;
 import exceptions.LessOf2ElementsException;
 import exceptions.KeyNotPresentInOperations;
+import exceptions.WrongInputException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.EmptyStackException;
@@ -245,7 +246,7 @@ public class Calculator {
         insert(a);
     }
             
-    public void invokeOperation(String name, Event event){
+    public void invokeOperation(String name) throws WrongInputException, IndexOutOfBoundsException{
         String seq = operations.getOperation(name);
         String[] userOperations = seq.split(" ");
         for (String operation : userOperations) {
@@ -265,6 +266,12 @@ public class Calculator {
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                 throw new OperationFailedException();
             } 
+        }
+        else if(!operations.containName(op)){
+            insert(op);
+        }
+        else{
+            invokeOperation(op);
         }
     }
     
@@ -291,5 +298,88 @@ public class Calculator {
     public Operations getOperations() {
         return operations;
     }
+    
+    public void insert(String input) throws WrongInputException, IndexOutOfBoundsException{
+        double real=0;
+        double imaginary=0;
+        int sign=1;
+        Complex c;
+        
+        //check string
+        if(input.indexOf("-")==0 || input.indexOf("+")==0){
+            if(input.indexOf("-")==0)
+                sign=-1;
+            input=input.substring(1);
+        }
+
+        checkValidInput(input.trim());
+
+        //The number has only the real part 
+        if(!input.contains("j")){
+                real=sign*Double.parseDouble(input);
+        }else{
+            input = input.trim();
+            int j=input.indexOf("j");
+            ////The number has only the imaginary part 
+            if(!(input.contains("+") || input.contains("-"))){
+                if(input.length()==1)
+                    imaginary = sign*1;
+                else
+                    imaginary=sign*Double.parseDouble(input.substring(0,input.length()-1));
+            }else{
+                ////the number has both real and imaginary part
+                String[] parseText= input.split("[+-]");
+                real=sign*Double.parseDouble(parseText[0]);
+                if(parseText[1].trim().length()==1)
+                    imaginary=1;
+                else
+                    imaginary=Double.parseDouble(parseText[1].substring(0,parseText[1].length()-1));
+                if(input.contains("-"))
+                    imaginary=-imaginary;
+            }
+        }
+        
+        insert(new Complex(real, imaginary));
+    }
        
+    
+    /**
+     * The method checks if the string <code>s</code>  is in the form a + j b. a and b must be real numbers.
+     * @param s {@code String}
+     * @return <code>true</code>  if the string is correct
+     * @throws WrongInputException 
+     */
+    private boolean checkValidInput(String s) throws WrongInputException{
+        if(!s.contains("j")){
+            if(!s.matches("^[0-9.]+$"))
+            throw new WrongInputException();
+        }else{
+            if(!s.matches("^[0-9+-.j ]+$")){
+                throw new WrongInputException();
+            }else{
+                if(s.indexOf("j")!=(s.length()-1))
+                    throw new WrongInputException();
+                if(s.contains("+")|| s.contains("-")){
+                    String[] parseText= s.split("[+-]");
+                    String s1 = parseText[0].trim();
+                    String s2 = parseText[1].trim();
+                    if(!s1.matches("^[0-9.]+$"))
+                        throw new WrongInputException();
+                    if(s2.length()==1)
+                        return true;
+                    s2=s2.substring(0, s2.length()-1).trim();
+                    if(!s2.matches("^[0-9.]+$"))
+                        throw new WrongInputException();
+                }else{
+                    if(s.length()==1)
+                        return true;
+                    if(!s.substring(0, s.length()-1).trim().matches("^[0-9.]+$")){
+                        throw new WrongInputException();
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
 }

@@ -186,57 +186,18 @@ public class FXMLDocumentController implements Initializable {
      * @param event {@code ActionEvent}
      */
     @FXML
-    private void insetEvent(ActionEvent event) {
+    private void insertEvent(ActionEvent event) {
          
-        double real=0;
-        double imaginary=0;
-        int sign=1;
-        Complex c;
-        String insertText= text.getText().trim();
+        String insertedText= text.getText().trim();
         
-        if(insertText.length() == 2 && !Character.isDigit(insertText.charAt(0)) 
-                && Character.isAlphabetic(insertText.charAt(1))){
+        if(insertedText.length() == 2 && !Character.isDigit(insertedText.charAt(0)) 
+                && Character.isAlphabetic(insertedText.charAt(1))){
             variablesEvent(event);
             text.setText("");
         }
-        
         else{
             try{
-            //check string
-            if(insertText.indexOf("-")==0 || insertText.indexOf("+")==0){
-                if(insertText.indexOf("-")==0)
-                    sign=-1;
-                insertText=insertText.substring(1);
-            }
-
-            checkValidInput(insertText.trim());
-
-            //The number has only the real part 
-            if(!insertText.contains("j")){
-                    real=sign*Double.parseDouble(insertText);
-            }else{
-                insertText = insertText.trim();
-                int j=insertText.indexOf("j");
-                ////The number has only the imaginary part 
-                if(!(insertText.contains("+") || insertText.contains("-"))){
-                    if(insertText.length()==1)
-                        imaginary = sign*1;
-                    else
-                        imaginary=sign*Double.parseDouble(insertText.substring(0,insertText.length()-1));
-                }else{
-                    ////the number has both real and imaginary part
-                    String[] parseText= insertText.split("[+-]");
-                    real=sign*Double.parseDouble(parseText[0]);
-                    if(parseText[1].trim().length()==1)
-                        imaginary=1;
-                    else
-                        imaginary=Double.parseDouble(parseText[1].substring(0,parseText[1].length()-1));
-                    if(insertText.contains("-"))
-                        imaginary=-imaginary;
-                }
-            }
-            c = new Complex(real, imaginary);
-            memory.insert(c);
+            memory.insert(insertedText);
             list.add(0, memory.lastElement());
 
             }catch(WrongInputException ex){
@@ -313,9 +274,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void divideEvent(ActionEvent event) {
         try{  
+            memory.divide();
             list.remove(0);
             list.remove(0);  
-            memory.divide();
             list.add(0, memory.lastElement());
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
@@ -541,45 +502,6 @@ public class FXMLDocumentController implements Initializable {
     }
     
     
-    /**
-     * The method checks if the string <code>s</code>  is in the form a + j b. a and b must be real numbers.
-     * @param s {@code String}
-     * @return <code>true</code>  if the string is correct
-     * @throws WrongInputException 
-     */
-    private boolean checkValidInput(String s) throws WrongInputException{
-        if(!s.contains("j")){
-            if(!s.matches("^[0-9.]+$"))
-            throw new WrongInputException();
-        }else{
-            if(!s.matches("^[0-9+-.j ]+$")){
-                throw new WrongInputException();
-            }else{
-                if(s.indexOf("j")!=(s.length()-1))
-                    throw new WrongInputException();
-                if(s.contains("+")|| s.contains("-")){
-                    String[] parseText= s.split("[+-]");
-                    String s1 = parseText[0].trim();
-                    String s2 = parseText[1].trim();
-                    if(!s1.matches("^[0-9.]+$"))
-                        throw new WrongInputException();
-                    if(s2.length()==1)
-                        return true;
-                    s2=s2.substring(0, s2.length()-1).trim();
-                    if(!s2.matches("^[0-9.]+$"))
-                        throw new WrongInputException();
-                }else{
-                    if(s.length()==1)
-                        return true;
-                    if(!s.substring(0, s.length()-1).trim().matches("^[0-9.]+$")){
-                        throw new WrongInputException();
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
     /*@FXML
     private void editNameOperationEvent(TableColumn.CellEditEvent<S, T> event) {
     }
@@ -588,7 +510,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void saveOperationEvent(ActionEvent event) {
         try{
-           if(operationName.isDisabled()){
+            checkUserDefinedOpration(text.getText().trim());
+            if(operationName.isDisabled()){
                 operation.modify(operationName.getText().trim(), operationSequence.getText().trim());
                 operationName.setDisable(false);
             }else{
@@ -598,6 +521,8 @@ public class FXMLDocumentController implements Initializable {
             operationSequence.setText(""); 
         }catch(KeyAlreadyPresentInOperations ex){
             wrongOperation("Operation name already present");
+        }catch(WrongInputException ex){
+            wrongOperation("Operation name invalid");
         }
         
     }
@@ -605,13 +530,14 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void invokeEvent(ActionEvent event) {
         try {
-            memory.invokeOperation(operationsTab.getSelectionModel().getSelectedItem(), event);
+            memory.invokeOperation(operationsTab.getSelectionModel().getSelectedItem());
+        }catch (OperationFailedException ex) {
+            wrongOperation("Operation failed");
+        }finally{
             list.clear();
             for(Complex c: memory.getComplexStack()){
                 list.add(0,c);
             }
-        }catch (OperationFailedException ex) {
-            wrongOperation("Operation failed");
         }
     }
 
@@ -635,5 +561,12 @@ public class FXMLDocumentController implements Initializable {
         String operationSequence = operationsTab.getSelectionModel().getSelectedItem();
         operation.modify(operationSequence, event.getNewValue());
     }
+    
+    public void checkUserDefinedOpration(String string) throws WrongInputException{
+        if(string.matches("^[a-zA-Z]+$")){
+                throw new WrongInputException();
+            }
+    }
+
 
 }
