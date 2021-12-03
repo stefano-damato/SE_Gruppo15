@@ -605,7 +605,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void invokeEvent(ActionEvent event) {
         try {
-            memory.invokeOperation(operationsTab.getSelectionModel().getSelectedItem());
+            memory.invokeOperation(operationsTab.getSelectionModel().getSelectedItem(), event);
             list.clear();
             for(Complex c: memory.getComplexStack()){
                 list.add(0,c);

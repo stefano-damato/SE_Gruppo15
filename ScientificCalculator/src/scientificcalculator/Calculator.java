@@ -17,6 +17,7 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.ObservableMap;
+import javafx.event.Event;
 
 /**
  * The <em>Calculator</em> class contains all useful methods implemented for the correct 
@@ -243,14 +244,13 @@ public class Calculator {
         
         insert(a);
     }
-    
-    public void invokeOperation(String name){
+            
+    public void invokeOperation(String name, Event event){
         String seq = operations.getOperation(name);
         String[] userOperations = seq.split(" ");
         for (String operation : userOperations) {
-            if (operation.length() == 2) {
+            if (operation.length() == 2 && !Character.isDigit(operation.charAt(0))&& Character.isAlphabetic(operation.charAt(1))) {
                 selectOperationVariableToInvoke(operation);   
-                System.out.println(operation);
             }
             else selectOperationToInvoke(operation);
         }
@@ -272,7 +272,6 @@ public class Calculator {
         Method m;
         String key = op.substring(0, 1);
         if (variableOperation.containsKey(key)){
-            System.out.println("asadsasdasda");
             try {
                 m = VariableMap.class.getDeclaredMethod(variableOperation.get(key), Variable.class);
                 Variable var;
@@ -281,7 +280,6 @@ public class Calculator {
                 }
                 else {
                     var = new Variable(op.charAt(1), drop());
-                     System.out.println(key);
                 }
                 m.invoke(getVariables(), var);
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
