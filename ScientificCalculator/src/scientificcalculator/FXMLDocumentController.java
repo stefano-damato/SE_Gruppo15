@@ -12,11 +12,20 @@ import exceptions.DivisionException;
 import exceptions.KeyAlreadyPresentInOperations;
 import exceptions.OperationFailedException;
 import exceptions.VariableNotFoundException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EmptyStackException;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -38,7 +47,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
@@ -114,6 +125,8 @@ public class FXMLDocumentController implements Initializable {
     private TextField operationName;
     @FXML
     private TextField operationSequence;
+    @FXML
+    private AnchorPane rootPane; 
 
         
     
@@ -553,7 +566,6 @@ public class FXMLDocumentController implements Initializable {
         operationName.setDisable(true);
         operationSequence.setText(operation.getOperations().get(operationsTab.getSelectionModel().getSelectedItem()));
     }
-    
     @FXML
     private void editOperationEvent(TableColumn.CellEditEvent<String, String> event) {
         String operationSequence = operationsTab.getSelectionModel().getSelectedItem();
@@ -568,10 +580,30 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void saveOperations(ActionEvent event) {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Open File...");
+        File file = fc.showOpenDialog(rootPane.getScene().getWindow());
+
+        if(file != null){
+            try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))){
+                operation.getOperations().clear();
+                operation.getOperations().addAll((HashMap<String, String>)ois.readObject());
+            }catch (FileNotFoundException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
     }
 
     @FXML
     private void restoreOperations(ActionEvent event) {
+        
     }
+
+    
 
 }
