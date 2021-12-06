@@ -552,8 +552,6 @@ public class FXMLDocumentController implements Initializable {
         operationName.setText(operationsTab.getSelectionModel().getSelectedItem());
         operationName.setDisable(true);
         operationSequence.setText(operation.getOperations().get(operationsTab.getSelectionModel().getSelectedItem()));
-        
-        
     }
     
     @FXML
@@ -568,5 +566,12 @@ public class FXMLDocumentController implements Initializable {
             }
     }
 
+    @FXML
+    private void saveOperations(ActionEvent event) {
+    }
+
+    @FXML
+    private void restoreOperations(ActionEvent event) {
+    }
 
 }
