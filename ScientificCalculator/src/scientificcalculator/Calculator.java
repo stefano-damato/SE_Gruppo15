@@ -295,6 +295,10 @@ public class Calculator {
         }
     }
     
+    /**
+     * The method returns the reference to the Operations object.
+     * @return operations {@code Operations}
+     */
     public Operations getOperations() {
         return operations;
     }

@@ -38,11 +38,10 @@ public class VariableMap {
         return variables;
     }
     /**
-     * The method saves the value in variables by specifying the key.
-     * If the key is already present, it overwrites the value.
-     * If the key is not alphabetic throw an exception.
-     * @param key {@code Character}
-     * @param value {@code Complex}
+     * The method saves the value in variables by specifying the Variable.
+     * If the key of Variable is already present, it overwrites the value.
+     * If the key of Variable is not alphabetic throw an exception.
+     * @param var {@code Variable}
      * @throws KeyNotAlphabeticException 
      */
     public void saveVariable(Variable var) throws KeyNotAlphabeticException{
@@ -56,8 +55,8 @@ public class VariableMap {
     }
     
     /**
-     * The method returns the value contained in the indicated key.
-     * @param key {@code char}
+     * The method returns the value of the variable which has the same key as the variable passed as a parameter.
+     * @param var {@code Variable}
      * @return value {@code Complex}
      */
     public Complex pushVariable(Variable var) throws VariableNotFoundException{
@@ -68,10 +67,9 @@ public class VariableMap {
         return value;
     }
     /**
-     * The method saves the sum of value and current value of variable 
-     * specified by the key in the variable.
-     * @param key {@code char}
-     * @param value {@code Complex}
+     * The method saves the sum of the value of the variable passed as a parameter with the current value of the variable 
+     * that corresponds to the key of the variable passed as a parameter.
+     * @param var {@code Variable}
      * @throws KeyNotAlphabeticException
      */
     public void addVariable(Variable var) throws KeyNotAlphabeticException{
@@ -85,10 +83,9 @@ public class VariableMap {
        
     }
     /**
-     * The method saves the subtraction of value and current value of variable 
-     * specified by the key in the variable.
-     * @param key {@code char}
-     * @param value {@code Complex}
+     * The method saves the subtraction of the value of the variable passed as a parameter with the current value of the variable 
+     * that corresponds to the key of the variable passed as a parameter.
+     * @param var {@code Variable}
      * @throws KeyNotAlphabeticException
      */
     public void subVariable(Variable var) throws KeyNotAlphabeticException{

@@ -12,42 +12,83 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
 /**
- *
- * @author nicol
+ * The <em>Operations</em> class represents a user-defined operation characterized by a name and the sequence of operations to be performed.
+ * 
+ * @author group15
  */
-public class Operations {
-    private ObservableMap<String,String> operations;
 
+public class Operations {
+    /**
+     * Keeps the key,value correspondence:
+     * The key is a String that represents the name of the user-defined operation.
+     * The value is a String that represents the sequence of operations of the user-defined operation.
+     */
+    private ObservableMap<String,String> operations;
+    
+    /**
+     * Initialize object of the class <em>Operations</em> 
+     */
     public Operations() {
         operations = FXCollections.observableHashMap();
     }
     
+    /**
+     * The method adds a user-defined operation.
+     * @param name {@code String}
+     * @param sequence {@code String}
+     * @throws KeyAlreadyPresentInOperations  if the operation to be added has the same name as an operation already present in the map.
+     */
     public void addOperation(String name, String sequence) throws KeyAlreadyPresentInOperations{
         if (!operations.containsKey(name)) 
             operations.put(name, sequence);
         else throw new KeyAlreadyPresentInOperations();
     }
     
+    /**
+     * The method modifies the sequence of operations of a user-defined operation already present in the map.
+     * @param name {@code String}
+     * @param sequence {@code String}
+     * @throws KeyNotPresentInOperations if the operation to be modified is not present in the map.
+     */
     public void modify(String name, String sequence) throws KeyNotPresentInOperations{
         if (operations.containsKey(name))
             operations.replace(name, sequence);
         else throw new KeyNotPresentInOperations();
     }
     
+    /**
+     * The method deletes from the map the user-defined operation that has the name corresponding to the one passed as parameter.
+     * @param name {@code String}
+     * @throws KeyNotPresentInOperations if the operation to be deleted is not present in the map.
+     */
     public void delete(String name) throws KeyNotPresentInOperations{
         if(operations.containsKey(name))
             operations.remove(name);
         else throw new KeyNotPresentInOperations();
     }
     
+    /**
+     * The method checks whether there is an operation in the map that has the name that matches the name passed as a parameter.
+     * @param name {@code String}
+     * @return boolean value, true if it exists, false otherwise.
+     */
     public boolean containName(String name) {
         return operations.containsKey(name);
     }
     
+    /**
+     * The method returns the sequence of operations associated with the user-defined operation whose name is the same as the one passed as parameter.
+     * @param name {@code String}
+     * @return sequence {@code String}
+     */
     public String getOperation(String name) {
         return operations.get(name);
     }
-
+    
+    /**
+     * The method returns the reference to the map.
+     * @return operations {@code HashMap<String,String>}
+     */
     public ObservableMap<String, String> getOperations() {
         return operations;
     }
