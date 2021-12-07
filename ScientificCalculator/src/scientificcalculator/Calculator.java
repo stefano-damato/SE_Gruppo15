@@ -18,6 +18,7 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.ObservableMap;
+import javafx.event.Event;
 
 /**
  * The <em>Calculator</em> class contains all useful methods implemented for the correct 
@@ -29,7 +30,7 @@ public class Calculator {
     /*** Contains all the complex that will be inserted*/
     private Stack<Complex> complexStack;
     /*** */
-    private VariableMapStack variables;
+    private Stack<VariableMap> variables;
     
     private Operations operations;
     
@@ -43,8 +44,9 @@ public class Calculator {
      */
     public Calculator(){
         complexStack = new Stack<>();
-        variables = new VariableMapStack();
+        variables = new Stack<>();
         /**Push the new object {@code variables} into a VariableMap*/
+        variables.push(new VariableMap());
         operations = new Operations();
         invokeOperations = new HashMap<>();
         invokeOperations.put("+", "add");
@@ -66,17 +68,16 @@ public class Calculator {
         variableOperation.put("-", "subVariable");
     }
     
+    /**
+     * The method returns the last element of the variables whitin the VariableMap
+     * @return variables
+     */
+    public VariableMap getVariables() {
+        return variables.lastElement();
+    }
 
     public Stack<Complex> getComplexStack() {
         return complexStack;
-    }
-    
-    /**
-     * The method returns the reference to the Operations object.
-     * @return operations {@code Operations}
-     */
-    public Operations getOperations() {
-        return operations;
     }
     
     
@@ -295,6 +296,13 @@ public class Calculator {
         }
     }
     
+    /**
+     * The method returns the reference to the Operations object.
+     * @return operations {@code Operations}
+     */
+    public Operations getOperations() {
+        return operations;
+    }
     
     public void insert(String input) throws WrongInputException, IndexOutOfBoundsException{
         double real=0;
@@ -380,26 +388,22 @@ public class Calculator {
     }
     
     /**
-     * The method returns the last copy of variables whitin the VariableMapStack
-     * @return variables
-     */
-    public VariableMap getVariables() {
-        return variables.getLast();
-    }
-    
-    /**
-     * The method saves the last copy of variables whitin the VariableMapStack
+     * The method creates a new instance of the VariableMap object and inserts it onto stack.
      */
     public void saveVariables() {
-        variables.save();
+        VariableMap newMap = new VariableMap();
+        newMap.getVariables().putAll(variables.lastElement().getVariables());
+        variables.push(newMap);
     }
     
     /**
-     * The method restores the last copy of variables previously saved whitin the VariableMapStack
+     * The method deletes the last inserted VariableMap object and restores the previous one.
      * @throws EmptyStackException if there are less than two elements
      */
     public void restoreVariables() throws EmptyStackException{
-        variables.restore();
+        if (variables.size() <= 1)
+            throw new EmptyStackException();
+        variables.pop();
     }
-
+    
 }
