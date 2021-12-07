@@ -80,6 +80,14 @@ public class Calculator {
         return complexStack;
     }
     
+    /**
+     * The method returns the reference to the Operations object.
+     * @return operations {@code Operations}
+     */
+    public Operations getOperations() {
+        return operations;
+    }
+    
     
     /**
      * The method insert a complex number into the stack
@@ -296,13 +304,6 @@ public class Calculator {
         }
     }
     
-    /**
-     * The method returns the reference to the Operations object.
-     * @return operations {@code Operations}
-     */
-    public Operations getOperations() {
-        return operations;
-    }
     
     public void insert(String input) throws WrongInputException, IndexOutOfBoundsException{
         double real=0;
