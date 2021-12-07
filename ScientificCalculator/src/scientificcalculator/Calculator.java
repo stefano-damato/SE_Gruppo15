@@ -392,6 +392,7 @@ public class Calculator {
      */
     public void saveVariables() {
         VariableMap newMap = new VariableMap();
+        newMap.getVariables().putAll(variables.lastElement().getVariables());
         variables.push(newMap);
     }
     

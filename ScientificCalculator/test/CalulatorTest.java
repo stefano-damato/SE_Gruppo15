@@ -10,6 +10,7 @@ import exceptions.DivisionException;
 import java.util.EmptyStackException;
 import java.util.*;
 import exceptions.LessOf2ElementsException;
+import scientificcalculator.Variable;
 /**
 /**
  *
@@ -330,5 +331,5 @@ public class CalulatorTest extends Calculator{
         calc.drop();
         calc.over();
     }
-    
+
 }

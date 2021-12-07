@@ -484,7 +484,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void saveVarEvent(ActionEvent event) {
         memory.saveVariables();
-        listVariables.clear();
     }
        
     @FXML
