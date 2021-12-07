@@ -18,7 +18,6 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.ObservableMap;
-import javafx.event.Event;
 
 /**
  * The <em>Calculator</em> class contains all useful methods implemented for the correct 
@@ -30,7 +29,7 @@ public class Calculator {
     /*** Contains all the complex that will be inserted*/
     private Stack<Complex> complexStack;
     /*** */
-    private Stack<VariableMap> variables;
+    private VariableMapStack variables;
     
     private Operations operations;
     
@@ -44,9 +43,8 @@ public class Calculator {
      */
     public Calculator(){
         complexStack = new Stack<>();
-        variables = new Stack<>();
+        variables = new VariableMapStack();
         /**Push the new object {@code variables} into a VariableMap*/
-        variables.push(new VariableMap());
         operations = new Operations();
         invokeOperations = new HashMap<>();
         invokeOperations.put("+", "add");
@@ -68,13 +66,6 @@ public class Calculator {
         variableOperation.put("-", "subVariable");
     }
     
-    /**
-     * The method returns the last element of the variables whitin the VariableMap
-     * @return variables
-     */
-    public VariableMap getVariables() {
-        return variables.lastElement();
-    }
 
     public Stack<Complex> getComplexStack() {
         return complexStack;
@@ -389,22 +380,26 @@ public class Calculator {
     }
     
     /**
-     * The method creates a new instance of the VariableMap object and inserts it onto stack.
+     * The method returns the last copy of variables whitin the VariableMapStack
+     * @return variables
      */
-    public void saveVariables() {
-        VariableMap newMap = new VariableMap();
-        newMap.getVariables().putAll(variables.lastElement().getVariables());
-        variables.push(newMap);
+    public VariableMap getVariables() {
+        return variables.getLast();
     }
     
     /**
-     * The method deletes the last inserted VariableMap object and restores the previous one.
+     * The method saves the last copy of variables whitin the VariableMapStack
+     */
+    public void saveVariables() {
+        variables.save();
+    }
+    
+    /**
+     * The method restores the last copy of variables previously saved whitin the VariableMapStack
      * @throws EmptyStackException if there are less than two elements
      */
     public void restoreVariables() throws EmptyStackException{
-        if (variables.size() <= 1)
-            throw new EmptyStackException();
-        variables.pop();
+        variables.restore();
     }
 
 }
