@@ -250,7 +250,7 @@ public class Calculator {
         String seq = operations.getOperation(name);
         String[] userOperations = seq.split(" ");
         for (String operation : userOperations) {
-            if (operation.length() == 2 && !Character.isDigit(operation.charAt(0))&& Character.isAlphabetic(operation.charAt(1))) {
+            if (operation.length() == 2 && operation.substring(0, 1).matches("^[+-><]+$")&& Character.isAlphabetic(operation.charAt(1))) {
                 selectOperationVariableToInvoke(operation);   
             }
             else selectOperationToInvoke(operation);
@@ -284,11 +284,12 @@ public class Calculator {
                 Variable var;
                 if (op.charAt(0) == '<') {
                     var = new Variable(op.charAt(1), null);
+                    insert((Complex) m.invoke(getVariables(), var));
                 }
                 else {
                     var = new Variable(op.charAt(1), drop());
+                     m.invoke(getVariables(), var);
                 }
-                m.invoke(getVariables(), var);
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                 Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
             } 
