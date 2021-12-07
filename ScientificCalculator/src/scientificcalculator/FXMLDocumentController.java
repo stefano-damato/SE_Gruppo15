@@ -483,11 +483,23 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void saveVarEvent(ActionEvent event) {
+        memory.saveVariables();
+        listVariables.clear();
     }
-    
-    
+       
     @FXML
     private void restoreVarEvent(ActionEvent event) {
+        try {
+            memory.restoreVariables();
+            listVariables.clear();
+            for(char key: memory.getVariables().getVariables().keySet()){
+                Variable var = new Variable(key,memory.getVariables().getVariables().get(key));
+                listVariables.add(var);             
+            }
+            Collections.sort(listVariables);
+        }catch (EmptyStackException ex){
+            wrongOperation("There are no variables to reset");
+        }          
     }
     
     /**

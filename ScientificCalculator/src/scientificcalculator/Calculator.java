@@ -386,4 +386,23 @@ public class Calculator {
         }
         return true;
     }
+    
+    /**
+     * The method creates a new instance of the VariableMap object and inserts it onto stack.
+     */
+    public void saveVariables() {
+        VariableMap newMap = new VariableMap();
+        variables.push(newMap);
+    }
+    
+    /**
+     * The method deletes the last inserted VariableMap object and restores the previous one.
+     * @throws EmptyStackException if there are less than two elements
+     */
+    public void restoreVariables() throws EmptyStackException{
+        if (variables.size() <= 1)
+            throw new EmptyStackException();
+        variables.pop();
+    }
+
 }
