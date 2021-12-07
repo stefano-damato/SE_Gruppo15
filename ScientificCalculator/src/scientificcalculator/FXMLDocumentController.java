@@ -12,11 +12,22 @@ import exceptions.DivisionException;
 import exceptions.KeyAlreadyPresentInOperations;
 import exceptions.OperationFailedException;
 import exceptions.VariableNotFoundException;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.Collections;
 import java.util.EmptyStackException;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
@@ -39,6 +50,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
@@ -586,27 +598,49 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void saveOperations(ActionEvent event) {
-        /*
-        FileChooser fc = new FileChooser();
-        fc.setTitle("Open File...");
-        File file = fc.showOpenDialog(rootPane.getScene().getWindow());
-
+        final FileChooser fc = new FileChooser();
+        fc.setTitle("Scegli file");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(".txt", "*.txt"));
+        File file = fc.showSaveDialog(null);
+        
         if(file != null){
-            try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))){
-                operation.getOperations().clear();
-                operation.getOperations().addAll((HashMap<String, String>)ois.readObject());
-            }catch (FileNotFoundException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file)))){
+                
+                for(String name : keys){
+                    
+                    out.print(name);
+                    out.print('=');
+                    out.print(operation.getOperation(name).replace('=', '|'));
+                    out.print('\n');
+                }
             } catch (IOException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }*/
+        }
     }
 
     @FXML
     private void restoreOperations(ActionEvent event) {
+        final FileChooser fc = new FileChooser();
+        fc.setTitle("Scegli file");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(".txt", "*.txt"));
+        File file = fc.showOpenDialog(null);
         
+        if(file != null){
+            try(Scanner i = new Scanner(new BufferedReader(new FileReader(file)))){
+                
+                i.useDelimiter("=|\\n");
+                operation.getOperations().clear();
+                
+                while(i.hasNext()){
+                    String name = i.next();
+                    String expression = i.next();
+                    operation.getOperations().put(name, expression);
+                }
+                
+            } catch (FileNotFoundException ex) {
+                System.out.println("File non trovato");
+            }
+        }
     }
 }
