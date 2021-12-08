@@ -49,6 +49,7 @@ public class Calculator {
         complexStack = new ComplexStack();
         /**Push the new object {@code variables} into a VariableMap*/
         variables = new VariableMapStack();
+        currentVariables = new VariableMap();
         operations = new Operations();
         invokeOperations = new HashMap<>();
         invokeOperations.put("+", "add");
