@@ -308,9 +308,6 @@ public class ComplexStack {
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                 throw new OperationFailedException();
             }
-        }
-        
-        else insert(op);        
-    }
-    
+        }else insert(op);        
+    } 
 }

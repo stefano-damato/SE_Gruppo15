@@ -40,6 +40,7 @@ public class Calculator {
     private Operations operations;
        
     private HashMap<String, String> variableOperation;
+    private HashMap<String, String> variableStackOperation;
     
     
     /**
@@ -57,6 +58,10 @@ public class Calculator {
         variableOperation.put(">", "saveVariable");
         variableOperation.put("+", "addVariable");
         variableOperation.put("-", "subVariable");
+        
+        variableStackOperation = new HashMap<>();
+        variableStackOperation.put("save", "saveVariables");
+        variableStackOperation.put("restore", "restoreVariables");
     }
     
     /**
@@ -207,9 +212,10 @@ public class Calculator {
         for (String operation : userOperations) {
             if (operation.length() == 2 && operation.substring(0, 1).matches("^[+-><]+$")&& Character.isAlphabetic(operation.charAt(1))) {
                 selectOperationVariableToInvoke(operation);   
-            }
-            else if(operations.containName(operation)){
-                    invokeOperation(operation);         
+            }else if(operations.containName(operation)){
+                invokeOperation(operation);         
+            }else if(operation.equalsIgnoreCase("save") || operation.equalsIgnoreCase("restore")){
+                selectOperationVariableStackToInvoke(operation);
             }
             else complexStack.selectOperationToInvoke(operation);
         }
@@ -220,16 +226,25 @@ public class Calculator {
         String key = op.substring(0, 1);
         if (variableOperation.containsKey(key)){
             try {
-                m = VariableMap.class.getDeclaredMethod(variableOperation.get(key), Variable.class);
-                Variable var;
+                m = Calculator.class.getDeclaredMethod(variableOperation.get(key), char.class);
                 if (op.charAt(0) == '<') {
-                    var = new Variable(op.charAt(1), null);
-                    insert((Complex) m.invoke(getVariables(), var));
+                    insert((Complex) m.invoke(this, op.charAt(1)));
                 }
                 else {
-                    var = new Variable(op.charAt(1), drop());
-                     m.invoke(getVariables(), var);
+                     m.invoke(this, op.charAt(1));
                 }
+            } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+        }
+    }
+    
+    public void selectOperationVariableStackToInvoke(String op) throws OperationFailedException{
+        Method m;
+        if (variableStackOperation.containsKey(op)){
+            try {
+                m = Calculator.class.getDeclaredMethod(variableStackOperation.get(op));
+                m.invoke(this);
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                 Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
             } 
@@ -241,7 +256,6 @@ public class Calculator {
      */
     public void saveVariables() {
         VariableMap foo = new VariableMap();
-        
         for(Map.Entry<Character,Complex> entry: currentVariables.getVariables().entrySet()){
             foo.save(new Variable(entry.getKey(),entry.getValue()));
         }
@@ -253,31 +267,32 @@ public class Calculator {
      * @throws EmptyStackException if there are less than two elements
      */
     public void restoreVariables() throws EmptyStackException{
-        VariableMap foo = new VariableMap();
-        foo=variables.restore();
+        VariableMap foo = variables.restore();
         currentVariables.getVariables().clear();
         for(Map.Entry<Character,Complex> entry: foo.getVariables().entrySet()){
             Variable var = new Variable(entry.getKey(),entry.getValue());
-            currentVariables.save(new Variable(entry.getKey(),entry.getValue()));
+            currentVariables.save(var);
         }
         
     }
     
     public void saveVariable(char key){
-        Complex c = drop();
-        Variable var = new Variable(key,c);
+        Variable var = new Variable(key,drop());
         currentVariables.save(var);
     }
     
-    public void pushVariable(Variable var){
-        currentVariables.push(var);
+    public Complex pushVariable(char key){
+        Variable var = new Variable(key,null);
+        return currentVariables.push(var);
     }
     
-    public void addVariable(Variable var){
+    public void addVariable(char key){
+        Variable var = new Variable(key,drop());
         currentVariables.add(var);
     }
     
-    public void subVariable(Variable var){
+    public void subVariable(char key){
+        Variable var = new Variable(key,drop());
         currentVariables.sub(var);
     }
 

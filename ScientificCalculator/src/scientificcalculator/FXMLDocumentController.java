@@ -270,7 +270,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void subEvent(ActionEvent event) {
         try{
-            memory.sub();
+            memory.getComplex().selectOperationToInvoke("-");
             historyTab.refresh();
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
@@ -287,7 +287,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void multiplyEvent(ActionEvent event) {
         try{    
-            memory.multiply();
+            memory.getComplex().selectOperationToInvoke("*");
             historyTab.refresh();
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
@@ -303,7 +303,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void divideEvent(ActionEvent event) {
         try{  
-            memory.divide();
+            memory.getComplex().selectOperationToInvoke("/");
             historyTab.refresh();
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
@@ -321,7 +321,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void sqrtEvent(ActionEvent event) {
         try{    
-            memory.square();
+            memory.getComplex().selectOperationToInvoke("sqrt");
             historyTab.refresh();
         } catch(EmptyStackException ex){
             wrongOperation("There must be at least one element!");
@@ -337,7 +337,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void invertEvent(ActionEvent event) {
         try{    
-            memory.invert();
+            memory.getComplex().selectOperationToInvoke("+-");
             historyTab.refresh();
         } catch(EmptyStackException ex){
             wrongOperation("There must be at least one element!");
@@ -353,7 +353,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void clearEvent(ActionEvent event) {
         try{
-            memory.clear();
+            memory.getComplex().selectOperationToInvoke("clear");
             historyTab.refresh();
         }catch (EmptyStackException ex){
             wrongOperation("There must be at least one element!");
@@ -370,7 +370,7 @@ public class FXMLDocumentController implements Initializable {
     private void dropEvent(ActionEvent event) {
         try{
             text.setText(memory.lastElement().toString());
-            memory.drop();
+            memory.getComplex().selectOperationToInvoke("drop");
             historyTab.refresh();
         } catch (NoSuchElementException | EmptyStackException ex){
             wrongOperation("There must be at least one element!");
@@ -386,7 +386,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void dupEvent(ActionEvent event) {
         try{
-            memory.dup();
+            memory.getComplex().selectOperationToInvoke("dup");
             historyTab.refresh();
         } catch(EmptyStackException ex){
             wrongOperation("There must be at least one element!");
@@ -402,7 +402,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void swapEvent(ActionEvent event) {
         try{
-            memory.swap();
+            memory.getComplex().selectOperationToInvoke("swap");
             historyTab.refresh();
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
@@ -418,7 +418,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void overEvent(ActionEvent event) {
         try{
-            memory.over();
+            memory.getComplex().selectOperationToInvoke("over");
             historyTab.refresh();
         } catch (LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
@@ -435,44 +435,8 @@ public class FXMLDocumentController implements Initializable {
         try{
             String input=text.getText().toLowerCase().trim();
             checkValidInputForVariables(input);
-            char key=input.charAt(1);
-            switch(input.charAt(0)){
-                case '>':{
-                    Complex c= memory.drop();
-                    Variable var = new Variable(key,c);
-                    memory.getVariables().save(var);
-                    historyTab.refresh();
-                    
-                    break;
-                }
-                case '<':{
-                    memory.insert(memory.getVariables().push(new Variable(key, null)));
-                    historyTab.refresh();
-                    
-                    break;
-                }
-                case '+':{
-                    Complex c= memory.drop();
-                    Variable var = new Variable(key,c);
-                    
-                    memory.getVariables().add(var);
-                    historyTab.refresh();
-                    
-                    break;
-                }
-                case '-':{
-                    Complex c= memory.drop();
-                    Variable var = new Variable(key,c);
-                    
-                    memory.getVariables().sub(var);
-                    historyTab.refresh();
-                    
-                    break;
-                }
-                default:{
-                    wrongOperation("Invalid Input");
-                }
-            }
+            memory.selectOperationVariableToInvoke(input);
+            historyTab.refresh();
         } catch (KeyNotAlphabeticException ex){
             wrongOperation("The calculator supports 26 variables:\n from \"a\" to \"z\"");
         }catch (WrongInputException ex){
@@ -486,13 +450,14 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void saveVarEvent(ActionEvent event) {
-        memory.saveVariables();
+        memory.selectOperationVariableStackToInvoke("save");
     }
        
     @FXML
     private void restoreVarEvent(ActionEvent event) {
         try {
-            memory.restoreVariables();
+            memory.selectOperationVariableStackToInvoke("restore");
+            variablesTab.refresh();
         }catch (EmptyStackException ex){
             wrongOperation("There are no variables to reset");
         }          
@@ -614,7 +579,7 @@ public class FXMLDocumentController implements Initializable {
                 }
                 
             } catch (FileNotFoundException ex) {
-                System.out.println("File non trovato");
+                wrongOperation("File not found");
             }
         }
     }
