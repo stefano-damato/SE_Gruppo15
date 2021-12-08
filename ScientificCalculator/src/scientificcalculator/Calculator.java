@@ -15,6 +15,8 @@ import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.EmptyStackException;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -87,6 +89,12 @@ public class Calculator {
     public void insert(Complex c){
         complexStack.insert(c);
     }
+
+    public Stack<Complex> getComplexStack() {
+        return complexStack.getComplexStack();
+    }
+    
+    
     
     /**
      * The method returns the last element within the stack
@@ -344,7 +352,12 @@ public class Calculator {
      * The method saves the last copy of variables into the VariableMapStack
      */
     public void saveVariables() {
-        variables.save(currentVariables);
+        VariableMap foo = new VariableMap();
+        
+        for(Map.Entry<Character,Complex> entry: currentVariables.getVariables().entrySet()){
+            foo.saveVariable(new Variable(entry.getKey(),entry.getValue()));
+        }
+        variables.save(foo);
     }
     
     /**
@@ -352,7 +365,14 @@ public class Calculator {
      * @throws EmptyStackException if there are less than two elements
      */
     public void restoreVariables() throws EmptyStackException{
-        currentVariables = variables.restore();
+        VariableMap foo = new VariableMap();
+        foo=variables.restore();
+        currentVariables.getVariables().clear();
+        for(Map.Entry<Character,Complex> entry: foo.getVariables().entrySet()){
+            Variable var = new Variable(entry.getKey(),entry.getValue());
+            currentVariables.saveVariable(new Variable(entry.getKey(),entry.getValue()));
+        }
+        
     }
     
     public void saveVariable(char key){

@@ -23,6 +23,7 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.util.Collections;
 import java.util.EmptyStackException;
+import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.Stack;
@@ -127,8 +128,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TextField operationSequence;
 
-        
-    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -140,14 +139,34 @@ public class FXMLDocumentController implements Initializable {
         variablesButton.disableProperty().bind(check);
         
         SimpleBooleanProperty checkOperation  = new SimpleBooleanProperty();
-        checkOperation.bind(Bindings.when(operationName.textProperty().isEmpty().and(operationSequence.textProperty().isEmpty())).then(true).otherwise(false));
+        checkOperation.bind(Bindings.when(operationName.textProperty().isEmpty().or(operationSequence.textProperty().isEmpty())).then(true).otherwise(false));
         saveOperationButton.disableProperty().bind(checkOperation);
         
-        list = FXCollections.observableArrayList();
+        list = FXCollections.observableList(memory.getComplexStack());
         clmHistory.setCellValueFactory(new PropertyValueFactory<Complex,String>("complex"));
         historyTab.setItems(list);
         
+        
+        memory.getVariables().getVariables().addListener((MapChangeListener.Change<? extends Character, ? extends Complex> change) -> {
+            boolean removed = change.wasRemoved();
+            if (removed != change.wasAdded()) {
+                // no put for existing key
+                if (removed) {
+                    listVariables.remove(new Variable(change.getKey(),change.getValueRemoved()));
+                } else {
+                    Variable var = new Variable(change.getKey(),change.getValueAdded());
+                    listVariables.add(new Variable(change.getKey(),change.getValueAdded()));
+                }
+            }else{
+                Variable var = new Variable(change.getKey(),change.getValueAdded());
+                if(listVariables.contains(var)){
+                    listVariables.set(listVariables.indexOf(var), var);
+                }else listVariables.add(new Variable(change.getKey(),change.getValueAdded()));
+            }
+        });
+        
         listVariables = FXCollections.observableArrayList();
+        listVariables.sort((Variable a,Variable b)->a.compareTo(b));
         clmNameVariables.setCellValueFactory(new PropertyValueFactory<Variable,String>("name"));
         clmValuesVariables.setCellValueFactory(new PropertyValueFactory<Variable,String>("value"));
         variablesTab.setItems(listVariables);
@@ -164,6 +183,8 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         });
+        
+        
         
         clmNameOperation.setCellValueFactory(cd -> Bindings.createStringBinding(() -> cd.getValue()));
         clmOperation.setCellValueFactory(cd -> Bindings.valueAt ( operation.getOperations(), cd.getValue()));
@@ -210,8 +231,7 @@ public class FXMLDocumentController implements Initializable {
         else{
             try{
             memory.insert(insertedText);
-            list.add(0, memory.lastElement());
-
+            historyTab.refresh();
             }catch(WrongInputException ex){
                 wrongOperation("Input is not in correct form:\n a + bj");
             }catch(IndexOutOfBoundsException ex){
@@ -232,9 +252,7 @@ public class FXMLDocumentController implements Initializable {
     private void addEvent(ActionEvent event) {
         try{
             memory.add();
-            list.remove(0);
-            list.remove(0);
-            list.add(0, memory.lastElement());
+            historyTab.refresh();
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
         }
@@ -250,9 +268,7 @@ public class FXMLDocumentController implements Initializable {
     private void subEvent(ActionEvent event) {
         try{
             memory.sub();
-            list.remove(0);
-            list.remove(0);
-            list.add(0, memory.lastElement());
+            historyTab.refresh();
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
         }
@@ -269,9 +285,7 @@ public class FXMLDocumentController implements Initializable {
     private void multiplyEvent(ActionEvent event) {
         try{    
             memory.multiply();
-            list.remove(0);
-            list.remove(0);
-            list.add(0, memory.lastElement());
+            historyTab.refresh();
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
         }
@@ -287,9 +301,7 @@ public class FXMLDocumentController implements Initializable {
     private void divideEvent(ActionEvent event) {
         try{  
             memory.divide();
-            list.remove(0);
-            list.remove(0);  
-            list.add(0, memory.lastElement());
+            historyTab.refresh();
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
         } catch(DivisionException ex){
@@ -307,8 +319,7 @@ public class FXMLDocumentController implements Initializable {
     private void sqrtEvent(ActionEvent event) {
         try{    
             memory.square();
-            list.remove(0);
-            list.add(0, memory.lastElement());
+            historyTab.refresh();
         } catch(EmptyStackException ex){
             wrongOperation("There must be at least one element!");
         }
@@ -324,8 +335,7 @@ public class FXMLDocumentController implements Initializable {
     private void invertEvent(ActionEvent event) {
         try{    
             memory.invert();
-            list.remove(0);
-            list.add(0, memory.lastElement());
+            historyTab.refresh();
         } catch(EmptyStackException ex){
             wrongOperation("There must be at least one element!");
         }    
@@ -341,7 +351,7 @@ public class FXMLDocumentController implements Initializable {
     private void clearEvent(ActionEvent event) {
         try{
             memory.clear();
-            list.clear();
+            historyTab.refresh();
         }catch (EmptyStackException ex){
             wrongOperation("There must be at least one element!");
         }
@@ -356,10 +366,10 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void dropEvent(ActionEvent event) {
         try{
-            memory.drop();
             text.setText(memory.lastElement().toString());
-            list.remove(0);
-        } catch (EmptyStackException ex){
+            memory.drop();
+            historyTab.refresh();
+        } catch (NoSuchElementException | EmptyStackException ex){
             wrongOperation("There must be at least one element!");
         }
     }
@@ -374,7 +384,7 @@ public class FXMLDocumentController implements Initializable {
     private void dupEvent(ActionEvent event) {
         try{
             memory.dup();
-            list.add(0, list.get(0));
+            historyTab.refresh();
         } catch(EmptyStackException ex){
             wrongOperation("There must be at least one element!");
         }
@@ -390,8 +400,7 @@ public class FXMLDocumentController implements Initializable {
     private void swapEvent(ActionEvent event) {
         try{
             memory.swap();
-            list.add(0, list.get(1));
-            list.remove(2);
+            historyTab.refresh();
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
         }
@@ -407,7 +416,7 @@ public class FXMLDocumentController implements Initializable {
     private void overEvent(ActionEvent event) {
         try{
             memory.over();
-            list.add(0, list.get(1));
+            historyTab.refresh();
         } catch (LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
         }
@@ -429,18 +438,13 @@ public class FXMLDocumentController implements Initializable {
                     Complex c= memory.drop();
                     Variable var = new Variable(key,c);
                     memory.getVariables().saveVariable(var);
-                    list.remove(0);
-
-                    if(listVariables.contains(var))
-                        listVariables.set(listVariables.indexOf(var), var);
-                    else listVariables.add(var);
-                    Collections.sort(listVariables);
+                    historyTab.refresh();
                     
                     break;
                 }
                 case '<':{
                     memory.insert(memory.getVariables().pushVariable(new Variable(key, null)));
-                    list.add(0, memory.lastElement());
+                    historyTab.refresh();
                     
                     break;
                 }
@@ -449,15 +453,7 @@ public class FXMLDocumentController implements Initializable {
                     Variable var = new Variable(key,c);
                     
                     memory.getVariables().addVariable(var);
-                    list.remove(0);
-                    
-                    if(listVariables.contains(var)){
-                        Complex oldVar= listVariables.get(listVariables.indexOf(var)).getValue();
-                        listVariables.set(listVariables.indexOf(var), new Variable(key,oldVar.add(c)));
-                    }
-                    else{
-                        listVariables.add(var);
-                    }
+                    historyTab.refresh();
                     
                     break;
                 }
@@ -466,15 +462,7 @@ public class FXMLDocumentController implements Initializable {
                     Variable var = new Variable(key,c);
                     
                     memory.getVariables().subVariable(var);
-                    list.remove(0);
-                    
-                    if(listVariables.contains(var)){
-                        Complex oldVar= listVariables.get(listVariables.indexOf(var)).getValue();
-                        listVariables.set(listVariables.indexOf(var), new Variable(key,oldVar.sub(c)));
-                    }
-                    else{
-                        listVariables.add(var);
-                    }
+                    historyTab.refresh();
                     
                     break;
                 }
@@ -502,12 +490,6 @@ public class FXMLDocumentController implements Initializable {
     private void restoreVarEvent(ActionEvent event) {
         try {
             memory.restoreVariables();
-            listVariables.clear();
-            for(char key: memory.getVariables().getVariables().keySet()){
-                Variable var = new Variable(key,memory.getVariables().getVariables().get(key));
-                listVariables.add(var);             
-            }
-            Collections.sort(listVariables);
         }catch (EmptyStackException ex){
             wrongOperation("There are no variables to reset");
         }          
@@ -557,17 +539,7 @@ public class FXMLDocumentController implements Initializable {
         }catch (OperationFailedException ex) {
             wrongOperation("Operation failed");
         }finally{
-            list.clear();
-            for(Complex c: memory.getComplexStack()){
-                list.add(0,c);
-            }
-            for(char key: memory.getVariables().getVariables().keySet()){
-                Variable var = new Variable(key,memory.getVariables().getVariables().get(key));
-                if(listVariables.contains(var))
-                        listVariables.set(listVariables.indexOf(var), var);
-                    else listVariables.add(var);
-                Collections.sort(listVariables);
-            }
+            historyTab.refresh();
         }
     }
 

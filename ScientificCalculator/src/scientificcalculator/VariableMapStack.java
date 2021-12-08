@@ -33,7 +33,7 @@ public class VariableMapStack {
      * @throws EmptyStackException if there are less than two elements
      */
     public VariableMap restore() throws EmptyStackException{
-        if (variables.size() <= 1)
+        if (variables.size() < 1)
             throw new EmptyStackException();
         return variables.pop();
     }

@@ -8,33 +8,37 @@ package scientificcalculator;
 import exceptions.KeyNotAlphabeticException;
 import exceptions.VariableNotFoundException;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 
 /**
  *  The <em>VariableMap</em> class represents the set of all variables that the user can use
  * @author group15
  */
-public class VariableMap {
+public class VariableMap{
     
     /**
      * Keeps the key,value correspondence:
      * Character is the Key
      * Complex is the Value
      */
-    private HashMap<Character,Complex> variables;
+    private ObservableMap<Character,Complex> variables;
 
     /**
      * Initialize object of the class <em>VariableMap</em> 
      */
     public VariableMap() {
-        variables = new HashMap<>();
+        variables = FXCollections.observableHashMap();
     }
     
     /**
      * The method returns the reference to the map
      * @return variables {@code HashMap<Character,Complex>}
      */
-    public HashMap<Character, Complex> getVariables() {
+    public ObservableMap<Character, Complex> getVariables() {
         return variables;
     }
     /**
