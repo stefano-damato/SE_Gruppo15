@@ -23,13 +23,13 @@ public class Operations {
      * The key is a String that represents the name of the user-defined operation.
      * The value is a String that represents the sequence of operations of the user-defined operation.
      */
-    private ObservableMap<String,String> operations;
+    private ObservableMap<String,String> operationsMap;
     
     /**
      * Initialize object of the class <em>Operations</em> 
      */
     public Operations() {
-        operations = FXCollections.observableHashMap();
+        operationsMap = FXCollections.observableHashMap();
     }
     
     /**
@@ -39,8 +39,8 @@ public class Operations {
      * @throws KeyAlreadyPresentInOperations  if the operation to be added has the same name as an operation already present in the map.
      */
     public void addOperation(String name, String sequence) throws KeyAlreadyPresentInOperations{
-        if (!operations.containsKey(name)) 
-            operations.put(name, sequence);
+        if (!operationsMap.containsKey(name)) 
+            operationsMap.put(name, sequence);
         else throw new KeyAlreadyPresentInOperations();
     }
     
@@ -51,8 +51,8 @@ public class Operations {
      * @throws KeyNotPresentInOperations if the operation to be modified is not present in the map.
      */
     public void modify(String name, String sequence) throws KeyNotPresentInOperations{
-        if (operations.containsKey(name))
-            operations.replace(name, sequence);
+        if (operationsMap.containsKey(name))
+            operationsMap.replace(name, sequence);
         else throw new KeyNotPresentInOperations();
     }
     
@@ -62,8 +62,8 @@ public class Operations {
      * @throws KeyNotPresentInOperations if the operation to be deleted is not present in the map.
      */
     public void delete(String name) throws KeyNotPresentInOperations{
-        if(operations.containsKey(name))
-            operations.remove(name);
+        if(operationsMap.containsKey(name))
+            operationsMap.remove(name);
         else throw new KeyNotPresentInOperations();
     }
     
@@ -73,7 +73,7 @@ public class Operations {
      * @return boolean value, true if it exists, false otherwise.
      */
     public boolean containName(String name) {
-        return operations.containsKey(name);
+        return operationsMap.containsKey(name);
     }
     
     /**
@@ -81,16 +81,16 @@ public class Operations {
      * @param name {@code String}
      * @return sequence {@code String}
      */
-    public String getOperation(String name) {
-        return operations.get(name);
+    public String getSequence(String name) {
+        return operationsMap.get(name);
     }
     
     /**
      * The method returns the reference to the map.
      * @return operations {@code HashMap<String,String>}
      */
-    public ObservableMap<String, String> getOperations() {
-        return operations;
+    public ObservableMap<String, String> getOperationsMap() {
+        return operationsMap;
     }
     
     

@@ -128,8 +128,6 @@ public class FXMLDocumentController implements Initializable {
     private TextField operationName;
     @FXML
     private TextField operationSequence;
-    @FXML
-    private AnchorPane rootPane;
 
     
     @Override
@@ -175,7 +173,7 @@ public class FXMLDocumentController implements Initializable {
         variablesTab.setItems(listVariables);
         
         keys = FXCollections.observableArrayList();
-        operation.getOperations().addListener((MapChangeListener.Change<? extends String, ? extends String> change) -> {
+        operation.getOperationsMap().addListener((MapChangeListener.Change<? extends String, ? extends String> change) -> {
             boolean removed = change.wasRemoved();
             if (removed != change.wasAdded()) {
                 // no put for existing key
@@ -190,7 +188,7 @@ public class FXMLDocumentController implements Initializable {
         
         
         clmNameOperation.setCellValueFactory(cd -> Bindings.createStringBinding(() -> cd.getValue()));
-        clmOperation.setCellValueFactory(cd -> Bindings.valueAt ( operation.getOperations(), cd.getValue()));
+        clmOperation.setCellValueFactory(cd -> Bindings.valueAt ( operation.getOperationsMap(), cd.getValue()));
         clmOperation.setCellFactory(TextFieldTableCell.forTableColumn());
         operationsTab.setItems(keys);
         operationsTab.getColumns().setAll(clmNameOperation, clmOperation);
@@ -233,11 +231,9 @@ public class FXMLDocumentController implements Initializable {
         }
         else{
             try{
-            memory.insert(insertedText);
+            memory.selectOperationToInvoke(insertedText);
             historyTab.refresh();
-            }catch(WrongInputException ex){
-                wrongOperation("Input is not in correct form:\n a + bj");
-            }catch(IndexOutOfBoundsException ex){
+            }catch(WrongInputException | IndexOutOfBoundsException ex){
                 wrongOperation("Input is not in correct form:\n a + bj");
             }finally{
                 text.setText("");
@@ -254,7 +250,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void addEvent(ActionEvent event) {
         try{
-            memory.getComplex().selectOperationToInvoke("+");
+            memory.selectOperationToInvoke("+");
             historyTab.refresh();
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
@@ -270,7 +266,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void subEvent(ActionEvent event) {
         try{
-            memory.getComplex().selectOperationToInvoke("-");
+            memory.selectOperationToInvoke("-");
             historyTab.refresh();
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
@@ -287,7 +283,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void multiplyEvent(ActionEvent event) {
         try{    
-            memory.getComplex().selectOperationToInvoke("*");
+            memory.selectOperationToInvoke("*");
             historyTab.refresh();
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
@@ -303,7 +299,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void divideEvent(ActionEvent event) {
         try{  
-            memory.getComplex().selectOperationToInvoke("/");
+            memory.selectOperationToInvoke("/");
             historyTab.refresh();
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
@@ -321,7 +317,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void sqrtEvent(ActionEvent event) {
         try{    
-            memory.getComplex().selectOperationToInvoke("sqrt");
+            memory.selectOperationToInvoke("sqrt");
             historyTab.refresh();
         } catch(EmptyStackException ex){
             wrongOperation("There must be at least one element!");
@@ -337,7 +333,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void invertEvent(ActionEvent event) {
         try{    
-            memory.getComplex().selectOperationToInvoke("+-");
+            memory.selectOperationToInvoke("+-");
             historyTab.refresh();
         } catch(EmptyStackException ex){
             wrongOperation("There must be at least one element!");
@@ -353,7 +349,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void clearEvent(ActionEvent event) {
         try{
-            memory.getComplex().selectOperationToInvoke("clear");
+            memory.selectOperationToInvoke("clear");
             historyTab.refresh();
         }catch (EmptyStackException ex){
             wrongOperation("There must be at least one element!");
@@ -369,8 +365,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void dropEvent(ActionEvent event) {
         try{
-            text.setText(memory.lastElement().toString());
-            memory.getComplex().selectOperationToInvoke("drop");
+            memory.selectOperationToInvoke("drop");
             historyTab.refresh();
         } catch (NoSuchElementException | EmptyStackException ex){
             wrongOperation("There must be at least one element!");
@@ -386,7 +381,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void dupEvent(ActionEvent event) {
         try{
-            memory.getComplex().selectOperationToInvoke("dup");
+            memory.selectOperationToInvoke("dup");
             historyTab.refresh();
         } catch(EmptyStackException ex){
             wrongOperation("There must be at least one element!");
@@ -402,7 +397,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void swapEvent(ActionEvent event) {
         try{
-            memory.getComplex().selectOperationToInvoke("swap");
+            memory.selectOperationToInvoke("swap");
             historyTab.refresh();
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
@@ -418,7 +413,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void overEvent(ActionEvent event) {
         try{
-            memory.getComplex().selectOperationToInvoke("over");
+            memory.selectOperationToInvoke("over");
             historyTab.refresh();
         } catch (LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
@@ -474,12 +469,6 @@ public class FXMLDocumentController implements Initializable {
             throw new WrongInputException();
     }
     
-    
-    /*@FXML
-    private void editNameOperationEvent(TableColumn.CellEditEvent<S, T> event) {
-    }
-*/
-
     @FXML
     private void saveOperationEvent(ActionEvent event) {
         try{
@@ -521,7 +510,7 @@ public class FXMLDocumentController implements Initializable {
     private void modifyOperationEvent(ActionEvent event) {
         operationName.setText(operationsTab.getSelectionModel().getSelectedItem());
         operationName.setDisable(true);
-        operationSequence.setText(operation.getOperations().get(operationsTab.getSelectionModel().getSelectedItem()));
+        operationSequence.setText(operation.getOperationsMap().get(operationsTab.getSelectionModel().getSelectedItem()));
     }
     
     @FXML
@@ -550,7 +539,7 @@ public class FXMLDocumentController implements Initializable {
                     
                     out.print(name);
                     out.print('=');
-                    out.print(operation.getOperation(name).replace('=', '|'));
+                    out.print(operation.getSequence(name).replace('=', '|'));
                     out.print('\n');
                 }
             } catch (IOException ex) {
@@ -570,12 +559,12 @@ public class FXMLDocumentController implements Initializable {
             try(Scanner i = new Scanner(new BufferedReader(new FileReader(file)))){
                 
                 i.useDelimiter("=|\\n");
-                operation.getOperations().clear();
+                operation.getOperationsMap().clear();
                 
                 while(i.hasNext()){
                     String name = i.next();
                     String expression = i.next();
-                    operation.getOperations().put(name, expression);
+                    operation.getOperationsMap().put(name, expression);
                 }
                 
             } catch (FileNotFoundException ex) {
