@@ -62,7 +62,7 @@
                                         <Menu mnemonicParsing="false" text="File">
                                           <items>
                                             <MenuItem mnemonicParsing="false" onAction="#saveOperations" text="Save" />
-                                                <MenuItem mnemonicParsing="false" onAction="#restoreOperations" text="Restore" />
+                                                <MenuItem mnemonicParsing="false" onAction="#loadOperations" text="Load" />
                                           </items>
                                         </Menu>
                                       </menus>
