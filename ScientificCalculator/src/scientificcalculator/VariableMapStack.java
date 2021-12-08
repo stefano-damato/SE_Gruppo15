@@ -17,33 +17,24 @@ public class VariableMapStack {
     private Stack<VariableMap> variables;
 
     public VariableMapStack() {
-        variables.push(new VariableMap());
-    }
-
-    /**
-     * The method allows to modify the last set of variables saved in the stack
-     * @return variables
-     */
-    public VariableMap getLast() {
-        return variables.lastElement();
+        variables = new Stack<VariableMap>();
     }
 
     /**
      * The method creates a new instance of the VariableMap object and inserts it onto stack.
      */
-    public void save() {
-        VariableMap newMap = new VariableMap();
-        newMap.getVariables().putAll(getLast().getVariables());
-        variables.push(newMap);
+    public void save(VariableMap vm) {
+        variables.push(vm);
     }
 
     /**
-     * The method deletes the last inserted VariableMap object and restores the previous one.
+     * The method deletes and returns the last inserted VariableMap object and restores the previous one.
+     * @return 
      * @throws EmptyStackException if there are less than two elements
      */
-    public void restore() throws EmptyStackException{
+    public VariableMap restore() throws EmptyStackException{
         if (variables.size() <= 1)
             throw new EmptyStackException();
-        variables.pop();
+        return variables.pop();
     }
 }

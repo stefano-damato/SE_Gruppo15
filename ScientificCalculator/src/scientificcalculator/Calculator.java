@@ -33,6 +33,8 @@ public class Calculator {
     /*** */
     private VariableMapStack variables;
     
+    private VariableMap currentVariables;
+    
     private Operations operations;
     
     private HashMap<String, String> invokeOperations;
@@ -73,7 +75,7 @@ public class Calculator {
      * @return variables
      */
     public VariableMap getVariables() {
-        return variables.getLast();
+        return currentVariables;
     }
 
     
@@ -341,7 +343,7 @@ public class Calculator {
      * The method saves the last copy of variables into the VariableMapStack
      */
     public void saveVariables() {
-        variables.save();
+        variables.save(currentVariables);
     }
     
     /**
@@ -349,17 +351,17 @@ public class Calculator {
      * @throws EmptyStackException if there are less than two elements
      */
     public void restoreVariables() throws EmptyStackException{
-        variables.restore();
+        currentVariables = variables.restore();
     }
     
     public void saveVariable(char key){
         Complex c = drop();
         Variable var = new Variable(key,c);
-        variables.getLast().saveVariable(var);
+        currentVariables.saveVariable(var);
     }
     
     public void pushVariable(Variable var){
-        variables.getLast().addVariable(var);
+        currentVariables.addVariable(var);
     }
 
 }
