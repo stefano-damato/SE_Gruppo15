@@ -50,6 +50,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -127,6 +128,8 @@ public class FXMLDocumentController implements Initializable {
     private TextField operationName;
     @FXML
     private TextField operationSequence;
+    @FXML
+    private AnchorPane rootPane;
 
     
     @Override
@@ -592,7 +595,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void restoreOperations(ActionEvent event) {
+    private void loadOperations(ActionEvent event) {
         final FileChooser fc = new FileChooser();
         fc.setTitle("Scegli file");
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(".txt", "*.txt"));
@@ -615,4 +618,5 @@ public class FXMLDocumentController implements Initializable {
             }
         }
     }
+
 }
