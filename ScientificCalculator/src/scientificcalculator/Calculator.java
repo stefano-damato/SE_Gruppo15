@@ -79,6 +79,10 @@ public class Calculator {
         complexStack.insert(input);
     }
     
+    public ComplexStack getComplex(){
+        return complexStack;
+    }
+    
     public Stack<Complex> getComplexStack() {
         return complexStack.getComplexStack();
     }
@@ -239,7 +243,7 @@ public class Calculator {
         VariableMap foo = new VariableMap();
         
         for(Map.Entry<Character,Complex> entry: currentVariables.getVariables().entrySet()){
-            foo.saveVariable(new Variable(entry.getKey(),entry.getValue()));
+            foo.save(new Variable(entry.getKey(),entry.getValue()));
         }
         variables.save(foo);
     }
@@ -254,7 +258,7 @@ public class Calculator {
         currentVariables.getVariables().clear();
         for(Map.Entry<Character,Complex> entry: foo.getVariables().entrySet()){
             Variable var = new Variable(entry.getKey(),entry.getValue());
-            currentVariables.saveVariable(new Variable(entry.getKey(),entry.getValue()));
+            currentVariables.save(new Variable(entry.getKey(),entry.getValue()));
         }
         
     }
@@ -262,11 +266,19 @@ public class Calculator {
     public void saveVariable(char key){
         Complex c = drop();
         Variable var = new Variable(key,c);
-        currentVariables.saveVariable(var);
+        currentVariables.save(var);
     }
     
     public void pushVariable(Variable var){
-        currentVariables.addVariable(var);
+        currentVariables.push(var);
+    }
+    
+    public void addVariable(Variable var){
+        currentVariables.add(var);
+    }
+    
+    public void subVariable(Variable var){
+        currentVariables.sub(var);
     }
 
 }

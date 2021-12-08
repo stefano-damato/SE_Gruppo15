@@ -48,7 +48,7 @@ public class VariableMap{
      * @param var {@code Variable}
      * @throws KeyNotAlphabeticException 
      */
-    public void saveVariable(Variable var) throws KeyNotAlphabeticException{
+    public void save(Variable var) throws KeyNotAlphabeticException{
         char key = var.getName();
         Complex value = var.getValue();
         if(!Character.isAlphabetic(key))
@@ -63,7 +63,7 @@ public class VariableMap{
      * @param var {@code Variable}
      * @return value {@code Complex}
      */
-    public Complex pushVariable(Variable var) throws VariableNotFoundException{
+    public Complex push(Variable var) throws VariableNotFoundException{
         //return null in case of there are no matches for the key 
         if(!variables.containsKey(var.getName()))
             throw new VariableNotFoundException();
@@ -76,14 +76,14 @@ public class VariableMap{
      * @param var {@code Variable}
      * @throws KeyNotAlphabeticException
      */
-    public void addVariable(Variable var) throws KeyNotAlphabeticException{
+    public void add(Variable var) throws KeyNotAlphabeticException{
         char key = var.getName();
         Complex value = var.getValue();
        if(!Character.isAlphabetic(key))
             throw new KeyNotAlphabeticException();
         if(variables.containsKey(key))
             variables.replace(key, variables.get(key).add(value));
-        else saveVariable(var);
+        else save(var);
        
     }
     /**
@@ -92,14 +92,14 @@ public class VariableMap{
      * @param var {@code Variable}
      * @throws KeyNotAlphabeticException
      */
-    public void subVariable(Variable var) throws KeyNotAlphabeticException{
+    public void sub(Variable var) throws KeyNotAlphabeticException{
         char key = var.getName();
         Complex value = var.getValue();
        if(!Character.isAlphabetic(key))
             throw new KeyNotAlphabeticException();
         if(variables.containsKey(key))
             variables.replace(key, variables.get(key).sub(value));
-        else saveVariable(var);
+        else save(var);
        
     }
     

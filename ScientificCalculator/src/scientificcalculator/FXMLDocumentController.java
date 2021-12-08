@@ -254,7 +254,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void addEvent(ActionEvent event) {
         try{
-            memory.add();
+            memory.getComplex().selectOperationToInvoke("+");
             historyTab.refresh();
         } catch(LessOf2ElementsException ex){
             wrongOperation("There must be at least two elements!");
@@ -440,13 +440,13 @@ public class FXMLDocumentController implements Initializable {
                 case '>':{
                     Complex c= memory.drop();
                     Variable var = new Variable(key,c);
-                    memory.getVariables().saveVariable(var);
+                    memory.getVariables().save(var);
                     historyTab.refresh();
                     
                     break;
                 }
                 case '<':{
-                    memory.insert(memory.getVariables().pushVariable(new Variable(key, null)));
+                    memory.insert(memory.getVariables().push(new Variable(key, null)));
                     historyTab.refresh();
                     
                     break;
@@ -455,7 +455,7 @@ public class FXMLDocumentController implements Initializable {
                     Complex c= memory.drop();
                     Variable var = new Variable(key,c);
                     
-                    memory.getVariables().addVariable(var);
+                    memory.getVariables().add(var);
                     historyTab.refresh();
                     
                     break;
@@ -464,7 +464,7 @@ public class FXMLDocumentController implements Initializable {
                     Complex c= memory.drop();
                     Variable var = new Variable(key,c);
                     
-                    memory.getVariables().subVariable(var);
+                    memory.getVariables().sub(var);
                     historyTab.refresh();
                     
                     break;
