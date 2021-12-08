@@ -12,6 +12,7 @@ import exceptions.KeyNotPresentInOperations;
 import exceptions.WrongInputException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Stack;
@@ -28,9 +29,9 @@ import javafx.event.Event;
  */
 public class Calculator {
     /*** Contains all the complex that will be inserted*/
-    private Stack<Complex> complexStack;
+    private ComplexStack complexStack;
     /*** */
-    private Stack<VariableMap> variables;
+    private VariableMapStack variables;
     
     private Operations operations;
     
@@ -43,10 +44,9 @@ public class Calculator {
      * Initialize complexStack and variables to empty stacks
      */
     public Calculator(){
-        complexStack = new Stack<>();
-        variables = new Stack<>();
+        complexStack = new ComplexStack();
         /**Push the new object {@code variables} into a VariableMap*/
-        variables.push(new VariableMap());
+        variables = new VariableMapStack();
         operations = new Operations();
         invokeOperations = new HashMap<>();
         invokeOperations.put("+", "add");
@@ -69,24 +69,20 @@ public class Calculator {
     }
     
     /**
-     * The method returns the last element of the variables whitin the VariableMap
+     * The method returns the last copy of variables saved in the VariableMapStack
      * @return variables
      */
     public VariableMap getVariables() {
-        return variables.lastElement();
+        return variables.getLast();
     }
 
-    public Stack<Complex> getComplexStack() {
-        return complexStack;
-    }
-    
     
     /**
      * The method insert a complex number into the stack
      * @param c {@code Complex}
      */
     public void insert(Complex c){
-        complexStack.push(c);
+        complexStack.insert(c);
     }
     
     /**
@@ -107,12 +103,7 @@ public class Calculator {
      * @throws LessOf2ElementsException if there are less of two elements in the stack
      */
     public void add() throws LessOf2ElementsException{
-        if(complexStack.size()<2)
-            throw new LessOf2ElementsException();
-        Complex a = complexStack.pop();
-        Complex b = complexStack.pop();
-        
-        insert(a.add(b));
+        complexStack.add();
     }
     
     /**
@@ -122,12 +113,7 @@ public class Calculator {
      * @throws LessOf2ElementsException if there are less of two elements in the stack
      */
     public void sub() throws LessOf2ElementsException{
-        if(complexStack.size()<2)
-            throw new LessOf2ElementsException();
-        Complex a = complexStack.pop();
-        Complex b = complexStack.pop();
-        
-        insert(a.sub(b));
+        complexStack.sub();
     }
     
     /**
@@ -137,12 +123,7 @@ public class Calculator {
      * @throws LessOf2ElementsException if there are less of two elements in the stack
      */
     public void multiply() throws LessOf2ElementsException{
-        if(complexStack.size()<2)
-            throw new LessOf2ElementsException();
-        Complex a = complexStack.pop();
-        Complex b = complexStack.pop();
-        
-        insert(a.multiply(b));
+        complexStack.multiply();
     }
     
     /**
@@ -152,12 +133,7 @@ public class Calculator {
      * @throws LessOf2ElementsException if there are less of two elements in the stack
      */
     public void divide() throws LessOf2ElementsException{
-        if(complexStack.size()<2)
-            throw new LessOf2ElementsException();
-        Complex a = complexStack.pop();
-        Complex b = complexStack.pop();
-        
-        insert(a.divide(b));
+        complexStack.divide();
     }
     
     /**
@@ -167,11 +143,7 @@ public class Calculator {
      * @throws EmptyStackException if the stack is empty
      */
     public void square() throws EmptyStackException{
-        if(complexStack.size()<1)
-            throw new EmptyStackException();
-        Complex a = complexStack.pop();
-        
-        insert(a.square());
+        complexStack.square();
     }
     
     /**
@@ -181,11 +153,7 @@ public class Calculator {
      * @throws EmptyStackException if the stack is empty
      */
     public void invert()throws EmptyStackException{
-        if(complexStack.size()<1)
-            throw new EmptyStackException();
-        Complex a = complexStack.pop();
-        
-        insert(a.invert());
+        complexStack.invert();
     }
     
     /**
@@ -193,8 +161,6 @@ public class Calculator {
      * @throws EmptyStackException if the stack is empty
      */
     public void clear() throws EmptyStackException{
-        if (complexStack.size() < 1)
-            throw new EmptyStackException();
         complexStack.clear();
     }
     
@@ -204,9 +170,7 @@ public class Calculator {
      * @return complexStack.pop() {@code Complex}
      */
     public Complex drop() throws EmptyStackException{
-        if (complexStack.size() < 1)
-            throw new EmptyStackException();
-        return complexStack.pop();
+        return complexStack.drop();
     }
    
     /**
@@ -214,11 +178,7 @@ public class Calculator {
      * @throws EmptyStackException if the stack is empty
      */
     public void dup() throws EmptyStackException{
-        if (complexStack.size() < 1)
-            throw new EmptyStackException();
-        Complex a = complexStack.lastElement();
-        
-        insert(a);
+        complexStack.dup();
     }
     
     /**
@@ -226,24 +186,14 @@ public class Calculator {
      * @throws LessOf2ElementsException if there are less of two elements in the stack
      */
     public void swap() throws LessOf2ElementsException{
-        if(complexStack.size()<2)
-            throw new LessOf2ElementsException();
-        Complex a = complexStack.pop();
-        Complex b = complexStack.pop();
-        
-        insert(a);
-        insert(b);
+        complexStack.swap();
     } 
     /**
      * The method inserts a copy of the second last element in the stack
      * @throws LessOf2ElementsException if there are less of two elements in the stack
      */
     public void over()throws LessOf2ElementsException{
-        if(complexStack.size()<2)
-            throw new LessOf2ElementsException();
-        Complex a = complexStack.get(complexStack.size() - 2);
-        
-        insert(a);
+        complexStack.over();
     }
             
     public void invokeOperation(String name) throws WrongInputException, IndexOutOfBoundsException{
@@ -388,22 +338,28 @@ public class Calculator {
     }
     
     /**
-     * The method creates a new instance of the VariableMap object and inserts it onto stack.
+     * The method saves the last copy of variables into the VariableMapStack
      */
     public void saveVariables() {
-        VariableMap newMap = new VariableMap();
-        newMap.getVariables().putAll(variables.lastElement().getVariables());
-        variables.push(newMap);
+        variables.save();
     }
     
     /**
-     * The method deletes the last inserted VariableMap object and restores the previous one.
+     * The method restores the last copy of variables previously saved in the VariableMapStack
      * @throws EmptyStackException if there are less than two elements
      */
     public void restoreVariables() throws EmptyStackException{
-        if (variables.size() <= 1)
-            throw new EmptyStackException();
-        variables.pop();
+        variables.restore();
+    }
+    
+    public void saveVariable(char key){
+        Complex c = drop();
+        Variable var = new Variable(key,c);
+        variables.getLast().saveVariable(var);
+    }
+    
+    public void pushVariable(Variable var){
+        variables.getLast().addVariable(var);
     }
 
 }

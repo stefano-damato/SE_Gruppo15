@@ -65,7 +65,7 @@ public class ComplexStack {
     }
     
     /** */
-    public int complexStackSize(){
+    public int size(){
         return complexStack.size();
     }
     
