@@ -6,9 +6,11 @@
 package scientificcalculator;
 
 import exceptions.KeyAlreadyPresentInOperations;
+import exceptions.KeyNotAlphabeticException;
 import exceptions.OperationFailedException;
 import exceptions.LessOf2ElementsException;
 import exceptions.KeyNotPresentInOperations;
+import exceptions.VariableNotFoundException;
 import exceptions.WrongInputException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -80,7 +82,7 @@ public class Calculator {
         return operations;
     }
              
-    public void invokeOperation(String name) throws WrongInputException, IndexOutOfBoundsException{
+    public void invokeOperation(String name) throws WrongInputException, IndexOutOfBoundsException, LessOf2ElementsException, EmptyStackException{
         String seq = operations.getSequence(name);
         String[] userOperations = seq.split(" ");
         for (String operation : userOperations) {
@@ -95,7 +97,7 @@ public class Calculator {
         }
     }
     
-    public void selectOperationToInvoke(String op){
+    public void selectOperationToInvoke(String op) throws OperationFailedException {
         complexStack.selectOperationToInvoke(op);
     }
     
@@ -112,7 +114,7 @@ public class Calculator {
                      m.invoke(this, op.charAt(1));
                 }
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
+                throw new OperationFailedException();
             } 
         }
     }
@@ -154,22 +156,22 @@ public class Calculator {
         
     }
     
-    public void saveVariable(char key){
+    public void saveVariable(char key) throws EmptyStackException, KeyNotAlphabeticException{
         Variable var = new Variable(key,complexStack.drop());
         currentVariables.save(var);
     }
     
-    public Complex pushVariable(char key){
+    public Complex pushVariable(char key) throws VariableNotFoundException{
         Variable var = new Variable(key,null);
         return currentVariables.push(var);
     }
     
-    public void addVariable(char key){
+    public void addVariable(char key)throws EmptyStackException, KeyNotAlphabeticException{
         Variable var = new Variable(key,complexStack.drop());
         currentVariables.add(var);
     }
     
-    public void subVariable(char key){
+    public void subVariable(char key)throws EmptyStackException, KeyNotAlphabeticException{
         Variable var = new Variable(key,complexStack.drop());
         currentVariables.sub(var);
     }

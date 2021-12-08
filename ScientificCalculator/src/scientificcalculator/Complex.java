@@ -144,11 +144,9 @@ public class Complex {
      * This method divides the current Complex with Complex passed as a parameter.
      * @param a {@code Complex}
      * @return new object {@code Complex} that represents <code>this</code> divided by <code>a</code>
-     * @throws DivisionException if the real part oand the imaginary part of parameter are both 0
      */
-    public Complex divide(Complex a) throws DivisionException{
-        if(a.getReal()==0 && a.getImaginary()==0)
-            throw new DivisionException("Division not possible");
+    public Complex divide(Complex a) {
+        
         
         double areal = StrictMath.pow(a.getReal(), 2.); 
         double aimag = StrictMath.pow(a.getImaginary(), 2.);

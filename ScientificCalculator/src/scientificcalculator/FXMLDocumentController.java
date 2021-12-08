@@ -252,7 +252,7 @@ public class FXMLDocumentController implements Initializable {
         try{
             memory.selectOperationToInvoke("+");
             historyTab.refresh();
-        } catch(LessOf2ElementsException ex){
+        } catch(OperationFailedException ex){
             wrongOperation("There must be at least two elements!");
         }
     }
@@ -268,7 +268,7 @@ public class FXMLDocumentController implements Initializable {
         try{
             memory.selectOperationToInvoke("-");
             historyTab.refresh();
-        } catch(LessOf2ElementsException ex){
+        } catch(OperationFailedException ex){
             wrongOperation("There must be at least two elements!");
         }
         
@@ -285,7 +285,7 @@ public class FXMLDocumentController implements Initializable {
         try{    
             memory.selectOperationToInvoke("*");
             historyTab.refresh();
-        } catch(LessOf2ElementsException ex){
+        } catch(OperationFailedException ex){
             wrongOperation("There must be at least two elements!");
         }
     }
@@ -301,10 +301,8 @@ public class FXMLDocumentController implements Initializable {
         try{  
             memory.selectOperationToInvoke("/");
             historyTab.refresh();
-        } catch(LessOf2ElementsException ex){
-            wrongOperation("There must be at least two elements!");
-        } catch(DivisionException ex){
-            wrongOperation("Division not possible");
+        }catch(OperationFailedException ex){
+            wrongOperation("Division not possible!");
         }
     }
     

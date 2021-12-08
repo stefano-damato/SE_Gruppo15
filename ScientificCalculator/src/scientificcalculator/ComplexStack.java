@@ -5,6 +5,7 @@
  */
 package scientificcalculator;
 
+import exceptions.DivisionException;
 import exceptions.LessOf2ElementsException;
 import exceptions.OperationFailedException;
 import exceptions.WrongInputException;
@@ -203,14 +204,21 @@ public class ComplexStack {
      * execute the <code>divide</code> method on the first one
      * and puts the division on the stack
      * @throws LessOf2ElementsException if there are less of two elements in the stack
+     * @throws DivisionException if division is not possible
      */
-    public void divide() throws LessOf2ElementsException{
+    public void divide() throws LessOf2ElementsException, DivisionException{
         if(complexStack.size()<2)
             throw new LessOf2ElementsException();
-        Complex a = complexStack.pop();
-        Complex b = complexStack.pop();
+        Complex b = complexStack.get(complexStack.size()-2);
         
-        insert(a.divide(b));
+        if(b.getReal()==0 && b.getImaginary()==0)
+            throw new DivisionException("Division not possible");
+        else{
+            Complex a = complexStack.pop();
+            complexStack.pop();
+            insert(a.divide(b));
+        }
+        
     }
     
     /**
@@ -307,6 +315,7 @@ public class ComplexStack {
                 m.invoke(this);
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                 throw new OperationFailedException();
+                
             }
         }else insert(op);        
     } 
