@@ -70,11 +70,6 @@ public class ComplexTest {
         assertEquals(new Complex(10.88403840, 16.14806480), e.divide(h));
     }
     
-    @Test(expected = DivisionException.class)
-    public void testDivideException(){
-        assertEquals(new Complex(0, 0), h.divide(a));
-    }
-    
     @Test
     public void testSquare() {
         assertEquals(new Complex(10, 0), b.square());

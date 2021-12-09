@@ -317,6 +317,13 @@ public class ComplexStack {
                 throw new OperationFailedException();
                 
             }
-        }else insert(op);        
+        }else {
+            try {
+                insert(op);
+            }catch(WrongInputException ex) {
+                throw new OperationFailedException();
+            }
+        } 
+                    
     } 
 }

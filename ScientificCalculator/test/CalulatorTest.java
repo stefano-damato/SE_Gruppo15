@@ -93,9 +93,9 @@ public class CalulatorTest extends Calculator{
     
     @Test(expected = LessOf2ElementsException.class)
     public void testAddException(){
-    calc.insert(a);
-    calc.add();
-}
+        calc.insert(a);
+        calc.add();
+    }
     @Test 
     public void testSub(){
         calc.insert(a);
