@@ -445,7 +445,7 @@ public class FXMLDocumentController implements Initializable {
         try {
             memory.selectOperationVariableStackToInvoke("restore");
             variablesTab.refresh();
-        }catch (EmptyStackException ex){
+        }catch (OperationFailedException ex){
             wrongOperation("There are no variables to reset");
         }          
     }
@@ -457,7 +457,7 @@ public class FXMLDocumentController implements Initializable {
      * @throws WrongInputException 
      */
     private void checkValidInputForVariables(String s) throws WrongInputException{
-        if(s.length()!=2 || !s.matches("^[a-z+-><]+$"))
+        if(s.length()!=2 || !s.substring(0, 1).matches("^[+-><]+$") || !Character.isAlphabetic(s.charAt(1)))
             throw new WrongInputException();
     }
     

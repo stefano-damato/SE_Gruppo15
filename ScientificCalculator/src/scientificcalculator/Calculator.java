@@ -126,7 +126,7 @@ public class Calculator {
                 m = Calculator.class.getDeclaredMethod(variableStackOperation.get(op));
                 m.invoke(this);
             } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
+                throw new OperationFailedException();
             } 
         }
     }
