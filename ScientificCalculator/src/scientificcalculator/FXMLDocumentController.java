@@ -427,7 +427,6 @@ public class FXMLDocumentController implements Initializable {
     private void variablesEvent(ActionEvent event) {
         try{
             String input=text.getText().toLowerCase().trim();
-            checkValidInputForVariables(input);
             memory.selectOperationVariableToInvoke(input);
             historyTab.refresh();
         } catch (WrongInputException | OperationFailedException ex){
@@ -446,30 +445,21 @@ public class FXMLDocumentController implements Initializable {
             memory.selectOperationVariableStackToInvoke("restore");
             variablesTab.refresh();
         }catch (OperationFailedException ex){
-            wrongOperation("There are no variables to reset");
+            wrongOperation("There are no variables to restore");
         }          
-    }
-    
-    /**
-     * The method checks if the string <code>s</code> is in 
-     * the correct form to do operations with variables
-     * @param s {@code String}
-     * @throws WrongInputException 
-     */
-    private void checkValidInputForVariables(String s) throws WrongInputException{
-        if(s.length()!=2 || !s.substring(0, 1).matches("^[+-><]+$") || !Character.isAlphabetic(s.charAt(1)))
-            throw new WrongInputException();
     }
     
     @FXML
     private void saveOperationEvent(ActionEvent event) {
         try{
-            checkUserDefinedOpration(operationName.getText().trim());
+            String name = operationName.getText().trim();
+            String sequence = operationSequence.getText().trim();
+            
             if(operationName.isDisabled()){
-                operation.modify(operationName.getText().trim(), operationSequence.getText().trim());
+                operation.modify(name, sequence);
                 operationName.setDisable(false);
             }else{
-                operation.addOperation(operationName.getText().trim(), operationSequence.getText().trim());
+                operation.addOperation(name, sequence);
             }
             operationName.setText("");
             operationSequence.setText(""); 
@@ -509,12 +499,6 @@ public class FXMLDocumentController implements Initializable {
     private void editOperationEvent(TableColumn.CellEditEvent<String, String> event) {
         String operationSequence = operationsTab.getSelectionModel().getSelectedItem();
         operation.modify(operationSequence, event.getNewValue());
-    }
-    
-    public void checkUserDefinedOpration(String string) throws WrongInputException{
-        if(!string.matches("^[a-zA-Z]+$")){
-                throw new WrongInputException();
-            }
     }
 
     @FXML

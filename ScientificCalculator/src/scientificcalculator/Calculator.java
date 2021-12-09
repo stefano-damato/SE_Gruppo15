@@ -82,7 +82,7 @@ public class Calculator {
         return operations;
     }
              
-    public void invokeOperation(String name) throws WrongInputException, IndexOutOfBoundsException, LessOf2ElementsException, EmptyStackException{
+    public void invokeOperation(String name) throws WrongInputException{
         String seq = operations.getSequence(name);
         String[] userOperations = seq.split(" ");
         for (String operation : userOperations) {
@@ -101,7 +101,8 @@ public class Calculator {
         complexStack.selectOperationToInvoke(op);
     }
     
-    public void selectOperationVariableToInvoke(String op) throws OperationFailedException{
+    public void selectOperationVariableToInvoke(String op) throws OperationFailedException, WrongInputException{
+        checkValidInputForVariables(op);
         Method m;
         String key = op.substring(0, 1);
         if (variableOperation.containsKey(key)){
@@ -174,6 +175,17 @@ public class Calculator {
     public void subVariable(char key)throws EmptyStackException, KeyNotAlphabeticException{
         Variable var = new Variable(key,complexStack.drop());
         currentVariables.sub(var);
+    }
+    
+    /**
+     * The method checks if the string <code>s</code> is in 
+     * the correct form to do operations with variables
+     * @param s {@code String}
+     * @throws WrongInputException 
+     */
+    private void checkValidInputForVariables(String s) throws WrongInputException{
+        if(s.length()!=2 || !s.substring(0, 1).matches("^[+-><]+$") || !Character.isAlphabetic(s.charAt(1)))
+            throw new WrongInputException();
     }
 
 }

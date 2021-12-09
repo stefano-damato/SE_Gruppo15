@@ -7,6 +7,7 @@ package scientificcalculator;
 
 import exceptions.KeyNotPresentInOperations;
 import exceptions.KeyAlreadyPresentInOperations;
+import exceptions.WrongInputException;
 import java.util.HashMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
@@ -38,7 +39,8 @@ public class Operations {
      * @param sequence {@code String}
      * @throws KeyAlreadyPresentInOperations  if the operation to be added has the same name as an operation already present in the map.
      */
-    public void addOperation(String name, String sequence) throws KeyAlreadyPresentInOperations{
+    public void addOperation(String name, String sequence) throws KeyAlreadyPresentInOperations, WrongInputException{
+        checkUserDefinedOpration(name);
         if (!operationsMap.containsKey(name)) 
             operationsMap.put(name, sequence);
         else throw new KeyAlreadyPresentInOperations();
@@ -50,7 +52,8 @@ public class Operations {
      * @param sequence {@code String}
      * @throws KeyNotPresentInOperations if the operation to be modified is not present in the map.
      */
-    public void modify(String name, String sequence) throws KeyNotPresentInOperations{
+    public void modify(String name, String sequence) throws KeyNotPresentInOperations, WrongInputException{
+        checkUserDefinedOpration(name);
         if (operationsMap.containsKey(name))
             operationsMap.replace(name, sequence);
         else throw new KeyNotPresentInOperations();
@@ -91,6 +94,12 @@ public class Operations {
      */
     public ObservableMap<String, String> getOperationsMap() {
         return operationsMap;
+    }
+    
+    public void checkUserDefinedOpration(String string) throws WrongInputException{
+        if(!string.matches("^[a-zA-Z]+$")){
+            throw new WrongInputException();
+        }
     }
     
     
