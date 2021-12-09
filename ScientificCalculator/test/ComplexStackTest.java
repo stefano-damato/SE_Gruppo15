@@ -549,6 +549,7 @@ public class ComplexStackTest {
         assertEquals(cs, stack.lastElement());
     }
     
+    
     @Test(expected = OperationFailedException.class)
     public void testSelectOperationToInvokeException(){
         stack.insert(a);
@@ -556,5 +557,11 @@ public class ComplexStackTest {
         stack.insert(c);
         stack.insert(d);
         stack.selectOperationToInvoke("hypotenuse");
+    }
+    
+    @Test(expected = OperationFailedException.class)
+    public void testSelectOperationToInvoke2Exception(){
+        stack.insert(a);
+        stack.selectOperationToInvoke("+");
     }
 }
