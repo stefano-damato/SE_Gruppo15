@@ -430,14 +430,8 @@ public class FXMLDocumentController implements Initializable {
             checkValidInputForVariables(input);
             memory.selectOperationVariableToInvoke(input);
             historyTab.refresh();
-        } catch (KeyNotAlphabeticException ex){
-            wrongOperation("The calculator supports 26 variables:\n from \"a\" to \"z\"");
-        }catch (WrongInputException ex){
-            wrongOperation("Invalid Input");
-        }catch (EmptyStackException ex){
-            wrongOperation("No numbers in memory");
-        }catch (VariableNotFoundException ex){
-            wrongOperation("Variable not available");
+        } catch (WrongInputException | OperationFailedException ex){
+            wrongOperation("Invalid operation on variables");
         }
     }
 
