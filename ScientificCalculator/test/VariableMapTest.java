@@ -47,7 +47,10 @@ public class VariableMapTest extends VariableMap{
         var.save(v2);
     }
     
-    
+    @Test
+    public void okTest(){
+        
+    }
     @Test   
     public void testSaveVarible(){
        
