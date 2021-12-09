@@ -233,7 +233,7 @@ public class FXMLDocumentController implements Initializable {
             try{
             memory.selectOperationToInvoke(insertedText);
             historyTab.refresh();
-            }catch(WrongInputException | IndexOutOfBoundsException ex){
+            }catch(OperationFailedException ex){
                 wrongOperation("Input is not in correct form:\n a + bj");
             }finally{
                 text.setText("");
@@ -317,7 +317,7 @@ public class FXMLDocumentController implements Initializable {
         try{    
             memory.selectOperationToInvoke("sqrt");
             historyTab.refresh();
-        } catch(EmptyStackException ex){
+        } catch(OperationFailedException ex){
             wrongOperation("There must be at least one element!");
         }
     }
@@ -333,7 +333,7 @@ public class FXMLDocumentController implements Initializable {
         try{    
             memory.selectOperationToInvoke("+-");
             historyTab.refresh();
-        } catch(EmptyStackException ex){
+        } catch(OperationFailedException ex){
             wrongOperation("There must be at least one element!");
         }    
     }
@@ -349,7 +349,7 @@ public class FXMLDocumentController implements Initializable {
         try{
             memory.selectOperationToInvoke("clear");
             historyTab.refresh();
-        }catch (EmptyStackException ex){
+        }catch (OperationFailedException ex){
             wrongOperation("There must be at least one element!");
         }
     }
@@ -365,7 +365,7 @@ public class FXMLDocumentController implements Initializable {
         try{
             memory.selectOperationToInvoke("drop");
             historyTab.refresh();
-        } catch (NoSuchElementException | EmptyStackException ex){
+        } catch (OperationFailedException ex){
             wrongOperation("There must be at least one element!");
         }
     }
@@ -381,7 +381,7 @@ public class FXMLDocumentController implements Initializable {
         try{
             memory.selectOperationToInvoke("dup");
             historyTab.refresh();
-        } catch(EmptyStackException ex){
+        } catch(OperationFailedException ex){
             wrongOperation("There must be at least one element!");
         }
     }
@@ -397,7 +397,7 @@ public class FXMLDocumentController implements Initializable {
         try{
             memory.selectOperationToInvoke("swap");
             historyTab.refresh();
-        } catch(LessOf2ElementsException ex){
+        } catch(OperationFailedException ex){
             wrongOperation("There must be at least two elements!");
         }
     }
@@ -413,7 +413,7 @@ public class FXMLDocumentController implements Initializable {
         try{
             memory.selectOperationToInvoke("over");
             historyTab.refresh();
-        } catch (LessOf2ElementsException ex){
+        } catch (OperationFailedException ex){
             wrongOperation("There must be at least two elements!");
         }
     }

@@ -320,7 +320,7 @@ public class ComplexStack {
         }else {
             try {
                 insert(op);
-            }catch(WrongInputException ex) {
+            }catch(WrongInputException | IndexOutOfBoundsException ex) {
                 throw new OperationFailedException();
             }
         } 
