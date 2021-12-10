@@ -37,6 +37,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
 /**
@@ -72,8 +73,6 @@ public class FXMLDocumentController implements Initializable {
     private Button swapButton;
     @FXML
     private Button overButton;
-    @FXML
-    private Button variablesButton;
     @FXML
     private Button saveVarButton;
     @FXML
@@ -113,6 +112,8 @@ public class FXMLDocumentController implements Initializable {
     
     /** Observable list that will contain all the Variables of the calculator making them observable*/
     private ObservableList<Variable>  listVariables;
+    @FXML
+    private AnchorPane rootPane;
 
     
     @Override
@@ -122,7 +123,6 @@ public class FXMLDocumentController implements Initializable {
         SimpleBooleanProperty check  = new SimpleBooleanProperty();
         check.bind(Bindings.when(text.textProperty().isEmpty()).then(true).otherwise(false));
         insertButton.disableProperty().bind(check);
-        variablesButton.disableProperty().bind(check);
         
         SimpleBooleanProperty checkOperation  = new SimpleBooleanProperty();
         checkOperation.bind(Bindings.when(operationName.textProperty().isEmpty().or(operationSequence.textProperty().isEmpty())).then(true).otherwise(false));
@@ -387,7 +387,6 @@ public class FXMLDocumentController implements Initializable {
      * written in the text field after pressing the button insert or var
      * @param event {@code ActionEvent}
      */
-    @FXML
     private void variablesEvent(ActionEvent event) {
         try{
             String input=text.getText().toLowerCase().trim();
@@ -554,5 +553,6 @@ public class FXMLDocumentController implements Initializable {
             }
         }
     }
+
 
 }
