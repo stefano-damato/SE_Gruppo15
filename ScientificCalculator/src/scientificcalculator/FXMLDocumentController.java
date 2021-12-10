@@ -414,12 +414,20 @@ public class FXMLDocumentController implements Initializable {
             wrongOperation("Invalid operation on variables");
         }
     }
-
+    
+    /**
+     * The method saves the variables in the calculator
+     * @param event 
+     */
     @FXML
     private void saveVarEvent(ActionEvent event) {
         memory.selectOperationVariableStackToInvoke("save");
     }
-       
+    
+    /**
+     * The method restore the last saved variables in the calculator
+     * @param event 
+     */
     @FXML
     private void restoreVarEvent(ActionEvent event) {
         try {
@@ -430,6 +438,10 @@ public class FXMLDocumentController implements Initializable {
         }          
     }
     
+    /**
+     * The method save a user defined operation in the calculator
+     * @param event 
+     */
     @FXML
     private void saveOperationEvent(ActionEvent event) {
         try{
@@ -451,7 +463,11 @@ public class FXMLDocumentController implements Initializable {
         }
         
     }
-
+    
+    /**
+     * The method execute the sequence of operations defined by the selected user defined operation
+     * @param event 
+     */
     @FXML
     private void invokeEvent(ActionEvent event) {
         try {
@@ -462,13 +478,22 @@ public class FXMLDocumentController implements Initializable {
             historyTab.refresh();
         }
     }
-
+    
+    /**
+     * The method delete the selected user defined operation
+     * @param event 
+     */
     @FXML
     private void deleteOperationEvent(ActionEvent event) {
         String operationSequence = operationsTab.getSelectionModel().getSelectedItem();
         operation.delete(operationSequence);
     }
-
+    
+    /**
+     * The method sets the text field of operationName and operationSequence respectively with
+     *  the name and the sequence of the selected user defined operation, disabling the operationName textField.
+     * @param event 
+     */
     @FXML
     private void modifyOperationEvent(ActionEvent event) {
         operationName.setText(operationsTab.getSelectionModel().getSelectedItem());
@@ -476,7 +501,11 @@ public class FXMLDocumentController implements Initializable {
         operationSequence.setText(operation.getOperationsMap().get(operationsTab.getSelectionModel().getSelectedItem()));
     }
     
-    
+    /**
+     * The method after double-clicking the sequence of operation of the selected user defined operation,
+     * enables the sequence editing.
+     * @param event 
+     */
     @FXML
     private void editOperationEvent(TableColumn.CellEditEvent<String, String> event) {
         String operationSequence = operationsTab.getSelectionModel().getSelectedItem();
