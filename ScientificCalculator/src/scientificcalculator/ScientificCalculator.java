@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author stefa
+ * @author group15
  */
 public class ScientificCalculator extends Application {
     

@@ -41,6 +41,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -57,7 +58,7 @@ import javafx.stage.Stage;
 
 /**
  *The <em>FXMLDocumentController</em> class represents controller class in the Model-View-Controller architecture
- * @author stefa
+ * @author group15
  */
 public class FXMLDocumentController implements Initializable {
     
@@ -102,32 +103,33 @@ public class FXMLDocumentController implements Initializable {
     private TableView<Variable> variablesTab;
     @FXML
     private TableColumn<Variable, String> clmNameVariables;
-    
-    private Calculator memory = new Calculator();
-    
-    /** Observable list that will contain all the elements in <code>memory</code> making them observable*/
-    private ObservableList<Complex>  list;
-    
-    /** Observable list that will contain all the variables in <code>memory</code> making them observable*/
-    private ObservableList<Variable>  listVariables;
+    @FXML
+    private TableColumn<Variable, String> clmValuesVariables;
     @FXML
     private TableView<String> operationsTab;
     @FXML
     private TableColumn<String, String> clmOperation;
     @FXML
-    private TableColumn<Variable, String> clmValuesVariables;
-    @FXML
     private TableColumn<String, String> clmNameOperation;
-    
-    private Operations operation = memory.getOperations();
-    
-    private ObservableList<String> keys;
     @FXML
     private Button saveOperationButton;
     @FXML
     private TextField operationName;
     @FXML
     private TextField operationSequence;
+    
+    private Calculator memory = new Calculator();
+    
+    private Operations operation = memory.getOperations();
+    
+    /** Observable list that will contain all the name of the user defined operations*/
+    private ObservableList<String> keys;
+    
+    /** Observable list that will contain all the Complex number of the calculator making them observable*/
+    private ObservableList<Complex>  list;
+    
+    /** Observable list that will contain all the Variables of the calculator making them observable*/
+    private ObservableList<Variable>  listVariables;
 
     
     @Override
@@ -196,27 +198,18 @@ public class FXMLDocumentController implements Initializable {
     
     /**
      * This method creates a second window showing the string <code>msg</code> as text
-     * @param msg {@code String}
+     * @param msg {@code String} The error message to show
      */
     private void wrongOperation(String msg){
-        Stage primaryStage=new Stage();
-        Label lbl = new Label(msg);
-
-        VBox root = new VBox(20);
-        root.getChildren().addAll(lbl);
-        root.setAlignment(Pos.CENTER);
-
-        Scene scene = new Scene(root, 220, 150);
-
-        primaryStage.setTitle("Error");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Error Dialog");
+        alert.setHeaderText(msg);
+        alert.showAndWait();
     }
     
     /**
-     * This method execute the <code>insert</code> method of <code>memory</code>
-     * and inserts the element in the head of <code>list</code>
-     * after pressing the button addButton
+     * This method execute the insertion of a complex number or a variable in the calculator
+     * after pressing the insertButton or the return key on the keyboard.
      * @param event {@code ActionEvent}
      */
     @FXML
@@ -242,9 +235,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     /**
-     * This method execute the <code>add</code> method of <code>memory</code>
-     * and inserts the result in the head of <code>list</code> in place of the first two elements
-     * after pressing the button addButton
+     * The method deletes the last two saved numbers and inserts their sum in the calculator
      * @param event {@code ActionEvent}
      */
     @FXML
@@ -258,8 +249,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     /**
-     * This method execute the <code>sub</code> method of <code>memory</code>
-     * and inserts the result in the head of <code>list</code> in place of the first two elements
+     * The method deletes the last two saved numbers and inserts the difference between the last and the second last in the calculator
      * after pressing the button subButton
      * @param event {@code ActionEvent}
      */
@@ -275,8 +265,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     /**
-     * This method execute the <code>multiply</code> method of <code>memory</code>
-     * and inserts the result in the head of <code>list</code> in place of the first two elements
+     * The method deletes the last two saved numbers and inserts their product in the calculator
      * after pressing the button multiplyButton
      * @param event {@code ActionEvent}
      */
@@ -291,8 +280,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     /**
-     * This method execute the <code>divde</code> method of <code>memory</code>
-     * and inserts the result in the head of <code>list</code> in place of the first two elements
+     * The method deletes the last two saved numbers and inserts the division between the last and the second last in the calculator
      * after pressing the button divideButton 
      * @param event {@code ActionEvent}
      */
@@ -307,8 +295,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     /**
-     * This method execute the <code>square</code> method of <code>memory</code>
-     * and inserts the result in the head of <code>list</code> in place of the first element
+     * The method deletes the last number entered and inserts its square root in the calculator
      * after pressing the button sqrtButton 
      * @param event {@code ActionEvent}
      */
@@ -323,8 +310,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     /**
-     * This method execute the <code>invert</code> method of <code>memory</code>
-     * and inserts the result in the head of <code>list</code> in place of the first element
+     * The method deletes the last number entered, invert its sign,and inserts it the calculator
      * after pressing the button invertButton  
      * @param event {@code ActionEvent}
      */
@@ -339,9 +325,8 @@ public class FXMLDocumentController implements Initializable {
     }
     
     /**
-     * This method execute the <code>clear</code> method of <code>memory</code>
-     * and delete all the elements in <code>list</code>
-     * after pressing the button clearButton
+     * The method erases all numbers present in the calculator
+     * after pressing the button clearButton.
      * @param event {@code ActionEvent}
      */
     @FXML
@@ -355,9 +340,8 @@ public class FXMLDocumentController implements Initializable {
     }
     
     /**
-     * This method execute the <code>drop</code> method of <code>memory</code>
-     * and delete the last element in <code>list</code> 
-     * and write it in the text field after pressing the button dropButton 
+     * The method deletes the last number entered in the calculator
+     * after pressing the button dropButton 
      * @param event {@code ActionEvent}
      */
     @FXML
@@ -371,8 +355,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     /**
-     * This method execute the <code>dup</code> method <code>memory</code>
-     * and duplicates the last element in <code>list</code>
+     * The method duplicates the last element in the calculator
      * after pressing the button dupButton  
      * @param event {@code ActionEvent}
      */
@@ -387,8 +370,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     /**
-     * This method execute the <code>swap</code> method <code>memory</code>
-     * and swap the last two elements in <code>list</code>
+     * The method swap the last two elements in the calculator
      * after pressing the button swapButton 
      * @param event {@code ActionEvent}
      */
@@ -403,8 +385,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     /**
-     * This method execute the <code>over</code> method <code>memory</code> 
-     * and inserts a copy of the second last element in the head of the <code>list</code> 
+     * The method inserts a copy of the second last element in the calculator
      * after pressing the button overButton  
      * @param event {@code ActionEvent}
      */
@@ -420,7 +401,7 @@ public class FXMLDocumentController implements Initializable {
     
     /**
      * This method executes the operation on the variables according to what is 
-     * written in the text field after pressing the button 
+     * written in the text field after pressing the button insert or var
      * @param event {@code ActionEvent}
      */
     @FXML
@@ -495,12 +476,17 @@ public class FXMLDocumentController implements Initializable {
         operationSequence.setText(operation.getOperationsMap().get(operationsTab.getSelectionModel().getSelectedItem()));
     }
     
+    
     @FXML
     private void editOperationEvent(TableColumn.CellEditEvent<String, String> event) {
         String operationSequence = operationsTab.getSelectionModel().getSelectedItem();
         operation.modify(operationSequence, event.getNewValue());
     }
-
+    
+    /**
+     * The method saves the user defined operation in a .txt file. The name of the file is chosen by the user.
+     * @param event 
+     */
     @FXML
     private void saveOperations(ActionEvent event) {
         final FileChooser fc = new FileChooser();
@@ -523,7 +509,11 @@ public class FXMLDocumentController implements Initializable {
             }
         }
     }
-
+    
+    /**
+     * The method loads operations from a txt file chosen by the user and saves them.
+     * @param event 
+     */
     @FXML
     private void loadOperations(ActionEvent event) {
         final FileChooser fc = new FileChooser();
@@ -536,11 +526,15 @@ public class FXMLDocumentController implements Initializable {
                 
                 i.useDelimiter("=|\\n");
                 operation.getOperationsMap().clear();
+                try{
                 
                 while(i.hasNext()){
                     String name = i.next();
                     String expression = i.next();
-                    operation.getOperationsMap().put(name, expression);
+                    operation.addOperation(name, expression);
+                }
+                }catch(WrongInputException ex){
+                    wrongOperation("Wrong Format for the user defiend operations");
                 }
                 
             } catch (FileNotFoundException ex) {

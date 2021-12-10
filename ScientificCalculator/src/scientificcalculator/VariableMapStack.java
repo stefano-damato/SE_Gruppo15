@@ -9,28 +9,30 @@ import java.util.EmptyStackException;
 import java.util.Stack;
 
 /**
- *
- * @author stefa
+ * The <em>VariableMapStack</em> represents a stack of {@link scientificcalculator.VariableMap VariableMap}
+ * @author group15
  */
 public class VariableMapStack {
-
+    /** Contains all the {@link scientificcalculator.VariableMap VariableMap} that will be saved*/
     private Stack<VariableMap> variables;
-
+    
+    /** Initialize {@link #variables variables} to a empty Stack */
     public VariableMapStack() {
         variables = new Stack<VariableMap>();
     }
-
+    
     /**
-     * The method creates a new instance of the VariableMap object and inserts it onto stack.
+     * The method push into {@link #variables variables} a {@link scientificcalculator.VariableMap VariableMap}.
+     * @param vm {@code VariableMap} the VariableMap to save.
      */
     public void save(VariableMap vm) {
         variables.push(vm);
     }
 
     /**
-     * The method deletes and returns the last inserted VariableMap object and restores the previous one.
-     * @return 
-     * @throws EmptyStackException if there are less than two elements
+     * The method deletes and returns the last inserted {@link scientificcalculator.VariableMap VariableMap} object.
+     * @return {@code VariableMap} the last element of {@link #variables variables}
+     * @throws EmptyStackException if there are less than one element
      */
     public VariableMap restore() throws EmptyStackException{
         if (variables.size() < 1)

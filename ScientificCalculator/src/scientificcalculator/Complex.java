@@ -24,7 +24,7 @@ public class Complex {
     private static final int decimals = 10^8;
     
     /**
-     * Initializes an object of class <em>Complex</em>.
+     * Initializes an object of class {@link scientificcalculator.Complex Complex}.
      * @param real {@code double}
      * @param imaginary {@code double}
      */
@@ -34,7 +34,7 @@ public class Complex {
     }
     
     /**
-     * Returns the real part
+     * Returns the real part of {@link scientificcalculator.Complex Complex}.
      * @return real {@code double}
      */
     public double getReal() {
@@ -42,7 +42,7 @@ public class Complex {
     }
     
     /**
-     * Returns the imaginary part
+     * Returns the imaginary part of {@link scientificcalculator.Complex Complex}.
      * @return imaginary {@code double}
      */
     public double getImaginary() {
@@ -50,7 +50,7 @@ public class Complex {
     }
     
     /**
-     * Returns a string representation of the Complex object in Cartesian coordinate format.
+     * Returns a string representation of the {@link scientificcalculator.Complex Complex} object in Cartesian coordinate format.
      * @return a string representation of the Complex object {@code String}
      */
     public String getComplex(){
@@ -58,7 +58,7 @@ public class Complex {
     }
     
     /**
-     * Returns a string representation of the Complex object in Cartesian coordinate format.
+     * Returns a string representation of the {@link scientificcalculator.Complex Complex} object in Cartesian coordinate format.
      * @return a string representation of the Complex object {@code String}
      */
     @Override
@@ -78,7 +78,7 @@ public class Complex {
     /**
      * This method overrides the method {@link #equals(java.lang.Object)}.
      * <p>
-     * Check if two complex numbers are equal. 
+     * Check if two {@link scientificcalculator.Complex Complex} are equal. 
      * They are equal if their real part is the same and their imaginary part is the same, otherwise they are different.
      * @param obj
      * @return boolean value, true if the two objects are equal, false otherwise.
@@ -105,7 +105,7 @@ public class Complex {
     }
      
     /**
-     * This method adds respectively the real part and the imaginary part of the current Complex with the real and imaginary part of the Complex passed as a parameter.
+     * This method adds respectively the real part and the imaginary part of the current {@link scientificcalculator.Complex Complex} with the real and imaginary part of the Complex passed as a parameter.
      * @param a {@code Complex}
      * @return new object {@code Complex} that represents <code>a</code> added to <code>this</code>
      */
@@ -117,7 +117,7 @@ public class Complex {
     }
     
     /**
-     * This method subtracts respectively the real part and the imaginary part of the current Complex with the real and imaginary part of the Complex passed as a parameter.
+     * This method subtracts respectively the real part and the imaginary part of the current {@link scientificcalculator.Complex Complex} with the real and imaginary part of the Complex passed as a parameter.
      * @param a {@code Complex}
      * @return new object {@code Complex} that represents <code>a</code>  subtracted from <code>this</code>
      */
@@ -129,7 +129,7 @@ public class Complex {
     }
     
     /**
-     * This method multiplies the current Complex with Complex passed as a parameter.
+     * This method multiplies the current {@link scientificcalculator.Complex Complex} with Complex passed as a parameter.
      * @param a {@code Complex}
      * @return new object {@code Complex} that represents <code>a</code> multiplied to <code>this</code>
      */
@@ -141,9 +141,10 @@ public class Complex {
     }
     
     /**
-     * This method divides the current Complex with Complex passed as a parameter.
+     * This method divides the current {@link scientificcalculator.Complex Complex} with Complex passed as a parameter.
      * @param a {@code Complex}
      * @return new object {@code Complex} that represents <code>this</code> divided by <code>a</code>
+     * @throws DivisionException if the real part and the imaginary part of parameter are both 0
      */
     public Complex divide(Complex a) {
         
@@ -160,7 +161,7 @@ public class Complex {
     }
     
     /**
-     * This method takes the square root of the current Complex.
+     * This method takes the square root of the current {@link scientificcalculator.Complex Complex}.
      * Computes the principal branch of the square root, which 
      * is the value with 0 <= this < pi.
      * @return new object {@code Complex} that represents the square root of <code>this</code>
@@ -172,7 +173,7 @@ public class Complex {
     }
     
     /**
-     * This method inverts the sign of the real part and the imaginary part of the current Complex.
+     * This method inverts the sign of the real part and the imaginary part of the current {@link scientificcalculator.Complex Complex}.
      * @return new object {@code Complex} that represents <code>this</code> with inverted sign
      */
     public Complex invert(){
@@ -180,7 +181,7 @@ public class Complex {
     }
 
     /**
-        Modulus of this Complex number
+        Modulus of this {@link scientificcalculator.Complex Complex} number
         (the distance from the origin in polar coordinates).
         @return |z| where z is this Complex number.
     */

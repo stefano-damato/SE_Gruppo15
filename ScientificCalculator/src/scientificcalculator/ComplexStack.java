@@ -18,17 +18,31 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author nicol
+ * The <em>ComplexStack</em> represents a stack of {@link scientificcalculator.Complex Complex} objects
+ * @author group15
  */
 public class ComplexStack {
-    /*** Contains all the complex that will be inserted*/
+    /*** Contains all the {@link scientificcalculator.Complex Complex} that will be inserted*/
     private Stack<Complex> complexStack; 
-    /** */
+    /** contains the methods <b>(value)</b> of {@link scientificcalculator.ComplexStack ComplexStack},
+     * operating on {@link #complexStack complexStack}, that can be invoked by a given command <b>(key)</b>*/
     private HashMap<String, String> invokeOperations;
     
     /**
-     * Initialize complexStack
+     * Initialize {@link #complexStack complexStack} to a empty Stack and 
+     * <br> {@link #complexStack invokeOperations}
+     * <br> -  key,Value
+     * <br> -  "+", "add"
+     * <br> -  "-", "sub"
+     * <br> -  "*", "multiply"
+     * <br> -  "/", "divide"
+     * <br> -  "+-", "invert"
+     * <br> -  "sqrt", "square"
+     * <br> -  "drop", "drop"
+     * <br> -  "dup", "dup"
+     * <br> -  "over", "over"
+     * <br> -  "swap", "swap"
+     * <br> -  "clear", "clear"
      */
     public ComplexStack() {
         complexStack = new Stack<>();
@@ -47,19 +61,24 @@ public class ComplexStack {
     }
     
     /**
-     * The method insert a complex number into the stack
-     * @param c {@code Complex}
+     * The method insert a {@link scientificcalculator.Complex Complex} into the {@link #complexStack complexStack}.
+     * @param c {@code Complex} the complex number to insert.
      */
     public void insert(Complex c){
         complexStack.push(c);
     }
     
+    /**
+     * The method insert a new {@link scientificcalculator.Complex Complex} initialized to the value represented by the specified {@code String} into the {@link #complexStack complexStack}.
+     * @param input {@code String} the string to be parsed.
+     * @throws WrongInputException
+     * @throws IndexOutOfBoundsException 
+     */
     public void insert(String input) throws WrongInputException, IndexOutOfBoundsException{
         double real=0;
         double imaginary=0;
         int sign=1;
         Complex c;
-        
         //check string
         if(input.indexOf("-")==0 || input.indexOf("+")==0){
             if(input.indexOf("-")==0)
@@ -100,7 +119,7 @@ public class ComplexStack {
     
     /**
      * The method checks if the string <code>s</code>  is in the form a + j b. a and b must be real numbers.
-     * @param s {@code String}
+     * @param s {@code String} the String to check.
      * @return <code>true</code>  if the string is correct
      * @throws WrongInputException 
      */
@@ -137,13 +156,17 @@ public class ComplexStack {
         return true;
     }
     
+    /**
+     * The method return a reference to {@link #complexStack complexStack}
+     * @return complexStack - {@code Stack<{@link scientificcalculator.Complex Complex}>}
+     */
     public Stack<Complex> getComplexStack(){
         return complexStack;
     }
     
     /**
-     * The method returns the last element within the stack
-     * @return complexStack.lastElement
+     * The method returns the last element within the {@link #complexStack complexStack}.
+     * @return the last {@code {@link scientificcalculator.Complex Complex}} of the Stack
      */
     public Complex lastElement(){
         return complexStack.lastElement();
@@ -155,9 +178,9 @@ public class ComplexStack {
     }
     
     /**
-     * The method removes the last two elements from the stack, 
-     * execute the <code>add</code> method on the first one
-     * and puts the sum on the stack
+     * The method removes the last two elements from the {@link #complexStack complexStack},
+     * execute the {@link scientificcalculator.Complex#sub sub} method on the first one
+     * and puts the sub on the stack
      * @throws LessOf2ElementsException if there are less of two elements in the stack
      */
     public void add() throws LessOf2ElementsException{
@@ -170,8 +193,8 @@ public class ComplexStack {
     }
     
     /**
-     * The method removes the last two elements from the stack, 
-     * execute the <code>sub</code> method on the first one
+     * The method removes the last two elements from the {@link #complexStack complexStack},
+     * execute the {@link scientificcalculator.Complex#sub sub} method on the first one
      * and puts the sub on the stack
      * @throws LessOf2ElementsException if there are less of two elements in the stack
      */
@@ -185,8 +208,8 @@ public class ComplexStack {
     }
     
     /**
-     * The method removes the last two elements from the stack,
-     * execute the <code>multiply</code> method on the first one
+     * The method removes the last two elements from the {@link #complexStack complexStack}, 
+     * execute the {@link scientificcalculator.Complex#multiply multiply} method on the first one
      * and puts the multiplication on the stack
      * @throws LessOf2ElementsException if there are less of two elements in the stack
      */
@@ -200,11 +223,10 @@ public class ComplexStack {
     }
     
     /**
-     * The method removes the last two elements from the stack,
-     * execute the <code>divide</code> method on the first one
+     * The method removes the last two elements from the {@link #complexStack complexStack}, 
+     * execute the {@link scientificcalculator.Complex#divide divide} method on the first one
      * and puts the division on the stack
      * @throws LessOf2ElementsException if there are less of two elements in the stack
-     * @throws DivisionException if division is not possible
      */
     public void divide() throws LessOf2ElementsException, DivisionException{
         if(complexStack.size()<2)
@@ -222,8 +244,8 @@ public class ComplexStack {
     }
     
     /**
-     * The method removes the last element from the stack, 
-     * execute the <code>square</code> method
+     * The method removes the last element from the {@link #complexStack complexStack}, 
+     * execute the {@link scientificcalculator.Complex#square square} method
      * and puts the result on the stack
      * @throws EmptyStackException if the stack is empty
      */
@@ -236,8 +258,8 @@ public class ComplexStack {
     }
     
     /**
-     * The method removes the last element from the stack,
-     * execute the <code>invert</code> method
+     * The method removes the last element from the {@link #complexStack complexStack}, 
+     * execute the {@link scientificcalculator.Complex#invert invert} method
      * puts the result on the stack
      * @throws EmptyStackException if the stack is empty
      */
@@ -250,7 +272,7 @@ public class ComplexStack {
     }
     
     /**
-     * The method empties the stack
+     * The method empties the {@link #complexStack complexStack}.
      * @throws EmptyStackException if the stack is empty
      */
     public void clear() throws EmptyStackException{
@@ -260,9 +282,9 @@ public class ComplexStack {
     }
     
     /**
-     * The method removes the last element from the stack
+     * The method removes the last element from the {@link #complexStack complexStack}.
      * @throws EmptyStackException if the stack is empty
-     * @return complexStack.pop() {@code Complex}
+     * @return complexStack.pop() {@code Complex} the last element of the stack
      */
     public Complex drop() throws EmptyStackException{
         if (complexStack.size() < 1)
@@ -271,7 +293,7 @@ public class ComplexStack {
     }
    
     /**
-     * The method duplicates the last element in the stack 
+     * The method duplicates the last element in the {@link #complexStack complexStack}.
      * @throws EmptyStackException if the stack is empty
      */
     public void dup() throws EmptyStackException{
@@ -283,7 +305,7 @@ public class ComplexStack {
     }
     
     /**
-     * The method swap the last two elements in the stack
+     * The method swap the last two elements in the {@link #complexStack complexStack}.
      * @throws LessOf2ElementsException if there are less of two elements in the stack
      */
     public void swap() throws LessOf2ElementsException{
@@ -295,8 +317,9 @@ public class ComplexStack {
         insert(a);
         insert(b);
     } 
+    
     /**
-     * The method inserts a copy of the second last element in the stack
+     * The method inserts a copy of the second last element in the {@link #complexStack complexStack}.
      * @throws LessOf2ElementsException if there are less of two elements in the stack
      */
     public void over()throws LessOf2ElementsException{
@@ -306,7 +329,27 @@ public class ComplexStack {
         
         insert(a);
     }
-            
+    
+    /**
+     * The method decides depending on the passed command
+     * which method to invoke on this object
+     * The possible methods to invoke are saved in the <code>HashMap</code>  {@link #invokeOperations invokeOperations}.
+     * <br>
+     * <br> -  "+" invoke {@link #add() add}
+     * <br> -  "-" invoke {@link #sub() sub}
+     * <br> -  "*" invoke {@link #multiply() multiply}
+     * <br> -  "/" invoke {@link #divide() divide}
+     * <br> -  "+-" invoke {@link #invert() invert}
+     * <br> -  "sqrt" invoke {@link #sqrt() sqrt}
+     * <br> -  "drop" invoke {@link #drop() drop}
+     * <br> -  "dup" invoke {@link #dup() dup}
+     * <br> -  "over" invoke {@link #over() over}
+     * <br> -  "swap" invoke {@link #swap() swap}
+     * <br> -  "clear" invoke {@link #clear() clear}
+     * <br>
+     * @param op {@code String} the command to invoke
+     * @throws OperationFailedException it is not possible to execute the chosen action.
+     */
     public void selectOperationToInvoke(String op) throws OperationFailedException{
         Method m;
         if (invokeOperations.containsKey(op)){
