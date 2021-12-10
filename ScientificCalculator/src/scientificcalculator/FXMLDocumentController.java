@@ -455,8 +455,6 @@ public class FXMLDocumentController implements Initializable {
     private void invokeEvent(ActionEvent event) {
         try {
             memory.invokeOperation(operationsTab.getSelectionModel().getSelectedItem());
-        }catch (NullPointerException ex){
-            wrongOperation("Sono gay");
         }catch (OperationFailedException ex) {
             wrongOperation("Operation failed");
         }finally{
