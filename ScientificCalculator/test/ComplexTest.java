@@ -11,7 +11,7 @@ import exceptions.DivisionException;
 
 /**
  *
- * @author nicol
+ * @author group15
  */
 public class ComplexTest {
   
@@ -86,4 +86,11 @@ public class ComplexTest {
         assertEquals(new Complex(50.50, 0), g.invert());
     }
     
+    @Test
+    public void testMod() {
+        assertEquals(0 , a.mod(),0.0000000000000001);
+        assertEquals(100 , b.mod(),0.0000000000000001);
+        assertEquals(100 , c.mod(),0.0000000000000001);
+        assertEquals(917.9039508031327784 , e.mod(),0.0000000000000001);
+    }
 }

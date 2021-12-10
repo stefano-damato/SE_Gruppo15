@@ -20,7 +20,7 @@ import scientificcalculator.ComplexStack;
 
 /**
  *
- * @author nicol
+ * @author group15
  */
 public class ComplexStackTest {
     private ComplexStack stack;

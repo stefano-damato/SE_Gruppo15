@@ -6,6 +6,7 @@
 
 import exceptions.KeyAlreadyPresentInOperations;
 import exceptions.KeyNotPresentInOperations;
+import exceptions.WrongInputException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,7 +17,7 @@ import scientificcalculator.Operations;
 
 /**
  *
- * @author nicol
+ * @author group15
  */
 public class OperationsTest {
     private Operations operations;
@@ -115,4 +116,11 @@ public class OperationsTest {
         assertEquals("/ *" , operations.getSequence(nameB));
         assertEquals("sqrt +-" , operations.getSequence(nameC));        
     }
+    
+    @Test (expected = WrongInputException.class)
+    public void testCheckUserDefinedOpration() {
+        String s1 = "op2";
+        operations.checkUserDefinedOpration(s1);
+    }
+    
 }

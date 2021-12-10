@@ -14,7 +14,7 @@ import scientificcalculator.VariableMap;
 
 /**
  *
- * @author benedettocirillo
+ * @author group15
  */
 public class VariableMapTest extends VariableMap{
     private VariableMap var;
@@ -46,13 +46,9 @@ public class VariableMapTest extends VariableMap{
         var.save(v1);
         var.save(v2);
     }
-    
-    @Test
-    public void okTest(){
         
-    }
     @Test   
-    public void testSaveVarible(){
+    public void testSave(){
        
         assertEquals(a,var.getVariables().get(key1));
         
@@ -68,7 +64,7 @@ public class VariableMapTest extends VariableMap{
     }
     
     @Test   
-    public void testpushVarible(){
+    public void testPush(){
         
         Complex c = var.push(new Variable(key1, null));
         Complex c1 = var.push(new Variable(key2,null));
@@ -84,7 +80,7 @@ public class VariableMapTest extends VariableMap{
     }
     
     @Test
-    public void testAddVariable(){
+    public void testAdd(){
         var.add(new Variable(key1, c));
         assertEquals(var.push(new Variable(key1, null)), a.add(c));
         var.add(new Variable('x', b));
@@ -92,7 +88,7 @@ public class VariableMapTest extends VariableMap{
     }
     
     @Test
-    public void testSubVariable(){
+    public void testSub(){
         var.sub(new Variable(key1, c));
         assertEquals(var.push(new Variable(key1, null)), a.sub(c));
         var.sub(new Variable('x', b));

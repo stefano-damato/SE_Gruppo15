@@ -20,7 +20,7 @@ import scientificcalculator.Variable;
 /**
 /**
  *
- * @author andreapassarelli
+ * @author group15
  */
 public class CalulatorTest extends Calculator{
     private Calculator calc;
@@ -257,13 +257,13 @@ public class CalulatorTest extends Calculator{
         calc.selectOperationVariableToInvoke(s);
     }
     
-    /*
+    
     @Test(expected = WrongInputException.class)
     public void testSelectOperationVariableToInvokeWrongInputException() {
         String s = "ss";
         calc.selectOperationVariableToInvoke(s);
     }
-    */
+    
     
     @Test
     public void selectOperationVariableStackToInvoke(){
@@ -331,5 +331,12 @@ public class CalulatorTest extends Calculator{
         calc.getOperations().addOperation("secondOp", s3);
         calc.invokeOperation("secondOp");
         assertEquals(true, calc.getComplexStack().empty());
+        String s4 = "35 78 >a >b save 41 98 +a +b restore <a 20 *";
+        Complex c = new Complex(1560,0);
+        calc.getOperations().addOperation("thirdOp", s4);
+        calc.invokeOperation("thirdOp");
+        assertEquals(c, calc.getComplexStack().lastElement());
     }
+    
+    
 }

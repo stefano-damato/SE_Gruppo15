@@ -22,6 +22,14 @@ public class VariableMapStack {
     }
     
     /**
+     * The method returns the reference to the Stack {@link #variables variables}.
+     * @return variables {@code Stack<VariableMap>}
+     */
+    public Stack<VariableMap> getVariables() {
+        return variables;
+    }
+       
+    /**
      * The method push into {@link #variables variables} a {@link scientificcalculator.VariableMap VariableMap}.
      * @param vm {@code VariableMap} the VariableMap to save.
      */
