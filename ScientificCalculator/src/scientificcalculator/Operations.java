@@ -8,7 +8,6 @@ package scientificcalculator;
 import exceptions.KeyNotPresentInOperations;
 import exceptions.KeyAlreadyPresentInOperations;
 import exceptions.WrongInputException;
-import java.util.HashMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 

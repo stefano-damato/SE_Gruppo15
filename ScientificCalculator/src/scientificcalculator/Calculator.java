@@ -109,18 +109,20 @@ public class Calculator {
      * @throws WrongInputException if the string that has <b>name</b> as key in the observableMap contained in <code>operations</code> is not in the right format
      * @throws IndexOutOfBoundsException if the string that has <b>name</b> as key in the observableMap contained in <code>operations</code>, contains a number to insert written in the wrong way
      */
-    public void invokeOperation(String name) throws WrongInputException{
-        String seq = operations.getSequence(name);
-        String[] userOperations = seq.split(" ");
-        for (String operation : userOperations) {
-            if (operation.length() == 2 && operation.substring(0, 1).matches("^[+-><]+$")&& Character.isAlphabetic(operation.charAt(1))) {
-                selectOperationVariableToInvoke(operation);   
-            }else if(operations.containName(operation)){
-                invokeOperation(operation);         
-            }else if(operation.equalsIgnoreCase("save") || operation.equalsIgnoreCase("restore")){
-                selectOperationVariableStackToInvoke(operation);
+    public void invokeOperation(String name) {
+        if(operations.containName(name)){
+            String seq = operations.getSequence(name);
+            String[] userOperations = seq.split(" ");
+            for (String operation : userOperations) {
+                if (operation.length() == 2 && operation.substring(0, 1).matches("^[+-><]+$")&& Character.isAlphabetic(operation.charAt(1))) {
+                    selectOperationVariableToInvoke(operation);   
+                }else if(operations.containName(operation)){
+                    invokeOperation(operation);         
+                }else if(operation.equalsIgnoreCase("save") || operation.equalsIgnoreCase("restore")){
+                    selectOperationVariableStackToInvoke(operation);
+                }
+                else selectOperationToInvoke(operation);
             }
-            else selectOperationToInvoke(operation);
         }
     }
     
@@ -152,7 +154,7 @@ public class Calculator {
      * @param op {@code String} the command to invoke
      * @throws OperationFailedException it is not possible to execute the chosen action.
      */
-    public void selectOperationVariableToInvoke(String op) throws OperationFailedException, WrongInputException{
+    public void selectOperationVariableToInvoke(String op) throws OperationFailedException{
         checkValidInputForVariables(op);
         Method m;
         String key = op.substring(0, 1);

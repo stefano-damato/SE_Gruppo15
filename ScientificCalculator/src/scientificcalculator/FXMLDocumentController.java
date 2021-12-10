@@ -6,12 +6,8 @@
 package scientificcalculator;
 
 import exceptions.WrongInputException;
-import exceptions.LessOf2ElementsException;
-import exceptions.KeyNotAlphabeticException;
-import exceptions.DivisionException;
 import exceptions.KeyAlreadyPresentInOperations;
 import exceptions.OperationFailedException;
-import exceptions.VariableNotFoundException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -21,12 +17,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
-import java.util.Collections;
-import java.util.EmptyStackException;
-import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 import java.util.Scanner;
-import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.binding.Bindings;
@@ -34,13 +26,9 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -49,12 +37,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 /**
  *The <em>FXMLDocumentController</em> class represents controller class in the Model-View-Controller architecture
@@ -472,6 +455,8 @@ public class FXMLDocumentController implements Initializable {
     private void invokeEvent(ActionEvent event) {
         try {
             memory.invokeOperation(operationsTab.getSelectionModel().getSelectedItem());
+        }catch (NullPointerException ex){
+            wrongOperation("Sono gay");
         }catch (OperationFailedException ex) {
             wrongOperation("Operation failed");
         }finally{
