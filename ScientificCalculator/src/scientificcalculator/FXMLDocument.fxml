@@ -35,7 +35,7 @@
                                  <children>
                                     <VBox prefHeight="498.0" prefWidth="186.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <TableView id="var" fx:id="variablesTab" nodeOrientation="RIGHT_TO_LEFT" prefHeight="498.0" prefWidth="161.0" stylesheets="@TableView.css" VBox.vgrow="ALWAYS">
+                                          <TableView id="var" fx:id="variablesTab" nodeOrientation="RIGHT_TO_LEFT" prefHeight="498.0" prefWidth="161.0" stylesheets="@../css/Style.css" VBox.vgrow="ALWAYS">
                                              <columns>
                                                 <TableColumn fx:id="clmValuesVariables" minWidth="8.0" prefWidth="228.0" text="Value" />
                                                 <TableColumn fx:id="clmNameVariables" prefWidth="70.0" text="Name" />
@@ -74,13 +74,13 @@
                                                 <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="247.0" spacing="33.0">
                                                    <children>
                                                       <Label text="Name" textFill="WHITE" />
-                                                      <TextField id="textFieldNameOp" fx:id="operationName" alignment="CENTER_RIGHT" stylesheets="@TableView.css" HBox.hgrow="ALWAYS" />
+                                                      <TextField id="textFieldNameOp" fx:id="operationName" alignment="CENTER_RIGHT" stylesheets="@../css/Style.css" HBox.hgrow="ALWAYS" />
                                                    </children>
                                                 </HBox>
                                                 <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="247.0" spacing="10.0">
                                                    <children>
                                                       <Label text="Sequence" textFill="WHITE" />
-                                                      <TextField id="textFieldSeqOp" fx:id="operationSequence" alignment="CENTER_RIGHT" stylesheets="@TableView.css" HBox.hgrow="ALWAYS" />
+                                                      <TextField id="textFieldSeqOp" fx:id="operationSequence" alignment="CENTER_RIGHT" stylesheets="@../css/Style.css" HBox.hgrow="ALWAYS" />
                                                    </children>
                                                 </HBox>
                                                 <HBox alignment="CENTER" prefHeight="40.0" prefWidth="247.0" spacing="10.0">
@@ -92,7 +92,7 @@
                                                       </Button>
                                                    </children>
                                                 </HBox>
-                                                <TableView id="op" fx:id="operationsTab" editable="true" stylesheets="@TableView.css" VBox.vgrow="ALWAYS">
+                                                <TableView id="op" fx:id="operationsTab" editable="true" stylesheets="@../css/Style.css" VBox.vgrow="ALWAYS">
                                                    <columns>
                                                       <TableColumn fx:id="clmNameOperation" editable="false" prefWidth="103.0" text="Name" />
                                                       <TableColumn fx:id="clmOperation" onEditCommit="#editOperationEvent" prefWidth="185.0" text="Operation" />
@@ -134,7 +134,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: black;">
                            <children>
-                              <TextField id="textFieldInput" fx:id="text" alignment="TOP_RIGHT" promptText="a +bj" stylesheets="@TableView.css" HBox.hgrow="ALWAYS">
+                              <TextField id="textFieldInput" fx:id="text" alignment="TOP_RIGHT" promptText="a +bj" stylesheets="@../css/Style.css" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets left="20.0" right="20.0" />
                                  </HBox.margin>
@@ -290,7 +290,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <TableView id="history" fx:id="historyTab" prefHeight="498.0" prefWidth="187.0" stylesheets="@TableView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView id="history" fx:id="historyTab" prefHeight="498.0" prefWidth="187.0" stylesheets="@../css/Style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="clmHistory" prefWidth="75.0" sortable="false" text="History" />
                     </columns>
