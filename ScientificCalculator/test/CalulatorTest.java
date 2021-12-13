@@ -1,20 +1,26 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
+
 import org.junit.*;
 import static org.junit.Assert.*;
 import scientificcalculator.Calculator;
 import scientificcalculator.Complex;
 import exceptions.DivisionException;
+import exceptions.KeyNotAlphabeticException;
 import java.util.EmptyStackException;
 import java.util.*;
 import exceptions.LessOf2ElementsException;
+import exceptions.OperationFailedException;
+import exceptions.VariableNotFoundException;
+import exceptions.WrongInputException;
 import scientificcalculator.Variable;
 /**
 /**
  *
- * @author andreapassarelli
+ * @author group15
  */
 public class CalulatorTest extends Calculator{
     private Calculator calc;
@@ -43,293 +49,294 @@ public class CalulatorTest extends Calculator{
     }
     
     @Test
-    public void testLastElement(){
-        calc.insert(a);
-        calc.insert(b);
-        assertEquals(b, calc.lastElement());
-        calc.insert(c);
-        assertEquals(c, calc.lastElement());
+    public void testSaveVariable() {
+        calc.getComplexStack().push(e);
+        calc.getComplexStack().push(f);
+        calc.getComplexStack().push(g);
+        calc.getComplexStack().push(h);
+        calc.getComplexStack().push(b);
+        
+        calc.saveVariable('b');
+        calc.saveVariable('h');
+        calc.saveVariable('g');
+        calc.saveVariable('f');
+        calc.saveVariable('e');
+        
+        assertEquals(true, calc.getComplexStack().empty());
+        assertEquals(b, calc.getVariables().getVariables().get('b'));
+        assertEquals(h, calc.getVariables().getVariables().get('h'));
+        assertEquals(g, calc.getVariables().getVariables().get('g'));
+        assertEquals(f, calc.getVariables().getVariables().get('f'));
+        assertEquals(e, calc.getVariables().getVariables().get('e'));                           
+    }
+ 
+    @Test(expected = EmptyStackException.class)
+    public void testSaveVariableEmptyStackException(){
+        calc.saveVariable('a');              
+    }
+    
+    @Test(expected = KeyNotAlphabeticException.class)
+    public void testSaveVariableKeyNotAlphabeticException(){
+        calc.getComplexStack().push(e);  
+        calc.saveVariable('+');
+    }
+    
+    @Test(expected = KeyNotAlphabeticException.class)
+    public void testSaveVariable2KeyNotAlphabeticException(){
+        calc.getComplexStack().push(e);  
+        calc.saveVariable('2');
+    }
+    
+    @Test(expected = KeyNotAlphabeticException.class)
+    public void testSaveVariable3KeyNotAlphabeticException(){
+        calc.getComplexStack().push(e);  
+        calc.saveVariable(' ');
     }
     
     @Test
-    public void testInsert(){
-        calc.insert(a);
-        assertEquals(a, calc.lastElement());
+    public void testPushVariable() {
+        calc.getComplexStack().push(e);
+        calc.getComplexStack().push(f);
+        calc.getComplexStack().push(g);
+        calc.getComplexStack().push(h);
+        calc.getComplexStack().push(b);
+        
+        calc.saveVariable('b');
+        calc.saveVariable('h');
+        calc.saveVariable('g');
+        calc.saveVariable('f');
+        calc.saveVariable('e');
+        
+        assertEquals(true, calc.getComplexStack().empty());
+        
+        calc.pushVariable('e');       
+        assertEquals(e, calc.getVariables().getVariables().get('e')); 
+        calc.pushVariable('b');       
+        assertEquals(b, calc.getVariables().getVariables().get('b'));
+        calc.pushVariable('f');       
+        assertEquals(f, calc.getVariables().getVariables().get('f'));
+        calc.pushVariable('h');       
+        assertEquals(h, calc.getVariables().getVariables().get('h'));
     }
     
-    @Test   
-    public void testAdd(){
-        calc.insert(a);
-        calc.insert(b);
-        calc.insert(c);
-        calc.insert(d);
-        calc.insert(e);
-        calc.insert(f);
-        calc.insert(g);
-        calc.insert(h);
+    
+    @Test(expected = VariableNotFoundException.class)
+    public void testPushVariableException(){
+        calc.getComplexStack().push(e);
+        calc.getComplexStack().push(f);
+        calc.getComplexStack().push(g);
+        calc.getComplexStack().push(h);
+        calc.getComplexStack().push(b);
         
+        calc.saveVariable('b');
+        calc.saveVariable('h');
+        
+        calc.pushVariable('z');
+    }
+    
+    @Test
+    public void testAddVariable(){
+        calc.getComplexStack().push(e);
+        calc.getComplexStack().push(f);
+        calc.getComplexStack().push(g);
+        calc.getComplexStack().push(h);
+        calc.getComplexStack().push(b);
+        
+        calc.saveVariable('b');
+        calc.saveVariable('h');
+        
+        calc.addVariable('h');
         Complex hg = h.add(g);
-	calc.add();
-            assertEquals(hg, calc.lastElement());
-	Complex hgf = hg.add(f);
-	calc.add();
-            assertEquals(hgf, calc.lastElement());
-        Complex hgfe = hgf.add(e);
-	calc.add();
-            assertEquals(hgfe, calc.lastElement());
-        Complex hgfed = hgfe.add(d);
-	calc.add();
-            assertEquals(hgfed, calc.lastElement());
-        Complex hgfedc = hgfed.add(c);
-        calc.add();
-            assertEquals(hgfedc, calc.lastElement());
-        Complex hgfedcb = hgfedc.add(b);
-        calc.add();
-            assertEquals(hgfedcb, calc.lastElement());
-        Complex hgfedcba = hgfedcb.add(a);
-        calc.add();
-            assertEquals(hgfedcba, calc.lastElement());
+        assertEquals(hg, calc.getVariables().getVariables().get('h'));
+        calc.addVariable('b');
+        Complex bf = b.add(f);
+        assertEquals(bf, calc.getVariables().getVariables().get('b'));
+        calc.addVariable('h');
+        Complex hge = hg.add(e);
+        assertEquals(hge, calc.getVariables().getVariables().get('h'));
     }
     
-    @Test(expected = LessOf2ElementsException.class)
-    public void testAddException(){
-    calc.insert(a);
-    calc.add();
-}
-    @Test 
-    public void testSub(){
-        calc.insert(a);
-        calc.insert(b);
-        calc.insert(c);
-        calc.insert(d);
-        calc.insert(e);
-        calc.insert(f);
-        calc.insert(g);
-        calc.insert(h);
+    @Test(expected = EmptyStackException.class)
+    public void testAddVariableEmptyStackException(){
+        calc.getComplexStack().push(h);
+        calc.getComplexStack().push(b);
         
+        calc.saveVariable('b');
+        calc.saveVariable('h');
+        
+        calc.addVariable('h');
+    }
+
+    @Test(expected = KeyNotAlphabeticException.class)
+    public void testAddVariableKeyNotAlphabeticException(){
+        calc.getComplexStack().push(h);
+        calc.getComplexStack().push(g);
+        
+        calc.saveVariable('h');
+        calc.addVariable('.');
+    }
+    
+    @Test
+    public void testSubVariable(){
+        calc.getComplexStack().push(e);
+        calc.getComplexStack().push(f);
+        calc.getComplexStack().push(g);
+        calc.getComplexStack().push(h);
+        calc.getComplexStack().push(b);
+        
+        calc.saveVariable('b');
+        calc.saveVariable('h');
+        
+        calc.subVariable('h');
         Complex hg = h.sub(g);
-	calc.sub();
-            assertEquals(hg, calc.lastElement());
-	Complex hgf = hg.sub(f);
-	calc.sub();
-            assertEquals(hgf, calc.lastElement());
-        Complex hgfe = hgf.sub(e);
-	calc.sub();
-            assertEquals(hgfe, calc.lastElement());
-        Complex hgfed = hgfe.sub(d);
-	calc.sub();
-            assertEquals(hgfed, calc.lastElement());
-        Complex hgfedc = hgfed.sub(c);
-        calc.sub();
-            assertEquals(hgfedc, calc.lastElement());
-        Complex hgfedcb = hgfedc.sub(b);
-        calc.sub();
-            assertEquals(hgfedcb, calc.lastElement());
-        Complex hgfedcba = hgfedcb.sub(a);
-        calc.sub();
-            assertEquals(hgfedcba, calc.lastElement());
-    }
-    @Test(expected = LessOf2ElementsException.class)
-    public void testSubException(){
-    calc.insert(a);
-    calc.sub();
+        assertEquals(hg, calc.getVariables().getVariables().get('h'));
+        calc.subVariable('b');
+        Complex bf = b.sub(f);
+        assertEquals(bf, calc.getVariables().getVariables().get('b'));
+        calc.subVariable('h');
+        Complex hge = hg.sub(e);
+        assertEquals(hge, calc.getVariables().getVariables().get('h'));
     }
     
-    @Test
-    public void testMultiply(){
-        calc.insert(a);
-        calc.insert(b);
-        calc.insert(c);
-        calc.insert(d);
-        calc.insert(e);
-        calc.insert(f);
-        calc.insert(g);
-        calc.insert(h);
+    @Test(expected = EmptyStackException.class)
+    public void testSubVariableEmptyStackException(){
+        calc.getComplexStack().push(h);
+        calc.getComplexStack().push(b);
         
-        Complex hg = h.multiply(g);
-	calc.multiply();
-            assertEquals(hg, calc.lastElement());
-	Complex hgf = hg.multiply(f);
-	calc.multiply();
-            assertEquals(hgf, calc.lastElement());
-        Complex hgfe = hgf.multiply(e);
-	calc.multiply();
-            assertEquals(hgfe, calc.lastElement());
-        Complex hgfed = hgfe.multiply(d);
-	calc.multiply();
-            assertEquals(hgfed, calc.lastElement());
-        Complex hgfedc = hgfed.multiply(c);
-        calc.multiply();
-            assertEquals(hgfedc, calc.lastElement());
-        Complex hgfedcb = hgfedc.multiply(b);
-        calc.multiply();
-            assertEquals(hgfedcb, calc.lastElement());
-        Complex hgfedcba = hgfedcb.multiply(a);
-        calc.multiply();
-            assertEquals(hgfedcba, calc.lastElement());
-    }
-    
-    @Test(expected = LessOf2ElementsException.class)
-    public void testMultiplyException(){
-    calc.insert(a);
-    calc.multiply();
-    }
-    
-    @Test 
-    public void testDivide(){
-        calc.insert(b);
-        calc.insert(c);
-        calc.insert(d);
-        calc.insert(e);
-        calc.insert(f);
-        calc.insert(g);
-        calc.insert(h);
+        calc.saveVariable('b');
+        calc.saveVariable('h');
         
-        
-        Complex hg = h.divide(g);
-	calc.divide();
-            assertEquals(hg, calc.lastElement());
-	Complex hgf = hg.divide(f);
-	calc.divide();
-            assertEquals(hgf, calc.lastElement());
-        Complex hgfe = hgf.divide(e);
-	calc.divide();
-            assertEquals(hgfe, calc.lastElement());
-        Complex hgfed = hgfe.divide(d);
-	calc.divide();
-            assertEquals(hgfed, calc.lastElement());
-        Complex hgfedc = hgfed.divide(c);
-        calc.divide();
-            assertEquals(hgfedc, calc.lastElement());
-        Complex hgfedcb = hgfedc.divide(b);
-        calc.divide();
-            assertEquals(hgfedcb, calc.lastElement());
-       
-    }
-    
-    @Test (expected = DivisionException.class)
-    public void testDivideZero(){
-        calc.insert(a);
-        calc.insert(g);
-        
-	calc.divide();
-    }
-    
-    @Test(expected = LessOf2ElementsException.class)
-    public void testDivideException(){
-    calc.insert(a);
-    calc.divide();
+        calc.subVariable('h');
     }
 
-    @Test 
-    public void testSquare(){
+    @Test(expected = KeyNotAlphabeticException.class)
+    public void testSubVariableKeyNotAlphabeticException(){
+        calc.getComplexStack().push(h);
+        calc.getComplexStack().push(g);
         
-        calc.insert(h);
+        calc.saveVariable('h');
+        calc.subVariable('.');
+    }
+    
+    @Test
+    public void testSelectOperationVariableToInvoke() {
+        String s = ">b";
+        String s2 = "<b";
+        String s3 = "+b";
+        String s4 = "-b";
+        calc.getComplexStack().push(e);
+        calc.getComplexStack().push(f);
+        calc.getComplexStack().push(g);
+        calc.getComplexStack().push(h);
+        calc.getComplexStack().push(b);
         
-        Complex hg = h.square();
-	calc.square();
-        assertEquals(hg, calc.lastElement());
+        calc.selectOperationVariableToInvoke(s);
+        assertEquals(b, calc.getVariables().getVariables().get('b'));
+        assertEquals(h, calc.getComplexStack().lastElement());
+        calc.selectOperationVariableToInvoke(s2);
+        assertEquals(b, calc.getComplexStack().lastElement());
+        calc.selectOperationVariableToInvoke(s3);
+        Complex bb = b.add(b);
+        assertEquals(bb, calc.getVariables().getVariables().get('b'));
+        calc.selectOperationVariableToInvoke(s4);
+        Complex bbh = bb.sub(h);
+        assertEquals(bbh, calc.getVariables().getVariables().get('b'));
     }
     
-    @Test(expected = EmptyStackException.class)
-    public void testSquareException(){
-    calc.square();
+    @Test(expected = OperationFailedException.class)
+    public void testSelectOperationVariableToInvokeOperationFailedException() {
+        String s = "<d";
+        calc.selectOperationVariableToInvoke(s);
     }
     
-    @Test 
-    public void testInvert(){
-        calc.insert(h);
+    @Test(expected = OperationFailedException.class)
+    public void testSelectOperationVariableToInvoke2OperationFailedException() {
+        calc.getComplexStack().push(e);
+        calc.saveVariable('e');
+        String s = "+e";
+        calc.selectOperationVariableToInvoke(s);
+    }
+    
+    
+    @Test(expected = WrongInputException.class)
+    public void testSelectOperationVariableToInvokeWrongInputException() {
+        String s = "ss";
+        calc.selectOperationVariableToInvoke(s);
+    }
+    
+    
+    @Test
+    public void selectOperationVariableStackToInvoke(){
+        String s = "save";
+        String s2 = "restore";
         
-     
-        Complex hg = h.invert();
-	calc.invert();
-            assertEquals(hg, calc.lastElement());
-	
+        calc.getComplexStack().push(e);
+        calc.getComplexStack().push(f);
+        calc.getComplexStack().push(g);
+        calc.getComplexStack().push(h);
+        calc.getComplexStack().push(b);
+        
+        calc.saveVariable('b');
+        calc.saveVariable('h');
+        
+        calc.selectOperationVariableStackToInvoke(s);
+        assertEquals(b, calc.getVariables().getVariables().get('b'));
+        assertEquals(h, calc.getVariables().getVariables().get('h'));
+        
+        calc.saveVariable('g');
+        calc.saveVariable('f');
+        assertEquals(g, calc.getVariables().getVariables().get('g'));
+        assertEquals(f, calc.getVariables().getVariables().get('f'));
+        
+        Complex be = b.add(e);
+        calc.addVariable('b');
+        assertEquals(be, calc.getVariables().getVariables().get('b'));
+        
+        calc.selectOperationVariableStackToInvoke(s2);
+        assertEquals(b, calc.getVariables().getVariables().get('b'));
+        assertEquals(h, calc.getVariables().getVariables().get('h'));
+        assertEquals(false, calc.getVariables().getVariables().containsKey('g'));
+        assertEquals(false, calc.getVariables().getVariables().containsKey('f'));
+        
     }
     
-    @Test(expected = EmptyStackException.class)
-    public void testInvertException(){
-    calc.invert();
-    }
     
-    @Test
-    public void testClear(){
-        calc.insert(d);
-        calc.insert(e);
-        calc.insert(f);
-        calc.clear();
-        assertEquals(0, calc.complexStackSize());
-    }
-    
-    @Test(expected = EmptyStackException.class)
-    public void testClearException(){
-        calc.clear();
-    }
-    
-    @Test
-    public void testDrop(){
-        calc.insert(d);
-        calc.insert(e);
-        calc.insert(f);
-        assertEquals(f,calc.drop());
-        assertEquals(e, calc.lastElement());
-    }
-    
-    @Test(expected = EmptyStackException.class)
-    public void testDropException(){
-        calc.drop();
+    @Test (expected = OperationFailedException.class)
+    public void selectOperationVariableStackToInvokeException() {
+        calc.selectOperationVariableStackToInvoke("restore");
     }
     
     @Test
-    public void testDup(){
-        calc.insert(d);
-        calc.insert(e);
-        calc.insert(f);
-        calc.dup();
-        assertEquals(f, calc.lastElement());
+    public void testInvokeOperation(){
+        calc.getComplexStack().push(a);
+        calc.getComplexStack().push(b);
+        calc.getComplexStack().push(c);
+        calc.getComplexStack().push(d);
+        calc.getComplexStack().push(e);
+        calc.getComplexStack().push(f);
+        calc.getComplexStack().push(g);
+        calc.getComplexStack().push(h);
+        
+        String s = "+ - * / +- sqrt";
+        calc.getOperations().addOperation("operation", s);
+        Complex a = h.add(g).sub(f).multiply(e).divide(d).invert().square();
+        calc.invokeOperation("operation");
+        assertEquals(a, calc.getComplexStack().lastElement());
+        String s2 = "over >a 56 87 <a +a 91 -a drop swap 100j 200-3002j dup operation";
+        Complex b = new Complex(13.542892776690213,71.06580101346465);
+        calc.getOperations().addOperation("op", s2);
+        calc.invokeOperation("op");
+        assertEquals(b, calc.getComplexStack().lastElement());
+        String s3 = "clear";
+        calc.getOperations().addOperation("secondOp", s3);
+        calc.invokeOperation("secondOp");
+        assertEquals(true, calc.getComplexStack().empty());
+        String s4 = "35 78 >a >b save 41 98 +a +b restore <a 20 *";
+        Complex c = new Complex(1560,0);
+        calc.getOperations().addOperation("thirdOp", s4);
+        calc.invokeOperation("thirdOp");
+        assertEquals(c, calc.getComplexStack().lastElement());
     }
     
-    @Test(expected = EmptyStackException.class)
-    public void testDupException(){
-        calc.dup();
-    }   
     
-    @Test
-    public void testSwap(){
-        calc.insert(d);
-        calc.insert(e);
-        calc.insert(f);
-        calc.insert(g);
-        calc.insert(h);
-        calc.swap();
-        assertEquals(g, calc.lastElement());
-        calc.drop();
-        assertEquals(h, calc.lastElement());
-    }
-    
-    @Test(expected = LessOf2ElementsException.class)
-    public void testSwapException(){
-        calc.insert(d);
-        calc.swap();
-        calc.drop();
-        calc.swap();
-    }
-    
-    @Test
-    public void testOver(){
-        calc.insert(d);
-        calc.insert(e);
-        calc.insert(f);
-        calc.over();
-        assertEquals(e, calc.lastElement());
-    }
-    
-    @Test(expected = LessOf2ElementsException.class)
-    public void testOverException(){
-        calc.insert(c);
-        calc.over();
-        calc.drop();
-        calc.over();
-    }
-
 }

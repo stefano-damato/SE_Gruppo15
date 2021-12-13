@@ -6,14 +6,19 @@
 package scientificcalculator;
 
 import exceptions.KeyAlreadyPresentInOperations;
+import exceptions.KeyNotAlphabeticException;
 import exceptions.OperationFailedException;
 import exceptions.LessOf2ElementsException;
 import exceptions.KeyNotPresentInOperations;
+import exceptions.VariableNotFoundException;
 import exceptions.WrongInputException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.EmptyStackException;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,383 +32,247 @@ import javafx.event.Event;
  * @author group15
  */
 public class Calculator {
-    /*** Contains all the complex that will be inserted*/
-    private Stack<Complex> complexStack;
-    /*** */
-    private Stack<VariableMap> variables;
-    
+    /** Contains all the complex numbers that will be inserted*/
+    private ComplexStack complexStack;
+    /** Contains all saved versions of the variables*/
+    private VariableMapStack variables;
+    /** Contains all the variables that will be inserted*/
+    private VariableMap currentVariables;
+    /** Contains all the user defined operation*/
     private Operations operations;
     
-    private HashMap<String, String> invokeOperations;
-    
+    /** contains the name of methods <b>(value)</b> of {@link scientificcalculator.Calculator Calculator}, 
+     * operating on {@link #currentVariables currentVariables},that can be invoked by a given command <b>(key)</b>*/
     private HashMap<String, String> variableOperation;
+    /** contains the name of methods <b>(value)</b> of {@link scientificcalculator.Calculator Calculator},
+     * operating on {@link #variables variables}, that can be invoked by a given command <b>(key)</b>*/
+    private HashMap<String, String> variableStackOperation;
     
     
     /**
-     * Initialize complexStack and variables to empty stacks
+     * Initialize {@link #complexStack complexStack},{@link #variables variables},{@link #currentVariables currentVariables},{@link #currentVariables currentVariables} through their Constructor and
+     * <br>{@link #variableOperation variableOperation}
+     * <br> -  key,Value
+     * <br> -  "&lt" "pushVariable"
+     * <br> -  ">", "saveVariable"
+     * <br> -  "+", "addVariable"
+     * <br> -  "+", "addVariable"
+     * <br><br>{@link #variableStackOperation variableStackOperation}
+     * <br> -  key,Value
+     * <br> -  "save", "saveVariables"
+     * <br> -  "restore", "restoreVariables"
+     * <br>
+     * 
      */
     public Calculator(){
-        complexStack = new Stack<>();
-        variables = new Stack<>();
-        /**Push the new object {@code variables} into a VariableMap*/
-        variables.push(new VariableMap());
+        complexStack = new ComplexStack();
+        variables = new VariableMapStack();
+        currentVariables = new VariableMap();
         operations = new Operations();
-        invokeOperations = new HashMap<>();
-        invokeOperations.put("+", "add");
-        invokeOperations.put("-", "sub");
-        invokeOperations.put("*", "multiply");
-        invokeOperations.put("/", "divide");
-        invokeOperations.put("+-", "invert");
-        invokeOperations.put("sqrt", "square");
-        invokeOperations.put("drop", "drop");
-        invokeOperations.put("dup", "dup");
-        invokeOperations.put("over", "over");
-        invokeOperations.put("swap", "swap");
-        invokeOperations.put("clear", "clear");
-        
+       
         variableOperation = new HashMap<>();
         variableOperation.put("<", "pushVariable");
         variableOperation.put(">", "saveVariable");
         variableOperation.put("+", "addVariable");
         variableOperation.put("-", "subVariable");
+        
+        variableStackOperation = new HashMap<>();
+        variableStackOperation.put("save", "saveVariables");
+        variableStackOperation.put("restore", "restoreVariables");
     }
     
     /**
-     * The method returns the last element of the variables whitin the VariableMap
-     * @return variables
+     * The method returns the {@link #currentVariables currentVariables} object of type VariableMap.
+     * @return variables  {@code VariableMap}
      */
     public VariableMap getVariables() {
-        return variables.lastElement();
+        return currentVariables;
     }
-
+    /**
+     * The method returns the stack of complex numbers saved in the object {@link #complexStack complexStack}.
+     * @return complexStack.getComplexStack() {@code Stack<Complex>}
+     */
     public Stack<Complex> getComplexStack() {
-        return complexStack;
-    }
-    
-    
-    /**
-     * The method insert a complex number into the stack
-     * @param c {@code Complex}
-     */
-    public void insert(Complex c){
-        complexStack.push(c);
-    }
-    
-    /**
-     * The method returns the last element within the stack
-     * @return complexStack.lastElement
-     */
-    public Complex lastElement(){
-        return complexStack.lastElement();
-    }
-    
-    public int complexStackSize(){
-        return complexStack.size();
+        return complexStack.getComplexStack();
     }
     /**
-     * The method removes the last two elements from the stack, 
-     * execute the <code>add</code> method on the first one
-     * and puts the sum on the stack
-     * @throws LessOf2ElementsException if there are less of two elements in the stack
-     */
-    public void add() throws LessOf2ElementsException{
-        if(complexStack.size()<2)
-            throw new LessOf2ElementsException();
-        Complex a = complexStack.pop();
-        Complex b = complexStack.pop();
-        
-        insert(a.add(b));
-    }
-    
-    /**
-     * The method removes the last two elements from the stack, 
-     * execute the <code>sub</code> method on the first one
-     * and puts the sub on the stack
-     * @throws LessOf2ElementsException if there are less of two elements in the stack
-     */
-    public void sub() throws LessOf2ElementsException{
-        if(complexStack.size()<2)
-            throw new LessOf2ElementsException();
-        Complex a = complexStack.pop();
-        Complex b = complexStack.pop();
-        
-        insert(a.sub(b));
-    }
-    
-    /**
-     * The method removes the last two elements from the stack,
-     * execute the <code>multiply</code> method on the first one
-     * and puts the multiplication on the stack
-     * @throws LessOf2ElementsException if there are less of two elements in the stack
-     */
-    public void multiply() throws LessOf2ElementsException{
-        if(complexStack.size()<2)
-            throw new LessOf2ElementsException();
-        Complex a = complexStack.pop();
-        Complex b = complexStack.pop();
-        
-        insert(a.multiply(b));
-    }
-    
-    /**
-     * The method removes the last two elements from the stack,
-     * execute the <code>divide</code> method on the first one
-     * and puts the division on the stack
-     * @throws LessOf2ElementsException if there are less of two elements in the stack
-     */
-    public void divide() throws LessOf2ElementsException{
-        if(complexStack.size()<2)
-            throw new LessOf2ElementsException();
-        Complex a = complexStack.pop();
-        Complex b = complexStack.pop();
-        
-        insert(a.divide(b));
-    }
-    
-    /**
-     * The method removes the last element from the stack, 
-     * execute the <code>square</code> method
-     * and puts the result on the stack
-     * @throws EmptyStackException if the stack is empty
-     */
-    public void square() throws EmptyStackException{
-        if(complexStack.size()<1)
-            throw new EmptyStackException();
-        Complex a = complexStack.pop();
-        
-        insert(a.square());
-    }
-    
-    /**
-     * The method removes the last element from the stack,
-     * execute the <code>invert</code> method
-     * puts the result on the stack
-     * @throws EmptyStackException if the stack is empty
-     */
-    public void invert()throws EmptyStackException{
-        if(complexStack.size()<1)
-            throw new EmptyStackException();
-        Complex a = complexStack.pop();
-        
-        insert(a.invert());
-    }
-    
-    /**
-     * The method empties the stack
-     * @throws EmptyStackException if the stack is empty
-     */
-    public void clear() throws EmptyStackException{
-        if (complexStack.size() < 1)
-            throw new EmptyStackException();
-        complexStack.clear();
-    }
-    
-    /**
-     * The method removes the last element from the stack
-     * @throws EmptyStackException if the stack is empty
-     * @return complexStack.pop() {@code Complex}
-     */
-    public Complex drop() throws EmptyStackException{
-        if (complexStack.size() < 1)
-            throw new EmptyStackException();
-        return complexStack.pop();
-    }
-   
-    /**
-     * The method duplicates the last element in the stack 
-     * @throws EmptyStackException if the stack is empty
-     */
-    public void dup() throws EmptyStackException{
-        if (complexStack.size() < 1)
-            throw new EmptyStackException();
-        Complex a = complexStack.lastElement();
-        
-        insert(a);
-    }
-    
-    /**
-     * The method swap the last two elements in the stack
-     * @throws LessOf2ElementsException if there are less of two elements in the stack
-     */
-    public void swap() throws LessOf2ElementsException{
-        if(complexStack.size()<2)
-            throw new LessOf2ElementsException();
-        Complex a = complexStack.pop();
-        Complex b = complexStack.pop();
-        
-        insert(a);
-        insert(b);
-    } 
-    /**
-     * The method inserts a copy of the second last element in the stack
-     * @throws LessOf2ElementsException if there are less of two elements in the stack
-     */
-    public void over()throws LessOf2ElementsException{
-        if(complexStack.size()<2)
-            throw new LessOf2ElementsException();
-        Complex a = complexStack.get(complexStack.size() - 2);
-        
-        insert(a);
-    }
-            
-    public void invokeOperation(String name) throws WrongInputException, IndexOutOfBoundsException{
-        String seq = operations.getOperation(name);
-        String[] userOperations = seq.split(" ");
-        for (String operation : userOperations) {
-            if (operation.length() == 2 && operation.substring(0, 1).matches("^[+-><]+$")&& Character.isAlphabetic(operation.charAt(1))) {
-                selectOperationVariableToInvoke(operation);   
-            }
-            else selectOperationToInvoke(operation);
-        }
-    }
-    
-    public void selectOperationToInvoke(String op) throws OperationFailedException{
-        Method m;
-        if (invokeOperations.containsKey(op)){
-            try {
-                m = Calculator.class.getDeclaredMethod(invokeOperations.get(op));
-                m.invoke(this);
-            } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                throw new OperationFailedException();
-            } 
-        }
-        else if(!operations.containName(op)){
-            insert(op);
-        }
-        else{
-            invokeOperation(op);
-        }
-    }
-    
-    public void selectOperationVariableToInvoke(String op) throws OperationFailedException{
-        Method m;
-        String key = op.substring(0, 1);
-        if (variableOperation.containsKey(key)){
-            try {
-                m = VariableMap.class.getDeclaredMethod(variableOperation.get(key), Variable.class);
-                Variable var;
-                if (op.charAt(0) == '<') {
-                    var = new Variable(op.charAt(1), null);
-                    insert((Complex) m.invoke(getVariables(), var));
-                }
-                else {
-                    var = new Variable(op.charAt(1), drop());
-                     m.invoke(getVariables(), var);
-                }
-            } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
-            } 
-        }
-    }
-    
-    /**
-     * The method returns the reference to the Operations object.
-     * @return operations {@code Operations}
+     * The method returns the {@link #operations operations} object of type Operations
+     * @return operations  {@code Operations}
      */
     public Operations getOperations() {
         return operations;
     }
     
-    public void insert(String input) throws WrongInputException, IndexOutOfBoundsException{
-        double real=0;
-        double imaginary=0;
-        int sign=1;
-        Complex c;
-        
-        //check string
-        if(input.indexOf("-")==0 || input.indexOf("+")==0){
-            if(input.indexOf("-")==0)
-                sign=-1;
-            input=input.substring(1);
-        }
-
-        checkValidInput(input.trim());
-
-        //The number has only the real part 
-        if(!input.contains("j")){
-                real=sign*Double.parseDouble(input);
-        }else{
-            input = input.trim();
-            int j=input.indexOf("j");
-            ////The number has only the imaginary part 
-            if(!(input.contains("+") || input.contains("-"))){
-                if(input.length()==1)
-                    imaginary = sign*1;
-                else
-                    imaginary=sign*Double.parseDouble(input.substring(0,input.length()-1));
-            }else{
-                ////the number has both real and imaginary part
-                String[] parseText= input.split("[+-]");
-                real=sign*Double.parseDouble(parseText[0]);
-                if(parseText[1].trim().length()==1)
-                    imaginary=1;
-                else
-                    imaginary=Double.parseDouble(parseText[1].substring(0,parseText[1].length()-1));
-                if(input.contains("-"))
-                    imaginary=-imaginary;
-            }
-        }
-        
-        insert(new Complex(real, imaginary));
-    }
-       
-    
     /**
-     * The method checks if the string <code>s</code>  is in the form a + j b. a and b must be real numbers.
-     * @param s {@code String}
-     * @return <code>true</code>  if the string is correct
-     * @throws WrongInputException 
+     * The method manages a sequence of operations by deciding which method to invoke according to the type of operation
+     * @param name  {@code String} the name of the sequence of the operations to invoke
+     * @throws WrongInputException if the string that has <b>name</b> as key in the observableMap contained in <code>operations</code> is not in the right format
+     * @throws IndexOutOfBoundsException if the string that has <b>name</b> as key in the observableMap contained in <code>operations</code>, contains a number to insert written in the wrong way
      */
-    private boolean checkValidInput(String s) throws WrongInputException{
-        if(!s.contains("j")){
-            if(!s.matches("^[0-9.]+$"))
-            throw new WrongInputException();
-        }else{
-            if(!s.matches("^[0-9+-.j ]+$")){
-                throw new WrongInputException();
-            }else{
-                if(s.indexOf("j")!=(s.length()-1))
-                    throw new WrongInputException();
-                if(s.contains("+")|| s.contains("-")){
-                    String[] parseText= s.split("[+-]");
-                    String s1 = parseText[0].trim();
-                    String s2 = parseText[1].trim();
-                    if(!s1.matches("^[0-9.]+$"))
-                        throw new WrongInputException();
-                    if(s2.length()==1)
-                        return true;
-                    s2=s2.substring(0, s2.length()-1).trim();
-                    if(!s2.matches("^[0-9.]+$"))
-                        throw new WrongInputException();
-                }else{
-                    if(s.length()==1)
-                        return true;
-                    if(!s.substring(0, s.length()-1).trim().matches("^[0-9.]+$")){
-                        throw new WrongInputException();
-                    }
+    public void invokeOperation(String name) {
+        if(operations.containName(name)){
+            String seq = operations.getSequence(name);
+            String[] userOperations = seq.split(" ");
+            for (String operation : userOperations) {
+                if (operation.length() == 2 && operation.substring(0, 1).matches("^[+-><]+$")&& Character.isAlphabetic(operation.charAt(1))) {
+                    selectOperationVariableToInvoke(operation);   
+                }else if(operations.containName(operation)){
+                    invokeOperation(operation);         
+                }else if(operation.equalsIgnoreCase("save") || operation.equalsIgnoreCase("restore")){
+                    selectOperationVariableStackToInvoke(operation);
                 }
+                else selectOperationToInvoke(operation);
             }
         }
-        return true;
     }
     
     /**
-     * The method creates a new instance of the VariableMap object and inserts it onto stack.
+     * The method calls {@link scientificcalculator.ComplexStack#selectOperationToInvoke(String) selectOperationToInvoke} 
+     * method of the <code>complexStack</code> object,
+     * passing as argument the type of operation you want to invoke.
+     * @param op  {@code String} the command to invoke
+     * 
+     */
+    public void selectOperationToInvoke(String op) throws OperationFailedException {
+        complexStack.selectOperationToInvoke(op);
+    }
+    
+    /**
+     * The method decides depending on the passed command
+     * which method to invoke on the object {@link #currentVariables currentVariables}.
+     * The possible methods to invoke are saved in the <code>HashMap</code>  {@link #variableOperation variableOperation}.
+     * <br>
+     * The first character is the <b>command</b>.
+     * <br>
+     * The second character is the name of the <b>variable</b> on which the method will be executed.
+     * <br>
+     * <br> -  ">" invoke {@link #saveVariable(char) saveVariable}
+     * <br> -  "&lt" invoke {@link #pushVariable(char) pushVariable}
+     * <br> -  "+" invoke {@link #addVariable(char) addVariable}
+     * <br> -  "-" invoke {@link #subVariable(char) subVariable}
+     * <br>
+     * @param op {@code String} the command to invoke
+     * @throws OperationFailedException it is not possible to execute the chosen action.
+     */
+    public void selectOperationVariableToInvoke(String op) throws OperationFailedException{
+        checkValidInputForVariables(op);
+        Method m;
+        String key = op.substring(0, 1);
+        if (variableOperation.containsKey(key)){
+            try {
+                m = Calculator.class.getDeclaredMethod(variableOperation.get(key), char.class);
+                if (op.charAt(0) == '<') {
+                    complexStack.insert((Complex) m.invoke(this, op.charAt(1)));
+                }
+                else {
+                     m.invoke(this, op.charAt(1));
+                }
+            } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                throw new OperationFailedException();
+            } 
+        }
+    }
+    
+    /**
+     * The method decides depending on the passed command
+     * which method to invoke on the object {@link #variables variables}.
+     * The possible methods to invoke are saved in the <code>HashMap</code>  {@link #variableStackOperation variableStackOperation}.
+     * <br>
+     * <br> -  "save" invoke {@link #saveVariables() saveVariables}
+     * <br> -  "restore" invoke {@link #restoreVariables() restoreVariables}
+     * <br>
+     * @param op {@code String} the command to invoke
+     * @throws OperationFailedException it is not possible to execute the chosen action.
+     */
+    public void selectOperationVariableStackToInvoke(String op) throws OperationFailedException{
+        Method m;
+        if (variableStackOperation.containsKey(op)){
+            try {
+                m = Calculator.class.getDeclaredMethod(variableStackOperation.get(op));
+                m.invoke(this);
+            } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                throw new OperationFailedException();
+            } 
+        }
+    }
+    
+    /**
+     * The method saves a copy of the variables contained in the object {@link #currentVariables currentVariables}
+     * into the object {@link #VariableMapStack VariableMapStack}.
      */
     public void saveVariables() {
-        VariableMap newMap = new VariableMap();
-        newMap.getVariables().putAll(variables.lastElement().getVariables());
-        variables.push(newMap);
+        VariableMap foo = new VariableMap();
+        for(Map.Entry<Character,Complex> entry: currentVariables.getVariables().entrySet()){
+            foo.save(new Variable(entry.getKey(),entry.getValue()));
+        }
+        variables.save(foo);
     }
     
     /**
-     * The method deletes the last inserted VariableMap object and restores the previous one.
-     * @throws EmptyStackException if there are less than two elements
+     * The method restores the last copy of variables previously saved in the object 
+     * {@link #VariableMapStack VariableMapStack},removing them from it,
+     * in the object in the object {@link #currentVariables currentVariables}.
+     * @throws EmptyStackException if there are less than one element 
      */
     public void restoreVariables() throws EmptyStackException{
-        if (variables.size() <= 1)
-            throw new EmptyStackException();
-        variables.pop();
+        VariableMap foo = variables.restore();
+        currentVariables.getVariables().clear();
+        for(Map.Entry<Character,Complex> entry: foo.getVariables().entrySet()){
+            Variable var = new Variable(entry.getKey(),entry.getValue());
+            currentVariables.save(var);
+        }
+        
+    }
+    
+    /**
+     * The method saves a new variable containing the last complex of the object
+     * {@link #complexStack complexStack} from which it will be removed.
+     * @param key {@code char} the name of the new variable.
+     */
+    public void saveVariable(char key) throws EmptyStackException, KeyNotAlphabeticException{
+        Variable var = new Variable(key,complexStack.drop());
+        currentVariables.save(var);
+    }
+    
+    /**
+     * The method saves the value of a variable in the object {@link #complexStack complexStack}.
+     * @param key {@code char} the name of the variable.
+     * @return {@code Complex} the value saved in the variable.
+     */
+    public Complex pushVariable(char key) throws VariableNotFoundException{
+        Variable var = new Variable(key,null);
+        return currentVariables.push(var);
+    }
+    
+    /**
+     * The method adds to the value of a variable the last complex of the object
+     * {@link #complexStack complexStack} from which it will be removed. 
+     * @param key {@code char} the name of the variable.
+     */
+    public void addVariable(char key)throws EmptyStackException, KeyNotAlphabeticException{
+        Variable var = new Variable(key,complexStack.drop());
+        currentVariables.add(var);
+    }
+    
+    /**
+     * The method subtracts to the value of a variable the last complex of the object
+     * {@link #complexStack complexStack} from which it will be removed. 
+     * @param key {@code char} the name of the variable.
+     */
+    public void subVariable(char key)throws EmptyStackException, KeyNotAlphabeticException{
+        Variable var = new Variable(key,complexStack.drop());
+        currentVariables.sub(var);
+    }
+    
+    /**
+     * The method checks if the string <code>s</code> is in 
+     * the correct form to do operations with variables (eg. ">a","&lta","+a","-a").
+     * @param s {@code String} the string to check
+     * @throws WrongInputException if the String is not in the correct form
+     */
+    private void checkValidInputForVariables(String s) throws WrongInputException{
+        if(s.length()!=2 || !s.substring(0, 1).matches("^[+-><]+$") || !Character.isAlphabetic(s.charAt(1)))
+            throw new WrongInputException();
     }
 
 }

@@ -6,8 +6,9 @@
 package scientificcalculator;
 
 /**
- * The <em>Variable</em> class represents a variable characterized by a the name and a value which is a complex number.
- * @author benedettocirillo
+ * The <em>Variable</em> class represents a variable characterized by a the name, named with the letters from "a" to "z",
+ * and a value which is a {@link scientificcalculator.Complex Complex}.
+ * @author group15
  */
 public class Variable implements Comparable<Variable>{
     /** contains the name of the variable*/
@@ -18,8 +19,8 @@ public class Variable implements Comparable<Variable>{
     
     /**
      * Initializes an object of class <em>Variable</em>.
-     * @param name {@code char}
-     * @param value {@code Complex}
+     * @param name {@code char} name of the variable
+     * @param value {@code {@link scientificcalculator.Complex Complex}} value of the variable
      */
     public Variable(char name, Complex value) {
         this.name = name;
@@ -36,7 +37,7 @@ public class Variable implements Comparable<Variable>{
     
     /**
      * This method return the value of the variable
-     * @return value {@code Complex}
+     * @return value {@code {@link scientificcalculator.Complex Complex}}
      */
     public Complex getValue() {
         return value;
@@ -77,10 +78,8 @@ public class Variable implements Comparable<Variable>{
     
     /**
      * This method overrides the method {@link #compareTo(scientificcalculator.Variable) #equals(java.lang.Object)}.
-     * <p>
-     * Variables 
-     * @param obj
-     * @return boolean value, true if the two objects are equal, false otherwise.
+     * @param o {@code {@link scientificcalculator.Variable Variable}
+     * @return {@code boolean} value, true if the {@code name} of the two object Variable is the same, false otherwise.
      */
     @Override
     public int compareTo(Variable o) {

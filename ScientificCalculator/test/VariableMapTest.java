@@ -14,7 +14,7 @@ import scientificcalculator.VariableMap;
 
 /**
  *
- * @author benedettocirillo
+ * @author group15
  */
 public class VariableMapTest extends VariableMap{
     private VariableMap var;
@@ -43,32 +43,31 @@ public class VariableMapTest extends VariableMap{
         v1 = new Variable(key1,a);
         v2 = new Variable(key2,b);
         
-        var.saveVariable(v1);
-        var.saveVariable(v2);
+        var.save(v1);
+        var.save(v2);
     }
-    
-    
+        
     @Test   
-    public void testSaveVarible(){
+    public void testSave(){
        
         assertEquals(a,var.getVariables().get(key1));
         
         //case when you add an element with the same key
-        var.saveVariable(new Variable(key1,b));
+        var.save(new Variable(key1,b));
         assertEquals(b,var.getVariables().get(key1));
     }
     
     @Test(expected=KeyNotAlphabeticException.class)   
     public void testSaveVaribleException(){
         
-        var.saveVariable(new Variable('2', b));
+        var.save(new Variable('2', b));
     }
     
     @Test   
-    public void testpushVarible(){
+    public void testPush(){
         
-        Complex c = var.pushVariable(new Variable(key1, null));
-        Complex c1 = var.pushVariable(new Variable(key2,null));
+        Complex c = var.push(new Variable(key1, null));
+        Complex c1 = var.push(new Variable(key2,null));
         
         assertEquals(a,c);
         assertEquals(b,c1);
@@ -77,22 +76,22 @@ public class VariableMapTest extends VariableMap{
     @Test(expected=VariableNotFoundException.class)   
     public void testPushVaribleException(){
         
-        assertNull(var.pushVariable(new Variable(key3, null)));
+        assertNull(var.push(new Variable(key3, null)));
     }
     
     @Test
-    public void testAddVariable(){
-        var.addVariable(new Variable(key1, c));
-        assertEquals(var.pushVariable(new Variable(key1, null)), a.add(c));
-        var.addVariable(new Variable('x', b));
-        assertEquals(var.pushVariable(new Variable('x', null)), b);
+    public void testAdd(){
+        var.add(new Variable(key1, c));
+        assertEquals(var.push(new Variable(key1, null)), a.add(c));
+        var.add(new Variable('x', b));
+        assertEquals(var.push(new Variable('x', null)), b);
     }
     
     @Test
-    public void testSubVariable(){
-        var.subVariable(new Variable(key1, c));
-        assertEquals(var.pushVariable(new Variable(key1, null)), a.sub(c));
-        var.subVariable(new Variable('x', b));
-        assertEquals(var.pushVariable(new Variable('x',null)), b);
+    public void testSub(){
+        var.sub(new Variable(key1, c));
+        assertEquals(var.push(new Variable(key1, null)), a.sub(c));
+        var.sub(new Variable('x', b));
+        assertEquals(var.push(new Variable('x',null)), b);
     }
 }

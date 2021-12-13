@@ -8,43 +8,47 @@ package scientificcalculator;
 import exceptions.KeyNotAlphabeticException;
 import exceptions.VariableNotFoundException;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 
 /**
  *  The <em>VariableMap</em> class represents the set of all variables that the user can use
  * @author group15
  */
-public class VariableMap {
+public class VariableMap{
     
     /**
-     * Keeps the key,value correspondence:
-     * Character is the Key
-     * Complex is the Value
+     * ObservableMap that keeps the key,value correspondence:
+     * The <b>key</b> is a {@code Character} that represents the name of the {@link scientificcalculator.Variable Variable}.
+     * The <b>value</b> is a {@code {@link scientificcalculator.Complex Complex}} that represents the value of the {@link scientificcalculator.Variable Variable}.
      */
-    private HashMap<Character,Complex> variables;
+    private ObservableMap<Character,Complex> variables;
 
     /**
-     * Initialize object of the class <em>VariableMap</em> 
+     * Initialize object of the class {@link #VariableMap VariableMap} by initializing {@link #variables variables}
+     * to a {@link javafx.collections.FXCollections#observableHashMap() ObservableHashMap}.
      */
     public VariableMap() {
-        variables = new HashMap<>();
+        variables = FXCollections.observableHashMap();
     }
     
     /**
-     * The method returns the reference to the map
-     * @return variables {@code HashMap<Character,Complex>}
+     * The method returns the reference to the {@link #variables variables}
+     * @return variables {@code ObservableMap<Character,Complex>}
      */
-    public HashMap<Character, Complex> getVariables() {
+    public ObservableMap<Character, Complex> getVariables() {
         return variables;
     }
     /**
-     * The method saves the value in variables by specifying the Variable.
-     * If the key of Variable is already present, it overwrites the value.
-     * If the key of Variable is not alphabetic throw an exception.
+     * The method saves a {@link scientificcalculator.Variable Variable} in {@link #variables variables}.
+     * If the name of the object Variable is already present, it overwrites the value.
      * @param var {@code Variable}
-     * @throws KeyNotAlphabeticException 
+     * @throws KeyNotAlphabeticException if the name of Variable is not alphabetic.
      */
-    public void saveVariable(Variable var) throws KeyNotAlphabeticException{
+    public void save(Variable var) throws KeyNotAlphabeticException{
         char key = var.getName();
         Complex value = var.getValue();
         if(!Character.isAlphabetic(key))
@@ -55,11 +59,11 @@ public class VariableMap {
     }
     
     /**
-     * The method returns the value of the variable which has the same key as the variable passed as a parameter.
-     * @param var {@code Variable}
-     * @return value {@code Complex}
+     * The method returns the value of the {@link scientificcalculator.Variable Variable} which has the same name as the variable passed as a parameter.
+     * @param var {@code Variable} the variable whose value I want to return
+     * @return value {@code {@link scientificcalculator.Variable Variable}}
      */
-    public Complex pushVariable(Variable var) throws VariableNotFoundException{
+    public Complex push(Variable var) throws VariableNotFoundException{
         //return null in case of there are no matches for the key 
         if(!variables.containsKey(var.getName()))
             throw new VariableNotFoundException();
@@ -67,19 +71,19 @@ public class VariableMap {
         return value;
     }
     /**
-     * The method saves the sum of the value of the variable passed as a parameter with the current value of the variable 
-     * that corresponds to the key of the variable passed as a parameter.
-     * @param var {@code Variable}
-     * @throws KeyNotAlphabeticException
+     * The method saves the sum of the value of the {@link scientificcalculator.Variable Variable} passed as a parameter with the current value of the variable 
+     * that have the same name of the variable passed as a parameter. If the name of the var is not present, it will be saved into {@link #variables variables}.
+     * @param var {@code Variable} the variable whose value I want to add
+     * @throws KeyNotAlphabeticException if the name of Variable is not alphabetic.
      */
-    public void addVariable(Variable var) throws KeyNotAlphabeticException{
+    public void add(Variable var) throws KeyNotAlphabeticException{
         char key = var.getName();
         Complex value = var.getValue();
        if(!Character.isAlphabetic(key))
             throw new KeyNotAlphabeticException();
         if(variables.containsKey(key))
             variables.replace(key, variables.get(key).add(value));
-        else saveVariable(var);
+        else save(var);
        
     }
     /**
@@ -88,14 +92,14 @@ public class VariableMap {
      * @param var {@code Variable}
      * @throws KeyNotAlphabeticException
      */
-    public void subVariable(Variable var) throws KeyNotAlphabeticException{
+    public void sub(Variable var) throws KeyNotAlphabeticException{
         char key = var.getName();
         Complex value = var.getValue();
        if(!Character.isAlphabetic(key))
             throw new KeyNotAlphabeticException();
         if(variables.containsKey(key))
             variables.replace(key, variables.get(key).sub(value));
-        else saveVariable(var);
+        else save(var);
        
     }
     

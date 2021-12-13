@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
@@ -24,13 +21,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="500.0" prefWidth="885.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scientificcalculator.FXMLDocumentController">
+<AnchorPane id="AnchorPane" fx:id="rootPane" prefHeight="505.0" prefWidth="803.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scientificcalculator.FXMLDocumentController">
    <children>
-      <SplitPane dividerPositions="0.34428086070215175, 0.7848244620611552" prefHeight="600.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.3445692883895131, 0.7652933832709113" prefHeight="600.0" prefWidth="1000.0" stylesheets="@../css/Style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <TabPane prefHeight="498.0" prefWidth="248.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TabPane prefHeight="574.0" prefWidth="300.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <tabs>
                       <Tab text="Variables">
                         <content>
@@ -38,7 +35,7 @@
                                  <children>
                                     <VBox prefHeight="498.0" prefWidth="186.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <TableView fx:id="variablesTab" nodeOrientation="RIGHT_TO_LEFT" prefHeight="498.0" prefWidth="161.0">
+                                          <TableView id="var" fx:id="variablesTab" nodeOrientation="RIGHT_TO_LEFT" prefHeight="498.0" prefWidth="161.0" stylesheets="@../css/Style.css" VBox.vgrow="ALWAYS">
                                              <columns>
                                                 <TableColumn fx:id="clmValuesVariables" minWidth="8.0" prefWidth="228.0" text="Value" />
                                                 <TableColumn fx:id="clmNameVariables" prefWidth="70.0" text="Name" />
@@ -55,14 +52,14 @@
                       </Tab>
                       <Tab text="Defined Operations">
                         <content>
-                              <VBox spacing="8.0">
+                              <VBox spacing="8.0" style="-fx-background-color: black;">
                                  <children>
-                                    <MenuBar>
+                                    <MenuBar prefWidth="300.0">
                                       <menus>
                                         <Menu mnemonicParsing="false" text="File">
                                           <items>
                                             <MenuItem mnemonicParsing="false" onAction="#saveOperations" text="Save" />
-                                                <MenuItem mnemonicParsing="false" onAction="#restoreOperations" text="Restore" />
+                                                <MenuItem mnemonicParsing="false" onAction="#loadOperations" text="Load" />
                                           </items>
                                         </Menu>
                                       </menus>
@@ -72,30 +69,30 @@
                                     </MenuBar>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="301.0">
                                        <children>
-                                          <VBox alignment="TOP_CENTER" prefHeight="470.0" prefWidth="241.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <VBox alignment="TOP_CENTER" prefHeight="537.0" prefWidth="300.0" spacing="5.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
                                                 <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="247.0" spacing="33.0">
                                                    <children>
-                                                      <Label text="Name" />
-                                                      <TextField fx:id="operationName" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS" />
+                                                      <Label text="Name" textFill="WHITE" />
+                                                      <TextField id="textFieldNameOp" fx:id="operationName" alignment="CENTER_RIGHT" stylesheets="@../css/Style.css" HBox.hgrow="ALWAYS" />
                                                    </children>
                                                 </HBox>
                                                 <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="247.0" spacing="10.0">
                                                    <children>
-                                                      <Label text="Sequence" />
-                                                      <TextField fx:id="operationSequence" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS" />
+                                                      <Label text="Sequence" textFill="WHITE" />
+                                                      <TextField id="textFieldSeqOp" fx:id="operationSequence" alignment="CENTER_RIGHT" stylesheets="@../css/Style.css" HBox.hgrow="ALWAYS" />
                                                    </children>
                                                 </HBox>
                                                 <HBox alignment="CENTER" prefHeight="40.0" prefWidth="247.0" spacing="10.0">
                                                    <children>
-                                                      <Button fx:id="saveOperationButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveOperationEvent" prefWidth="1000000.0" text="Save Operation">
+                                                      <Button id="insertOp" fx:id="saveOperationButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveOperationEvent" prefWidth="1000000.0" stylesheets="@../css/Style.css" text="Save Operation">
                                                          <HBox.margin>
                                                             <Insets bottom="4.0" />
                                                          </HBox.margin>
                                                       </Button>
                                                    </children>
                                                 </HBox>
-                                                <TableView fx:id="operationsTab" editable="true" prefHeight="368.0" prefWidth="247.0">
+                                                <TableView id="op" fx:id="operationsTab" editable="true" stylesheets="@../css/Style.css" VBox.vgrow="ALWAYS">
                                                    <columns>
                                                       <TableColumn fx:id="clmNameOperation" editable="false" prefWidth="103.0" text="Name" />
                                                       <TableColumn fx:id="clmOperation" onEditCommit="#editOperationEvent" prefWidth="185.0" text="Operation" />
@@ -131,26 +128,18 @@
                   </TabPane>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" stylesheets="@../css/Style.css">
                <children>
-                  <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox styleClass="center" stylesheets="@../css/Style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" styleClass="center" stylesheets="@../css/Style.css">
                            <children>
-                              <Button fx:id="insertButton" defaultButton="true" mnemonicParsing="false" onAction="#insertEvent" text="Insert">
+                              <TextField id="textFieldInput" fx:id="text" alignment="TOP_RIGHT" promptText="a +bj" stylesheets="@../css/Style.css" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
-                                    <Insets left="30.0" />
+                                    <Insets left="20.0" right="20.0" />
                                  </HBox.margin>
                                  <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Button>
-                              <TextField fx:id="text" alignment="TOP_RIGHT" promptText="a +bj" HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets right="20.0" />
-                                 </HBox.margin>
-                                 <font>
-                                    <Font size="18.0" />
+                                    <Font size="27.0" />
                                  </font>
                               </TextField>
                            </children>
@@ -158,7 +147,7 @@
                               <Insets />
                            </VBox.margin>
                         </HBox>
-                        <GridPane maxWidth="1.7976931348623157E308" prefHeight="300.0">
+                        <GridPane maxWidth="1.7976931348623157E308" prefHeight="300.0" styleClass="center" stylesheets="@../css/Style.css">
                           <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -171,7 +160,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button fx:id="addButton" mnemonicParsing="false" onAction="#addEvent" prefHeight="60.0" prefWidth="65.0" text="+" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                              <Button fx:id="addButton" mnemonicParsing="false" onAction="#addEvent" prefHeight="60.0" prefWidth="65.0" styleClass="buttonFisrtOp" stylesheets="@../css/Style.css" text="+" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                  <GridPane.margin>
                                     <Insets />
                                  </GridPane.margin>
@@ -179,54 +168,32 @@
                                     <Font size="20.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="subButton" mnemonicParsing="false" onAction="#subEvent" prefHeight="60.0" prefWidth="65.0" text="-" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                              <Button fx:id="subButton" mnemonicParsing="false" onAction="#subEvent" prefHeight="60.0" prefWidth="65.0" styleClass="buttonFisrtOp" stylesheets="@../css/Style.css" text="-" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="multiplyButton" mnemonicParsing="false" onAction="#multiplyEvent" prefHeight="60.0" prefWidth="65.0" text="*" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                              <Button fx:id="multiplyButton" mnemonicParsing="false" onAction="#multiplyEvent" prefHeight="60.0" prefWidth="65.0" styleClass="buttonFisrtOp" stylesheets="@../css/Style.css" text="*" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="divideButton" mnemonicParsing="false" onAction="#divideEvent" prefHeight="60.0" prefWidth="65.0" text="/" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                              <Button fx:id="divideButton" mnemonicParsing="false" onAction="#divideEvent" prefHeight="60.0" prefWidth="65.0" styleClass="buttonFisrtOp" stylesheets="@../css/Style.css" text="/" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="sqrtButton" mnemonicParsing="false" onAction="#sqrtEvent" prefHeight="60.0" prefWidth="65.0" text="√" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                              <Button fx:id="sqrtButton" mnemonicParsing="false" onAction="#sqrtEvent" prefHeight="60.0" prefWidth="65.0" styleClass="buttonFisrtOp" stylesheets="@../css/Style.css" text="√" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="invertButton" mnemonicParsing="false" onAction="#invertEvent" prefHeight="60.0" prefWidth="65.0" text="+-" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                              <Button fx:id="invertButton" mnemonicParsing="false" onAction="#invertEvent" prefHeight="60.0" prefWidth="65.0" styleClass="buttonFisrtOp" stylesheets="@../css/Style.css" text="+-" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="clearButton" mnemonicParsing="false" onAction="#clearEvent" prefHeight="60.0" prefWidth="65.0" text="Clear" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Button>
-                              <Button fx:id="dropButton" mnemonicParsing="false" onAction="#dropEvent" prefHeight="60.0" prefWidth="65.0" text="Drop" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </Button>
-                              <Button fx:id="dupButton" mnemonicParsing="false" onAction="#dupEvent" prefHeight="60.0" prefWidth="65.0" text=" Dup " GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                              <Button fx:id="clearButton" mnemonicParsing="false" onAction="#clearEvent" prefHeight="60.0" prefWidth="65.0" styleClass="buttonSecondOp" stylesheets="@../css/Style.css" text="Clear" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                  <GridPane.margin>
                                     <Insets />
                                  </GridPane.margin>
@@ -237,15 +204,18 @@
                                     <Font size="18.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="swapButton" mnemonicParsing="false" onAction="#swapEvent" prefHeight="60.0" prefWidth="65.0" text="Swap" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
+                              <Button fx:id="dropButton" mnemonicParsing="false" onAction="#dropEvent" prefHeight="60.0" prefWidth="65.0" styleClass="buttonSecondOp" stylesheets="@../css/Style.css" text="Drop" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
                               </Button>
-                              <Button fx:id="overButton" mnemonicParsing="false" onAction="#overEvent" prefHeight="60.0" prefWidth="65.0" text="Over" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                              <Button fx:id="dupButton" mnemonicParsing="false" onAction="#dupEvent" prefHeight="60.0" prefWidth="65.0" styleClass="buttonSecondOp" stylesheets="@../css/Style.css" text=" Dup " GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                  <GridPane.margin>
                                     <Insets />
                                  </GridPane.margin>
@@ -256,7 +226,26 @@
                                     <Font size="18.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="variablesButton" mnemonicParsing="false" onAction="#variablesEvent" prefHeight="60.0" prefWidth="65.0" text=" Var " GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                              <Button fx:id="swapButton" mnemonicParsing="false" onAction="#swapEvent" prefHeight="60.0" prefWidth="65.0" styleClass="buttonSecondOp" stylesheets="@../css/Style.css" text="Swap" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="overButton" mnemonicParsing="false" onAction="#overEvent" prefHeight="60.0" prefWidth="65.0" styleClass="buttonSecondOp" stylesheets="@../css/Style.css" text="Over" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
+                              <Button id="insert" fx:id="insertButton" defaultButton="true" mnemonicParsing="false" onAction="#insertEvent" prefHeight="60.0" prefWidth="65.0" stylesheets="@../css/Style.css" text="Insert" textFill="WHITE" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </padding>
@@ -269,9 +258,9 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" />
                            </VBox.margin>
                         </GridPane>
-                        <HBox alignment="CENTER" maxHeight="100.0" spacing="60.0" VBox.vgrow="ALWAYS">
+                        <HBox alignment="CENTER" maxHeight="100.0" spacing="25.0" styleClass="center" stylesheets="@../css/Style.css" VBox.vgrow="ALWAYS">
                            <children>
-                              <Button fx:id="saveVarButton" mnemonicParsing="false" onAction="#saveVarEvent" text="Save variables">
+                              <Button fx:id="saveVarButton" mnemonicParsing="false" onAction="#saveVarEvent" styleClass="buttonVar" stylesheets="@../css/Style.css" text=" Save  variables ">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
@@ -282,7 +271,7 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </padding>
                               </Button>
-                              <Button fx:id="restoreVarButton" mnemonicParsing="false" onAction="#restoreVarEvent" text="Restore variables">
+                              <Button fx:id="restoreVarButton" mnemonicParsing="false" onAction="#restoreVarEvent" styleClass="buttonVar" stylesheets="@../css/Style.css" text="Restore variables">
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </padding>
@@ -291,6 +280,9 @@
                                  </font>
                               </Button>
                            </children>
+                           <VBox.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </VBox.margin>
                         </HBox>
                      </children>
                   </VBox>
@@ -298,7 +290,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <TableView fx:id="historyTab" prefHeight="498.0" prefWidth="187.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView id="history" fx:id="historyTab" prefHeight="498.0" prefWidth="187.0" stylesheets="@../css/Style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="clmHistory" prefWidth="75.0" sortable="false" text="History" />
                     </columns>

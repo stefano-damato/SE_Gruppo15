@@ -7,73 +7,75 @@ package scientificcalculator;
 
 import exceptions.KeyNotPresentInOperations;
 import exceptions.KeyAlreadyPresentInOperations;
-import java.util.HashMap;
+import exceptions.WrongInputException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
 /**
- * The <em>Operations</em> class represents a user-defined operation characterized by a name and the sequence of operations to be performed.
+ * The <em>Operations</em> class represents the set of user-defined operation characterized by a name and the sequence of operations to be performed.
  * 
  * @author group15
  */
 
 public class Operations {
     /**
-     * Keeps the key,value correspondence:
-     * The key is a String that represents the name of the user-defined operation.
-     * The value is a String that represents the sequence of operations of the user-defined operation.
+     * ObservableMap that keeps the key,value correspondence:
+     * The <b>key</b> is a {@code String} that represents the name of the user-defined operation.
+     * The <b>value</b> is a {@code String} that represents the sequence of operations of the user-defined operation.
      */
-    private ObservableMap<String,String> operations;
+    private ObservableMap<String,String> operationsMap;
     
     /**
-     * Initialize object of the class <em>Operations</em> 
+     * Initialize object of the class {@link #Operations Operations}  by initializing {@link #operationsMap operationsMap}
+     * to a {@link javafx.collections.FXCollections#observableHashMap() ObservableHashMap}.
      */
     public Operations() {
-        operations = FXCollections.observableHashMap();
+        operationsMap = FXCollections.observableHashMap();
     }
     
     /**
-     * The method adds a user-defined operation.
-     * @param name {@code String}
-     * @param sequence {@code String}
+     * The method adds a user-defined operation to the {@link #operationsMap operationsMap}.
+     * @param name {@code String} the name of the user-defined operation that you want to add
+     * @param sequence {@code String} the sequence of operations of the new user-defined operation
      * @throws KeyAlreadyPresentInOperations  if the operation to be added has the same name as an operation already present in the map.
      */
     public void addOperation(String name, String sequence) throws KeyAlreadyPresentInOperations{
-        if (!operations.containsKey(name)) 
-            operations.put(name, sequence);
+        checkUserDefinedOpration(name);
+        if (!operationsMap.containsKey(name)) 
+            operationsMap.put(name, sequence);
         else throw new KeyAlreadyPresentInOperations();
     }
     
     /**
-     * The method modifies the sequence of operations of a user-defined operation already present in the map.
-     * @param name {@code String}
-     * @param sequence {@code String}
-     * @throws KeyNotPresentInOperations if the operation to be modified is not present in the map.
+     * The method modifies the sequence of operations of a user-defined operation already present in the {@link #operationsMap operationsMap}.
+     * @param name {@code String} the name of the user-defined operation that you want to change
+     * @param sequence {@code String} the new sequence of operations of the user-defined operation
+     * @throws KeyNotPresentInOperations if the operation to be modified is not present in the {@link #operationsMap operationsMap}.
      */
     public void modify(String name, String sequence) throws KeyNotPresentInOperations{
-        if (operations.containsKey(name))
-            operations.replace(name, sequence);
+        if (operationsMap.containsKey(name))
+            operationsMap.replace(name, sequence);
         else throw new KeyNotPresentInOperations();
     }
     
     /**
-     * The method deletes from the map the user-defined operation that has the name corresponding to the one passed as parameter.
-     * @param name {@code String}
+     * The method deletes from the {@link #operationsMap operationsMap} the user-defined operation that has the same name of the {@code String} passed as a parameter.
+     * @param name {@code String} the name of the sequence of operations
      * @throws KeyNotPresentInOperations if the operation to be deleted is not present in the map.
      */
     public void delete(String name) throws KeyNotPresentInOperations{
-        if(operations.containsKey(name))
-            operations.remove(name);
+        if(operationsMap.containsKey(name))
+            operationsMap.remove(name);
         else throw new KeyNotPresentInOperations();
     }
     
     /**
-     * The method checks whether there is an operation in the map that has the name that matches the name passed as a parameter.
-     * @param name {@code String}
-     * @return boolean value, true if it exists, false otherwise.
+     * The method checks whether there is an operation in the {@link #operationsMap operationsMap} that has the name that matches the {@code String} passed as a parameter.
+     * @param name {@code String} the name of the sequence of operations
+     * @return {@code boolean} - {@code true} if it exists, {@code false} otherwise.
      */
     public boolean containName(String name) {
-        return operations.containsKey(name);
+        return operationsMap.containsKey(name);
     }
     
     /**
@@ -81,16 +83,27 @@ public class Operations {
      * @param name {@code String}
      * @return sequence {@code String}
      */
-    public String getOperation(String name) {
-        return operations.get(name);
+    public String getSequence(String name) {
+        return operationsMap.get(name);
     }
     
     /**
-     * The method returns the reference to the map.
-     * @return operations {@code HashMap<String,String>}
+     * The method returns the reference to the ObservableMap {@link #operationsMap operationsMap}.
+     * @return operations {@code ObservableMap<String,String>}
      */
-    public ObservableMap<String, String> getOperations() {
-        return operations;
+    public ObservableMap<String, String> getOperationsMap() {
+        return operationsMap;
+    }
+    
+    /**
+     * The method check if the name of the user defined is formed only by letters.
+     * @param string {@code String} the name of the user defined operation to check
+     * @throws WrongInputException if the name is not in the correct form
+     */
+    public void checkUserDefinedOpration(String string) throws WrongInputException{
+        if(!string.matches("^[a-zA-Z]+$")){
+            throw new WrongInputException();
+        }
     }
     
     

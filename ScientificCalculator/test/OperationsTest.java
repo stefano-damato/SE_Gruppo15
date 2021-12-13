@@ -6,6 +6,7 @@
 
 import exceptions.KeyAlreadyPresentInOperations;
 import exceptions.KeyNotPresentInOperations;
+import exceptions.WrongInputException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,7 +17,7 @@ import scientificcalculator.Operations;
 
 /**
  *
- * @author nicol
+ * @author group15
  */
 public class OperationsTest {
     private Operations operations;
@@ -44,11 +45,11 @@ public class OperationsTest {
        operations.addOperation(nameB, operationB);
        operations.addOperation(nameC, operationC);
        assertEquals(true , operations.containName(nameA));
-       assertEquals("+ -" , operations.getOperation(nameA));
+       assertEquals("+ -" , operations.getSequence(nameA));
        assertEquals(true , operations.containName(nameB));
-       assertEquals("/ *" , operations.getOperation(nameB));
+       assertEquals("/ *" , operations.getSequence(nameB));
        assertEquals(true , operations.containName(nameC));
-       assertEquals("sqrt +-" , operations.getOperation(nameC));
+       assertEquals("sqrt +-" , operations.getSequence(nameC));
     }
     
     @Test (expected = KeyAlreadyPresentInOperations.class)
@@ -65,9 +66,9 @@ public class OperationsTest {
         operations.modify(nameA, "<a over");
         operations.modify(nameB, "sqrt +");
         operations.modify(nameC, "/ +");
-        assertEquals("<a over" , operations.getOperation(nameA));
-        assertEquals("sqrt +" , operations.getOperation(nameB));
-        assertEquals("/ +" , operations.getOperation(nameC));
+        assertEquals("<a over" , operations.getSequence(nameA));
+        assertEquals("sqrt +" , operations.getSequence(nameB));
+        assertEquals("/ +" , operations.getSequence(nameC));
     }
     
     @Test (expected = KeyNotPresentInOperations.class)
@@ -111,8 +112,15 @@ public class OperationsTest {
         operations.addOperation(nameA, operationA);
         operations.addOperation(nameB, operationB);
         operations.addOperation(nameC, operationC);
-        assertEquals("+ -" , operations.getOperation(nameA));
-        assertEquals("/ *" , operations.getOperation(nameB));
-        assertEquals("sqrt +-" , operations.getOperation(nameC));        
+        assertEquals("+ -" , operations.getSequence(nameA));
+        assertEquals("/ *" , operations.getSequence(nameB));
+        assertEquals("sqrt +-" , operations.getSequence(nameC));        
     }
+    
+    @Test (expected = WrongInputException.class)
+    public void testCheckUserDefinedOpration() {
+        String s1 = "op2";
+        operations.checkUserDefinedOpration(s1);
+    }
+    
 }

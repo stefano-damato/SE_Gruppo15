@@ -1,0 +1,145 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Dec 10, 2021, 4:44:21 PM
+    Author     : benedettocirillo
+*/
+
+
+ /*
+ * Empty Stylesheet file.
+ */
+
+.root{
+    -fx-background-color: #262626;
+}
+
+.table-view{
+   -fx-background-color: #616161;
+   -fx-text-fill: white;
+}
+
+.table-view:focused{
+    -fx-background-color: #424242;
+}
+
+/* Spaltenköpfe
+    Struktur column-header-background -> column-header */
+
+.table-view .column-header-background{
+    -fx-background-color: linear-gradient(#131313 0%, #424141 100%);
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-cell{
+    -fx-text-fill: black;
+}
+
+.table-row-cell{
+    -fx-background-color: -fx-table-cell-border-color, lightgoldenrodyellow;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; /* 0 */
+}
+
+.table-row-cell:odd{
+    -fx-background-color: -fx-table-cell-border-color, #fcfcb6;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; /* 0 */  
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #b6fcfa;
+    -fx-background-insets: 0;
+    -fx-background-radius: 1;
+}
+
+.table-view > .virtual-flow > .scroll-bar:vertical,
+.table-view > .virtual-flow > .scroll-bar:vertical > .track,
+.table-view > .virtual-flow > .scroll-bar:vertical > .track-background, 
+.table-view > .virtual-flow > .scroll-bar:horizontal,
+.table-view > .virtual-flow > .scroll-bar:horizontal > .track,
+.table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
+    -fx-background-color: transparent;
+}
+
+
+
+.table-view > .virtual-flow > .scroll-bar > .increment-button, 
+.table-view > .virtual-flow > .scroll-bar > .decrement-button {
+    -fx-opacity: 0;
+}
+
+#textFieldInput,#textFieldNameOp, #textFieldSeqOp {
+    -fx-background-color: lightgoldenrodyellow;
+}
+
+
+ .buttonFisrtOp{
+     -fx-text-fill: white;
+     -fx-background-color: darkslategray;
+     -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-background-radius: 8px, 8px, 8px, 8px;
+    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 */
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+ }
+ 
+ .buttonFisrtOp:hover, .buttonSecondOp:hover, #insert:hover{
+    -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-background-radius: 8px, 8px, 8px, 8px;
+    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 */
+    -fx-text-fill: -fx-text-base-color;
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+}
+ 
+ .buttonSecondOp{
+     -fx-text-fill: white;
+     -fx-background-color:  #616161;
+    -fx-background-radius: 8px, 8px, 8px, 8px;
+
+ }
+ 
+ #insert,#insertOp{
+     -fx-text-fill: black;
+     -fx-background-color: orange;
+    -fx-background-radius: 8px, 8px, 8px, 8px;
+ }
+ 
+ .buttonVar{
+     -fx-text-fill: white;
+     -fx-background-color:  #616161;
+    -fx-background-radius: 8px, 8px, 8px, 8px;
+ }
+ .buttonVar:hover, #insertOp:hover{
+    -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-background-radius: 8px, 8px, 8px, 8px;
+    -fx-text-fill: -fx-text-base-color;
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+}
+
+.center{
+    -fx-background-color:  black;
+}
+
+.split-pane-divider {
+    -fx-padding: 0 1 0 1 ;
+    -fx-background-color: black ;
+    -fx-background-insets: 1;
+}
+
+
