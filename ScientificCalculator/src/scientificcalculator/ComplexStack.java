@@ -172,10 +172,6 @@ public class ComplexStack {
         return complexStack.lastElement();
     }
     
-    /** */
-    public int size(){
-        return complexStack.size();
-    }
     
     /**
      * The method removes the last two elements from the {@link #complexStack complexStack},

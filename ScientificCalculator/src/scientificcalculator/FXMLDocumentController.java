@@ -102,7 +102,6 @@ public class FXMLDocumentController implements Initializable {
     
     private Calculator memory = new Calculator();
     
-    private Operations operation = memory.getOperations();
     
     /** Observable list that will contain all the name of the user defined operations*/
     private ObservableList<String> keys;
@@ -158,7 +157,7 @@ public class FXMLDocumentController implements Initializable {
         variablesTab.setItems(listVariables);
         
         keys = FXCollections.observableArrayList();
-        operation.getOperationsMap().addListener((MapChangeListener.Change<? extends String, ? extends String> change) -> {
+        memory.getOperations().getOperationsMap().addListener((MapChangeListener.Change<? extends String, ? extends String> change) -> {
             boolean removed = change.wasRemoved();
             if (removed != change.wasAdded()) {
                 // no put for existing key
@@ -173,7 +172,7 @@ public class FXMLDocumentController implements Initializable {
         
         
         clmNameOperation.setCellValueFactory(cd -> Bindings.createStringBinding(() -> cd.getValue()));
-        clmOperation.setCellValueFactory(cd -> Bindings.valueAt ( operation.getOperationsMap(), cd.getValue()));
+        clmOperation.setCellValueFactory(cd -> Bindings.valueAt ( memory.getOperations().getOperationsMap(), cd.getValue()));
         clmOperation.setCellFactory(TextFieldTableCell.forTableColumn());
         operationsTab.setItems(keys);
         operationsTab.getColumns().setAll(clmNameOperation, clmOperation);
@@ -431,10 +430,10 @@ public class FXMLDocumentController implements Initializable {
             String sequence = operationSequence.getText().trim();
             
             if(operationName.isDisabled()){
-                operation.modify(name, sequence);
+                memory.getOperations().modify(name, sequence);
                 operationName.setDisable(false);
             }else{
-                operation.addOperation(name, sequence);
+                memory.getOperations().addOperation(name, sequence);
             }
             operationName.setText("");
             operationSequence.setText(""); 
@@ -468,7 +467,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void deleteOperationEvent(ActionEvent event) {
         String operationSequence = operationsTab.getSelectionModel().getSelectedItem();
-        operation.delete(operationSequence);
+        memory.getOperations().delete(operationSequence);
     }
     
     /**
@@ -480,7 +479,7 @@ public class FXMLDocumentController implements Initializable {
     private void modifyOperationEvent(ActionEvent event) {
         operationName.setText(operationsTab.getSelectionModel().getSelectedItem());
         operationName.setDisable(true);
-        operationSequence.setText(operation.getOperationsMap().get(operationsTab.getSelectionModel().getSelectedItem()));
+        operationSequence.setText(memory.getOperations().getOperationsMap().get(operationsTab.getSelectionModel().getSelectedItem()));
     }
     
     /**
@@ -491,7 +490,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void editOperationEvent(TableColumn.CellEditEvent<String, String> event) {
         String operationSequence = operationsTab.getSelectionModel().getSelectedItem();
-        operation.modify(operationSequence, event.getNewValue());
+        memory.getOperations().modify(operationSequence, event.getNewValue());
     }
     
     /**
@@ -512,7 +511,7 @@ public class FXMLDocumentController implements Initializable {
                     
                     out.print(name);
                     out.print('=');
-                    out.print(operation.getSequence(name).replace('=', '|'));
+                    out.print(memory.getOperations().getSequence(name).replace('=', '|'));
                     out.print('\n');
                 }
             } catch (IOException ex) {
@@ -536,13 +535,13 @@ public class FXMLDocumentController implements Initializable {
             try(Scanner i = new Scanner(new BufferedReader(new FileReader(file)))){
                 
                 i.useDelimiter("=|\\n");
-                operation.getOperationsMap().clear();
+                memory.getOperations().getOperationsMap().clear();
                 try{
                 
                 while(i.hasNext()){
                     String name = i.next();
                     String expression = i.next();
-                    operation.addOperation(name, expression);
+                    memory.getOperations().addOperation(name, expression);
                 }
                 }catch(WrongInputException ex){
                     wrongOperation("Wrong Format for the user defiend operations");

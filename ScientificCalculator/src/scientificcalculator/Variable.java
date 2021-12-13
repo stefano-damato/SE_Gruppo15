@@ -43,13 +43,6 @@ public class Variable implements Comparable<Variable>{
         return value;
     }
     
-    /**
-     * This method return string representation of the variable
-     * @return Character.toString(name) + " = " + value.toString() {@code String}
-     */
-    public String getVariable(){
-        return Character.toString(name) + " = " + value.toString();
-    }
 
     /**
      * This method overrides the method {@link #equals(java.lang.Object)}.
