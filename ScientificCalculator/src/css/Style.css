@@ -18,12 +18,12 @@ and open the template in the editor.
 }
 
 .table-view{
-   -fx-background-color: #424242;
+   -fx-background-color: #616161;
    -fx-text-fill: white;
 }
 
 .table-view:focused{
-    -fx-background-color: #616161;
+    -fx-background-color: #424242;
 }
 
 /* Spaltenköpfe
@@ -83,3 +83,63 @@ and open the template in the editor.
 #textFieldInput,#textFieldNameOp, #textFieldSeqOp {
     -fx-background-color: lightgoldenrodyellow;
 }
+
+
+ .buttonFisrtOp{
+     -fx-text-fill: white;
+     -fx-background-color: darkslategray;
+     -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-background-radius: 8px, 8px, 8px, 8px;
+    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 */
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+ }
+ 
+ .buttonFisrtOp:hover, .buttonSecondOp:hover, #insert:hover{
+    -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-background-radius: 8px, 8px, 8px, 8px;
+    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 */
+    -fx-text-fill: -fx-text-base-color;
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+}
+ 
+ .buttonSecondOp{
+     -fx-text-fill: white;
+     -fx-background-color:  #616161;
+    -fx-background-radius: 8px, 8px, 8px, 8px;
+
+ }
+ 
+ #insert,#insertOp{
+     -fx-text-fill: black;
+     -fx-background-color: orange;
+    -fx-background-radius: 8px, 8px, 8px, 8px;
+ }
+ 
+ .buttonVar{
+     -fx-text-fill: white;
+     -fx-background-color:  #616161;
+    -fx-background-radius: 8px, 8px, 8px, 8px;
+ }
+ .buttonVar:hover, #insertOp:hover{
+    -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-background-radius: 8px, 8px, 8px, 8px;
+    -fx-text-fill: -fx-text-base-color;
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+}
+
+.center{
+    -fx-background-color:  black;
+}
+
+.split-pane-divider {
+    -fx-padding: 0 1 0 1 ;
+    -fx-background-color: black ;
+    -fx-background-insets: 1;
+}
+
+
