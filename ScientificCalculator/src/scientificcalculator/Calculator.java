@@ -274,5 +274,5 @@ public class Calculator {
         if(s.length()!=2 || !s.substring(0, 1).matches("^[+-><]+$") || !Character.isAlphabetic(s.charAt(1)))
             throw new WrongInputException();
     }
-
+    
 }
